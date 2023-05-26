@@ -33,7 +33,6 @@ public class MEDATA_Application extends javax.swing.JFrame {
     
     void logIn(){
         try{
-            
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
             String sql = "Select * from userinfo where username = ? and password = ?";
         
@@ -88,8 +87,8 @@ public class MEDATA_Application extends javax.swing.JFrame {
         minimized = new javax.swing.JButton();
         enterUsername = new javax.swing.JTextField();
         enterPassword = new javax.swing.JPasswordField();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        forgotPassword = new javax.swing.JLabel();
+        signIn = new javax.swing.JButton();
         frameDrag = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
 
@@ -97,6 +96,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(500, 600));
         setMinimumSize(new java.awt.Dimension(500, 600));
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(500, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logInPanel.setBackground(new java.awt.Color(255, 204, 204));
@@ -104,6 +104,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
         logInPanel.setMinimumSize(new java.awt.Dimension(500, 600));
         logInPanel.setOpaque(false);
 
+        exit.setBackground(new java.awt.Color(147, 206, 255));
         exit.setText("X");
         exit.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         exit.setContentAreaFilled(false);
@@ -111,12 +112,21 @@ public class MEDATA_Application extends javax.swing.JFrame {
         exit.setMaximumSize(new java.awt.Dimension(30, 30));
         exit.setMinimumSize(new java.awt.Dimension(30, 30));
         exit.setPreferredSize(new java.awt.Dimension(30, 30));
+        exit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                exitMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                exitMouseExited(evt);
+            }
+        });
         exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exitActionPerformed(evt);
             }
         });
 
+        minimized.setBackground(new java.awt.Color(179, 234, 255));
         minimized.setText("—");
         minimized.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         minimized.setContentAreaFilled(false);
@@ -124,6 +134,14 @@ public class MEDATA_Application extends javax.swing.JFrame {
         minimized.setMaximumSize(new java.awt.Dimension(30, 30));
         minimized.setMinimumSize(new java.awt.Dimension(30, 30));
         minimized.setPreferredSize(new java.awt.Dimension(30, 30));
+        minimized.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                minimizedMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                minimizedMouseExited(evt);
+            }
+        });
         minimized.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 minimizedActionPerformed(evt);
@@ -162,41 +180,42 @@ public class MEDATA_Application extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Forgot Password?");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel1.setMaximumSize(new java.awt.Dimension(150, 30));
-        jLabel1.setMinimumSize(new java.awt.Dimension(150, 30));
-        jLabel1.setPreferredSize(new java.awt.Dimension(150, 30));
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        forgotPassword.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        forgotPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        forgotPassword.setText("Forgot Password?");
+        forgotPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        forgotPassword.setMaximumSize(new java.awt.Dimension(150, 30));
+        forgotPassword.setMinimumSize(new java.awt.Dimension(150, 30));
+        forgotPassword.setPreferredSize(new java.awt.Dimension(150, 30));
+        forgotPassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel1MouseEntered(evt);
+                forgotPasswordMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel1MouseExited(evt);
+                forgotPasswordMouseExited(evt);
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jButton1.setText("Sign In");
-        jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jButton1.setContentAreaFilled(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.setMaximumSize(new java.awt.Dimension(150, 30));
-        jButton1.setMinimumSize(new java.awt.Dimension(150, 30));
-        jButton1.setPreferredSize(new java.awt.Dimension(150, 30));
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        signIn.setBackground(new java.awt.Color(147, 206, 255));
+        signIn.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        signIn.setText("Sign In");
+        signIn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        signIn.setContentAreaFilled(false);
+        signIn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        signIn.setMaximumSize(new java.awt.Dimension(150, 30));
+        signIn.setMinimumSize(new java.awt.Dimension(150, 30));
+        signIn.setPreferredSize(new java.awt.Dimension(150, 30));
+        signIn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton1MouseEntered(evt);
+                signInMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButton1MouseExited(evt);
+                signInMouseExited(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        signIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                signInActionPerformed(evt);
             }
         });
 
@@ -218,8 +237,8 @@ public class MEDATA_Application extends javax.swing.JFrame {
                     .addGroup(logInPanelLayout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addGroup(logInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(forgotPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(signIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(50, 50, 50)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -235,9 +254,9 @@ public class MEDATA_Application extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(enterPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(forgotPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(signIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(162, 162, 162))
         );
 
@@ -287,6 +306,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
             enterUsername.setForeground(black);
             enterUsername.setHorizontalAlignment(LEFT);
         }
+        enterUsername.selectAll();
     }//GEN-LAST:event_enterUsernameFocusGained
 
     private void enterUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_enterUsernameFocusLost
@@ -304,6 +324,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
             enterPassword.setHorizontalAlignment(LEFT);
             enterPassword.setEchoChar('\u2022');
         }
+        enterPassword.selectAll();       
     }//GEN-LAST:event_enterPasswordFocusGained
 
     private void enterPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_enterPasswordFocusLost
@@ -315,36 +336,49 @@ public class MEDATA_Application extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_enterPasswordFocusLost
 
-    private void jLabel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseEntered
-        jLabel1.setForeground(blue);
-        Font font = jLabel1.getFont();
+    private void forgotPasswordMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPasswordMouseEntered
+        forgotPassword.setForeground(blue);
+        Font font = forgotPassword.getFont();
         Map attributes = font.getAttributes();
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
-        jLabel1.setFont(font.deriveFont(attributes));
-    }//GEN-LAST:event_jLabel1MouseEntered
+        forgotPassword.setFont(font.deriveFont(attributes));
+    }//GEN-LAST:event_forgotPasswordMouseEntered
 
-    private void jLabel1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseExited
-        jLabel1.setForeground(black);
-        Font font = jLabel1.getFont();
+    private void forgotPasswordMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPasswordMouseExited
+        forgotPassword.setForeground(black);
+        Font font = forgotPassword.getFont();
         Map attributes = font.getAttributes();
         attributes.put(TextAttribute.UNDERLINE, null);
-        jLabel1.setFont(font.deriveFont(attributes));
-    }//GEN-LAST:event_jLabel1MouseExited
+        forgotPassword.setFont(font.deriveFont(attributes));
+    }//GEN-LAST:event_forgotPasswordMouseExited
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
         logIn();
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_signInActionPerformed
 
-    private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
-        jButton1.setOpaque(true);
-        jButton1.setBackground(blue);
-    }//GEN-LAST:event_jButton1MouseEntered
+    private void signInMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signInMouseEntered
+        signIn.setContentAreaFilled(true);
+    }//GEN-LAST:event_signInMouseEntered
 
-    private void jButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseExited
-         jButton1.setOpaque(false);
-        //jButton1.setBackground(blue);
-    }//GEN-LAST:event_jButton1MouseExited
+    private void signInMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signInMouseExited
+        signIn.setContentAreaFilled(false);
+    }//GEN-LAST:event_signInMouseExited
+
+    private void minimizedMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizedMouseEntered
+        minimized.setContentAreaFilled(true);
+    }//GEN-LAST:event_minimizedMouseEntered
+
+    private void minimizedMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizedMouseExited
+        minimized.setContentAreaFilled(false);
+    }//GEN-LAST:event_minimizedMouseExited
+
+    private void exitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseEntered
+        exit.setContentAreaFilled(true);
+    }//GEN-LAST:event_exitMouseEntered
+
+    private void exitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseExited
+        exit.setContentAreaFilled(false);
+    }//GEN-LAST:event_exitMouseExited
 
     /**
      * @param args the command line arguments
@@ -395,10 +429,10 @@ public class MEDATA_Application extends javax.swing.JFrame {
     private javax.swing.JPasswordField enterPassword;
     private javax.swing.JTextField enterUsername;
     private javax.swing.JButton exit;
+    private javax.swing.JLabel forgotPassword;
     private javax.swing.JLabel frameDrag;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel logInPanel;
     private javax.swing.JButton minimized;
+    private javax.swing.JButton signIn;
     // End of variables declaration//GEN-END:variables
 }
