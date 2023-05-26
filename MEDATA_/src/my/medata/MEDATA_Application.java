@@ -90,8 +90,8 @@ public class MEDATA_Application extends javax.swing.JFrame {
         enterPassword = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        background = new javax.swing.JLabel();
         frameDrag = new javax.swing.JLabel();
+        background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(500, 600));
@@ -235,10 +235,6 @@ public class MEDATA_Application extends javax.swing.JFrame {
 
         getContentPane().add(logInPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/medata/images/MEDATA LOGIN.png"))); // NOI18N
-        background.setToolTipText("");
-        getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 600));
-
         frameDrag.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 frameDragMouseDragged(evt);
@@ -250,6 +246,10 @@ public class MEDATA_Application extends javax.swing.JFrame {
             }
         });
         getContentPane().add(frameDrag, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 600));
+
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/medata/images/MEDATA LOGIN.png"))); // NOI18N
+        background.setToolTipText("");
+        getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 600));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
