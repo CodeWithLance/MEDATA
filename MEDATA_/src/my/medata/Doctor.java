@@ -17,9 +17,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import static javax.swing.SwingConstants.CENTER;
 import static javax.swing.SwingConstants.LEFT;
-/**
- *
- * @author ADMIN
+/*
+ * Authors:
+ * Arcega, Lance Angelo P.
+ * Muñoz, Nathan Sheary G.
+ * Pare, Neo Jezer A.
  */
 public class Doctor extends javax.swing.JFrame {
 
