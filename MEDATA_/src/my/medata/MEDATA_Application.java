@@ -186,6 +186,14 @@ public class MEDATA_Application extends javax.swing.JFrame {
         jButton1.setMaximumSize(new java.awt.Dimension(150, 30));
         jButton1.setMinimumSize(new java.awt.Dimension(150, 30));
         jButton1.setPreferredSize(new java.awt.Dimension(150, 30));
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton1MouseExited(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -325,7 +333,18 @@ public class MEDATA_Application extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         logIn();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
+        jButton1.setOpaque(true);
+        jButton1.setBackground(blue);
+    }//GEN-LAST:event_jButton1MouseEntered
+
+    private void jButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseExited
+         jButton1.setOpaque(false);
+        //jButton1.setBackground(blue);
+    }//GEN-LAST:event_jButton1MouseExited
 
     /**
      * @param args the command line arguments
