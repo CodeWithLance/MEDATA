@@ -3,7 +3,11 @@ package my.medata;
 import com.formdev.flatlaf.FlatLightLaf;
 import static java.awt.Color.*;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.font.TextAttribute;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import javax.swing.JFrame;
 import static javax.swing.SwingConstants.*;
@@ -27,8 +31,17 @@ public class MEDATA_Application extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         pack();
         enterPassword.setEchoChar((char)0);
-    }
-    
+       
+        try{
+            fn = Font.createFont(Font.TRUETYPE_FONT,new File("Quicksand-Regular.ttf"));
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Quicksand-Regular.ttf")));
+        } catch(IOException | FontFormatException e){
+             e.printStackTrace();
+    } 
+        
+   }
+    Font fn;
     int xMouse, yMouse;
     
     void logIn(){
@@ -148,7 +161,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
             }
         });
 
-        enterUsername.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        enterUsername.setFont(new java.awt.Font("Quicksand", 0, 16)); // NOI18N
         enterUsername.setForeground(new java.awt.Color(153, 153, 153));
         enterUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         enterUsername.setText("Username");
@@ -164,7 +177,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
             }
         });
 
-        enterPassword.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        enterPassword.setFont(new java.awt.Font("Quicksand", 0, 16)); // NOI18N
         enterPassword.setForeground(new java.awt.Color(153, 153, 153));
         enterPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         enterPassword.setText("Password");
@@ -180,7 +193,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
             }
         });
 
-        forgotPassword.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        forgotPassword.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
         forgotPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         forgotPassword.setText("Forgot Password?");
         forgotPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -197,7 +210,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
         });
 
         signIn.setBackground(new java.awt.Color(147, 206, 255));
-        signIn.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        signIn.setFont(new java.awt.Font("Quicksand", 0, 16)); // NOI18N
         signIn.setText("Sign In");
         signIn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         signIn.setContentAreaFilled(false);
@@ -419,7 +432,8 @@ public class MEDATA_Application extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MEDATA_Application().setVisible(true);
+                new Admin().setVisible(true);
+                //new MEDATA_Application().setVisible(true);
             }
         });
     }
