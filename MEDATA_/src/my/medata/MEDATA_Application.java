@@ -74,12 +74,19 @@ public class MEDATA_Application extends javax.swing.JFrame {
                     result = resultSet.getString("role");
                     rs.close();
                     statement.close();
-                    if(result.equals("admin"))
+                    if(result.equals("admin")){
                         JOptionPane.showMessageDialog(null, "Developer!", "Role", JOptionPane.INFORMATION_MESSAGE);
-                    else if(result.equals("doctor"))
+                        dispose();
+                        new Admin().setVisible(true);
+                    }
+                    else if(result.equals("doctor")){
                         JOptionPane.showMessageDialog(null, "Doctor!", "Role", JOptionPane.INFORMATION_MESSAGE);
-                    else if(result.equals("patient"))
+                    }
+                    else if(result.equals("patient")){
                         JOptionPane.showMessageDialog(null, "Patient!", "Role", JOptionPane.INFORMATION_MESSAGE);
+                        dispose();
+                        new Patient().setVisible(true);
+                    }
                     else
                         JOptionPane.showMessageDialog(null, "Error!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -446,9 +453,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new Patient().setVisible(true);
-                new Admin().setVisible(true);
-                //new MEDATA_Application().setVisible(true);
+                new MEDATA_Application().setVisible(true);
             }
         });
     }
