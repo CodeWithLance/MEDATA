@@ -453,7 +453,8 @@ public class MEDATA_Application extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MEDATA_Application().setVisible(true);
+                //new MEDATA_Application().setVisible(true);
+                new Doctor().setVisible(true);
             }
         });
     }
