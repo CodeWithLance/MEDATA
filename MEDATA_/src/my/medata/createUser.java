@@ -9,17 +9,17 @@ import java.sql.*;
  * Pare, Neo Jezer A.
  */
 
-public class createUser {
-    public static void processInput(String lastName, String firstName, String middleInitial, int age, String dateOfBirth, String address, String contact, String email, String sex, String civilStatus, int height, int weight, String username, String password, String confirmPassword, String role){
+public class createUser {    
+    public static void processInput(String lastName, String firstName, String middleName, int age, String dateOfBirth, String address, String contact, String email, String sex, String civilStatus, int height, int weight, String username, String password, String confirmPassword, String role){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
-            String sql = "INSERT INTO userinfo (lastName, firstName, middleInitial, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, confirmPassword, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO userinfo (lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, confirmPassword, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setString(1, lastName);
             statement.setString(2, firstName);
-            statement.setString(3, middleInitial);
+            statement.setString(3, middleName);
             statement.setInt(4, age);
             statement.setString(5, dateOfBirth);
             statement.setString(6, address);
@@ -41,7 +41,6 @@ public class createUser {
                 System.out.println("Failed to insert data.");
             }
             statement.close();
-            con.close();
         } 
         catch(Exception e) {
             e.printStackTrace();

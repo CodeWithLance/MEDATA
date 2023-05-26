@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import static javax.swing.SwingConstants.*;
 import java.sql.*;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /*
  * Authors:
@@ -105,6 +106,23 @@ public class MEDATA_Application extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
+    void focusOn(JTextField textfield, String intext){
+        if (textfield.getText().equals(intext)) {
+            textfield.setText("");
+            textfield.setForeground(black);
+            textfield.setHorizontalAlignment(LEFT);
+        }
+        textfield.selectAll();
+    } 
+    
+    void focusOff(JTextField textfield, String intext){
+        if (textfield.getText().isEmpty()) {
+            textfield.setText(intext);
+            textfield.setForeground(gray);
+            textfield.setHorizontalAlignment(CENTER);
+        }
+    }  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -348,29 +366,16 @@ public class MEDATA_Application extends javax.swing.JFrame {
     }//GEN-LAST:event_minimizedActionPerformed
 
     private void enterUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_enterUsernameFocusGained
-        if (enterUsername.getText().equals("Username")) {
-            enterUsername.setText("");
-            enterUsername.setForeground(black);
-            enterUsername.setHorizontalAlignment(LEFT);
-        }
-        enterUsername.selectAll();
+        focusOn(enterUsername, "Username");
     }//GEN-LAST:event_enterUsernameFocusGained
 
     private void enterUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_enterUsernameFocusLost
-        if (enterUsername.getText().isEmpty()) {
-            enterUsername.setText("Username");
-            enterUsername.setForeground(gray);
-            enterUsername.setHorizontalAlignment(CENTER);
-        }
+        focusOff(enterUsername, "Username");
     }//GEN-LAST:event_enterUsernameFocusLost
 
     private void enterPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_enterPasswordFocusGained
-        if (enterPassword.getText().equals("Password")) {
-            enterPassword.setText("");
-            enterPassword.setForeground(black);
-            enterPassword.setHorizontalAlignment(LEFT);
-            enterPassword.setEchoChar('\u2022');
-        }
+        focusOn(enterPassword, "Password");
+        enterPassword.setEchoChar('\u2022');
         enterPassword.selectAll();       
     }//GEN-LAST:event_enterPasswordFocusGained
 
