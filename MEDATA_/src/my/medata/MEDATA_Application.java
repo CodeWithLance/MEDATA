@@ -22,7 +22,8 @@ import javax.swing.JOptionPane;
  */
 
 public class MEDATA_Application extends javax.swing.JFrame {
-
+   
+    Connection con;
     /**
      * Creates new form MEDATA_Application
      */
@@ -32,6 +33,15 @@ public class MEDATA_Application extends javax.swing.JFrame {
         pack();
         enterPassword.setEchoChar((char)0);
        
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        //Font
         try{
             fn = Font.createFont(Font.TRUETYPE_FONT,new File("Quicksand-Regular.ttf"));
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -46,17 +56,17 @@ public class MEDATA_Application extends javax.swing.JFrame {
     
     void logIn(){
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
+//            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
             String sql = "Select * from userinfo where username = ? and password = ?";
         
-            PreparedStatement pst = connection.prepareStatement(sql);
+            PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, enterUsername.getText());
             pst.setString(2, enterPassword.getText());
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()) {
                 JOptionPane.showMessageDialog(null, "Welcome!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 String query = "SELECT role FROM userinfo WHERE username = ?";
-                PreparedStatement statement = connection.prepareStatement(query);
+                PreparedStatement statement = con.prepareStatement(query);
                 statement.setString(1, enterUsername.getText());
                 ResultSet rs = statement.executeQuery();   
                 String result = null;
@@ -79,7 +89,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
             }
             pst.close();
             resultSet.close();
-            connection.close();
+            con.close();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -397,12 +407,12 @@ public class MEDATA_Application extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+//        try{
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//        }
+//        catch(Exception e){
+//            e.printStackTrace();
+//        }
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -432,8 +442,8 @@ public class MEDATA_Application extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Admin().setVisible(true);
-                //new MEDATA_Application().setVisible(true);
+                //new Admin().setVisible(true);
+                new MEDATA_Application().setVisible(true);
             }
         });
     }
