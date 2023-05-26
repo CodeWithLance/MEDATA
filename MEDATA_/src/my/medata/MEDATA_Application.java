@@ -5,6 +5,7 @@ import static java.awt.Color.*;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.KeyEvent;
 import java.awt.font.TextAttribute;
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import javax.swing.JOptionPane;
 public class MEDATA_Application extends javax.swing.JFrame {
    
     Connection con;
+    Font fn;
     /**
      * Creates new form MEDATA_Application
      */
@@ -42,16 +44,16 @@ public class MEDATA_Application extends javax.swing.JFrame {
         }
         
         //Font
-        try{
-            fn = Font.createFont(Font.TRUETYPE_FONT,new File("Quicksand-Regular.ttf"));
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Quicksand-Regular.ttf")));
-        } catch(IOException | FontFormatException e){
-             e.printStackTrace();
-    } 
+//        try{
+//            fn = Font.createFont(Font.TRUETYPE_FONT,new File("Quicksand-Regular.ttf"));
+//            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Quicksand-Regular.ttf")));
+//        } catch(IOException | FontFormatException e){
+//             e.printStackTrace();
+//    } 
         
    }
-    Font fn;
+
     int xMouse, yMouse;
     
     void logIn(){
@@ -75,15 +77,17 @@ public class MEDATA_Application extends javax.swing.JFrame {
                     rs.close();
                     statement.close();
                     if(result.equals("admin")){
-                        JOptionPane.showMessageDialog(null, "Developer!", "Role", JOptionPane.INFORMATION_MESSAGE);
+//                        JOptionPane.showMessageDialog(null, "Developer!", "Role", JOptionPane.INFORMATION_MESSAGE);
                         dispose();
                         new Admin().setVisible(true);
                     }
                     else if(result.equals("doctor")){
-                        JOptionPane.showMessageDialog(null, "Doctor!", "Role", JOptionPane.INFORMATION_MESSAGE);
+//                        JOptionPane.showMessageDialog(null, "Doctor!", "Role", JOptionPane.INFORMATION_MESSAGE);
+                        dispose();
+                        new Doctor().setVisible(true);
                     }
                     else if(result.equals("patient")){
-                        JOptionPane.showMessageDialog(null, "Patient!", "Role", JOptionPane.INFORMATION_MESSAGE);
+//                        JOptionPane.showMessageDialog(null, "Patient!", "Role", JOptionPane.INFORMATION_MESSAGE);
                         dispose();
                         new Patient().setVisible(true);
                     }
@@ -96,7 +100,6 @@ public class MEDATA_Application extends javax.swing.JFrame {
             }
             pst.close();
             resultSet.close();
-            con.close();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -193,6 +196,11 @@ public class MEDATA_Application extends javax.swing.JFrame {
                 enterUsernameFocusLost(evt);
             }
         });
+        enterUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                enterUsernameKeyPressed(evt);
+            }
+        });
 
         enterPassword.setFont(new java.awt.Font("Quicksand", 0, 16)); // NOI18N
         enterPassword.setForeground(new java.awt.Color(153, 153, 153));
@@ -207,6 +215,11 @@ public class MEDATA_Application extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 enterPasswordFocusLost(evt);
+            }
+        });
+        enterPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                enterPasswordKeyPressed(evt);
             }
         });
 
@@ -387,7 +400,15 @@ public class MEDATA_Application extends javax.swing.JFrame {
     }//GEN-LAST:event_forgotPasswordMouseExited
 
     private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
-        logIn();
+        if ((enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) && (enterPassword.getText().equals("Password") || enterPassword.getText().equals(""))) {
+            JOptionPane.showMessageDialog(null, "Username and Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Username should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (enterPassword.getText().equals("Password") || enterPassword.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        } else{
+            logIn();
+        }
     }//GEN-LAST:event_signInActionPerformed
 
     private void signInMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signInMouseEntered
@@ -413,6 +434,34 @@ public class MEDATA_Application extends javax.swing.JFrame {
     private void exitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseExited
         exit.setContentAreaFilled(false);
     }//GEN-LAST:event_exitMouseExited
+
+    private void enterUsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enterUsernameKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if ((enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) && (enterPassword.getText().equals("Password") || enterPassword.getText().equals(""))) {
+                JOptionPane.showMessageDialog(null, "Username and Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Username should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (enterPassword.getText().equals("Password") || enterPassword.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                logIn();
+            }
+        }
+    }//GEN-LAST:event_enterUsernameKeyPressed
+
+    private void enterPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enterPasswordKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if ((enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) && (enterPassword.getText().equals("Password") || enterPassword.getText().equals(""))) {
+                JOptionPane.showMessageDialog(null, "Username and Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Username should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (enterPassword.getText().equals("Password") || enterPassword.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                logIn();
+            }
+        }
+    }//GEN-LAST:event_enterPasswordKeyPressed
 
     /**
      * @param args the command line arguments
@@ -453,8 +502,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new MEDATA_Application().setVisible(true);
-                new Doctor().setVisible(true);
+                new MEDATA_Application().setVisible(true);
             }
         });
     }

@@ -1,11 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package my.medata;
 
-import static java.awt.Color.black;
-import static java.awt.Color.gray;
+import static java.awt.Color.*;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -16,13 +11,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import static javax.swing.SwingConstants.CENTER;
-import static javax.swing.SwingConstants.LEFT;
+import static javax.swing.SwingConstants.*;
 
-/**
- *
- * @author Neo
+/*
+ * Authors:
+ * Arcega, Lance Angelo P.
+ * Muñoz, Nathan Sheary G.
+ * Pare, Neo Jezer A.
  */
+
 public class Admin extends javax.swing.JFrame {
 
     /**
@@ -38,13 +35,13 @@ public class Admin extends javax.swing.JFrame {
         
         
         //Font
-        try{
-            fn = Font.createFont(Font.TRUETYPE_FONT,new File("Quicksand-Regular.ttf"));
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Quicksand-Regular.ttf")));
-        } catch(IOException | FontFormatException e){
-             e.printStackTrace();
-        } 
+//        try{
+//            fn = Font.createFont(Font.TRUETYPE_FONT,new File("Quicksand-Regular.ttf"));
+//            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Quicksand-Regular.ttf")));
+//        } catch(IOException | FontFormatException e){
+//             e.printStackTrace();
+//        } 
     }
     
     public void setDisplay(JPanel Panel){
