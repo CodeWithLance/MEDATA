@@ -97,12 +97,12 @@ public class MEDATA_Application extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(500, 600));
         setMinimumSize(new java.awt.Dimension(500, 600));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(500, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logInPanel.setBackground(new java.awt.Color(255, 204, 204));
         logInPanel.setMaximumSize(new java.awt.Dimension(500, 600));
         logInPanel.setMinimumSize(new java.awt.Dimension(500, 600));
+        logInPanel.setOpaque(false);
 
         exit.setText("X");
         exit.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -211,13 +211,10 @@ public class MEDATA_Application extends javax.swing.JFrame {
                         .addComponent(enterPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(125, 125, 125))))
             .addGroup(logInPanelLayout.createSequentialGroup()
+                .addGap(175, 175, 175)
                 .addGroup(logInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(logInPanelLayout.createSequentialGroup()
-                        .addGap(175, 175, 175)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(logInPanelLayout.createSequentialGroup()
-                        .addGap(175, 175, 175)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         logInPanelLayout.setVerticalGroup(
@@ -239,6 +236,9 @@ public class MEDATA_Application extends javax.swing.JFrame {
         );
 
         getContentPane().add(logInPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/medata/images/MEDATA LOGIN.png"))); // NOI18N
+        background.setToolTipText("");
         getContentPane().add(background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 600));
 
         frameDrag.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
