@@ -316,7 +316,11 @@ public class MEDATA_Application extends javax.swing.JFrame {
     }//GEN-LAST:event_frameDragMouseDragged
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
-        System.exit(0);
+        int exit = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", 
+                "Exit",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        if (exit == 0){//yes
+            System.exit(0);
+        }
     }//GEN-LAST:event_exitActionPerformed
 
     private void minimizedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minimizedActionPerformed
@@ -442,8 +446,9 @@ public class MEDATA_Application extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new Admin().setVisible(true);
-                new MEDATA_Application().setVisible(true);
+                //new Patient().setVisible(true);
+                new Admin().setVisible(true);
+                //new MEDATA_Application().setVisible(true);
             }
         });
     }

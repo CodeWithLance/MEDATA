@@ -4,7 +4,20 @@
  */
 package my.medata;
 
+import static java.awt.Color.black;
+import static java.awt.Color.gray;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import static javax.swing.SwingConstants.CENTER;
+import static javax.swing.SwingConstants.LEFT;
 
 /**
  *
@@ -15,11 +28,55 @@ public class Admin extends javax.swing.JFrame {
     /**
      * Creates new form Admin_Page
      */
+    
+   Font fn;
     public Admin() {
         initComponents();
         setLocationRelativeTo(null);
-        jPanel4.setVisible(false);
+        jLayeredPane1.setVisible(false);
+        welcomePage.setVisible(true);
+        
+        
+        //Font
+        try{
+            fn = Font.createFont(Font.TRUETYPE_FONT,new File("Quicksand-Regular.ttf"));
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Quicksand-Regular.ttf")));
+        } catch(IOException | FontFormatException e){
+             e.printStackTrace();
+        } 
     }
+    
+    public void setDisplay(JPanel Panel){
+        
+        for (int i = 0; i < jLayeredPane1.getComponentCount(); i++) {
+            JComponent component = (JComponent) jLayeredPane1.getComponent(i);
+            component.setVisible(false);
+        }
+        jLayeredPane1.setVisible(true);
+        Panel.setVisible(true);
+    }
+    
+    public void focusOn(JTextField textfield, String intext){
+        if (textfield.getText().equals(intext)) {
+            textfield.setText("");
+            textfield.setForeground(black);
+            textfield.setHorizontalAlignment(LEFT);
+        }
+        textfield.selectAll();
+    } 
+    
+     public void focusOff(JTextField textfield, String intext){
+        if (textfield.getText().isEmpty()) {
+            textfield.setText(intext);
+            textfield.setForeground(gray);
+            textfield.setHorizontalAlignment(CENTER);
+        }
+        textfield.selectAll(); 
+    }  
+    
+    
+    
     int xMouse, yMouse;
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,19 +87,79 @@ public class Admin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         exit = new javax.swing.JButton();
         minimized = new javax.swing.JButton();
         logo = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        infoPane = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        navbar = new javax.swing.JPanel();
+        addDoctorBtn = new javax.swing.JButton();
+        addPatBtn = new javax.swing.JButton();
+        requestsBtn = new javax.swing.JButton();
+        reportsBtn = new javax.swing.JButton();
+        removeBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
+        windowPanel = new javax.swing.JPanel();
+        welcomePage = new javax.swing.JPanel();
+        welcomeAdmin = new javax.swing.JLabel();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        removePage = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        reportsPage = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        requestPage = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        addPatient = new javax.swing.JPanel();
+        lblptName = new javax.swing.JLabel();
+        ptEmail1 = new javax.swing.JTextField();
+        ptMiddleName1 = new javax.swing.JTextField();
+        comma1 = new javax.swing.JLabel();
+        ptLastName = new javax.swing.JTextField();
+        lblptEmail = new javax.swing.JLabel();
+        ptFirstName1 = new javax.swing.JTextField();
+        addPatientTitle = new javax.swing.JLabel();
+        lblptSex = new javax.swing.JLabel();
+        ptContacts1 = new javax.swing.JTextField();
+        lblptGenPass = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        lblptGenUID = new javax.swing.JLabel();
+        lblptBday = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        lblptContact = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jButton6 = new javax.swing.JButton();
+        jRadioButton4 = new javax.swing.JRadioButton();
+        addDoctor = new javax.swing.JPanel();
+        lblName = new javax.swing.JLabel();
+        addDoctorTitle = new javax.swing.JLabel();
+        comma = new javax.swing.JLabel();
+        tfLastName = new javax.swing.JTextField();
+        tfFirstName = new javax.swing.JTextField();
+        tfMiddleName = new javax.swing.JTextField();
+        lblEmail = new javax.swing.JLabel();
+        tfEmail = new javax.swing.JTextField();
+        lblContacts = new javax.swing.JLabel();
+        tfContacts = new javax.swing.JTextField();
+        lblSex = new javax.swing.JLabel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        lblBDay = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        lblGPass = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        lblGUID = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         frameDrag = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
 
@@ -99,54 +216,706 @@ public class Admin extends javax.swing.JFrame {
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/medata/images/Logo.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        jLabel1.setBackground(new java.awt.Color(0, 204, 204));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("picture");
+        jLabel1.setOpaque(true);
+
+        jLabel2.setBackground(new java.awt.Color(153, 255, 153));
+        jLabel2.setText("jLabel2");
+        jLabel2.setOpaque(true);
+
+        jLabel3.setBackground(new java.awt.Color(102, 255, 204));
+        jLabel3.setText("jLabel3");
+        jLabel3.setOpaque(true);
+
+        javax.swing.GroupLayout infoPaneLayout = new javax.swing.GroupLayout(infoPane);
+        infoPane.setLayout(infoPaneLayout);
+        infoPaneLayout.setHorizontalGroup(
+            infoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(infoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 139, Short.MAX_VALUE)
+        infoPaneLayout.setVerticalGroup(
+            infoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(infoPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(infoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(infoPaneLayout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
-        jPanel5.setLayout(new java.awt.GridLayout(5, 1));
+        jPanel3.setOpaque(false);
 
-        jButton1.setText("Add Doctor");
-        jPanel5.add(jButton1);
+        navbar.setOpaque(false);
+        navbar.setLayout(new java.awt.GridLayout(5, 1));
 
-        jButton2.setText("TBA");
-        jPanel5.add(jButton2);
+        addDoctorBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        addDoctorBtn.setText("Add Doctor");
+        addDoctorBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        addDoctorBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDoctorBtnActionPerformed(evt);
+            }
+        });
+        navbar.add(addDoctorBtn);
 
-        jButton3.setText("TBA");
-        jPanel5.add(jButton3);
+        addPatBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        addPatBtn.setText("Add Patient");
+        addPatBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addPatBtnActionPerformed(evt);
+            }
+        });
+        navbar.add(addPatBtn);
 
-        jButton4.setText("TBA");
-        jPanel5.add(jButton4);
+        requestsBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        requestsBtn.setText("Requests");
+        requestsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                requestsBtnActionPerformed(evt);
+            }
+        });
+        navbar.add(requestsBtn);
 
-        jButton5.setText("TBA");
-        jPanel5.add(jButton5);
+        reportsBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        reportsBtn.setText("Reports");
+        reportsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reportsBtnActionPerformed(evt);
+            }
+        });
+        navbar.add(reportsBtn);
+
+        removeBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        removeBtn.setText("Remove");
+        removeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeBtnActionPerformed(evt);
+            }
+        });
+        navbar.add(removeBtn);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(navbar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+            .addComponent(navbar, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+        );
+
+        jPanel4.setPreferredSize(new java.awt.Dimension(689, 461));
+
+        welcomeAdmin.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        welcomeAdmin.setText("Welcome Admin!");
+
+        javax.swing.GroupLayout welcomePageLayout = new javax.swing.GroupLayout(welcomePage);
+        welcomePage.setLayout(welcomePageLayout);
+        welcomePageLayout.setHorizontalGroup(
+            welcomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(welcomePageLayout.createSequentialGroup()
+                .addComponent(welcomeAdmin)
+                .addGap(0, 583, Short.MAX_VALUE))
+        );
+        welcomePageLayout.setVerticalGroup(
+            welcomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(welcomePageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(welcomeAdmin)
+                .addContainerGap(433, Short.MAX_VALUE))
+        );
+
+        jLayeredPane1.setPreferredSize(new java.awt.Dimension(689, 461));
+
+        jLabel8.setText("remove Page");
+
+        javax.swing.GroupLayout removePageLayout = new javax.swing.GroupLayout(removePage);
+        removePage.setLayout(removePageLayout);
+        removePageLayout.setHorizontalGroup(
+            removePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(removePageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addContainerGap(614, Short.MAX_VALUE))
+        );
+        removePageLayout.setVerticalGroup(
+            removePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(removePageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addContainerGap(439, Short.MAX_VALUE))
+        );
+
+        jLabel7.setText("reports PAge");
+
+        javax.swing.GroupLayout reportsPageLayout = new javax.swing.GroupLayout(reportsPage);
+        reportsPage.setLayout(reportsPageLayout);
+        reportsPageLayout.setHorizontalGroup(
+            reportsPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reportsPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addContainerGap(615, Short.MAX_VALUE))
+        );
+        reportsPageLayout.setVerticalGroup(
+            reportsPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reportsPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addContainerGap(439, Short.MAX_VALUE))
+        );
+
+        requestPage.setPreferredSize(new java.awt.Dimension(677, 461));
+
+        jLabel6.setText("request page");
+
+        javax.swing.GroupLayout requestPageLayout = new javax.swing.GroupLayout(requestPage);
+        requestPage.setLayout(requestPageLayout);
+        requestPageLayout.setHorizontalGroup(
+            requestPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(requestPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addContainerGap(603, Short.MAX_VALUE))
+        );
+        requestPageLayout.setVerticalGroup(
+            requestPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(requestPageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addContainerGap(433, Short.MAX_VALUE))
+        );
+
+        lblptName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblptName.setText("Name:");
+
+        ptEmail1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        ptEmail1.setForeground(new java.awt.Color(153, 153, 153));
+        ptEmail1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ptEmail1.setText("youdata@gmail.com");
+        ptEmail1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ptEmail1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                ptEmail1FocusLost(evt);
+            }
+        });
+
+        ptMiddleName1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        ptMiddleName1.setForeground(new java.awt.Color(153, 153, 153));
+        ptMiddleName1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ptMiddleName1.setText("Middle Name");
+        ptMiddleName1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ptMiddleName1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                ptMiddleName1FocusLost(evt);
+            }
+        });
+
+        comma1.setText(",");
+
+        ptLastName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        ptLastName.setForeground(new java.awt.Color(153, 153, 153));
+        ptLastName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ptLastName.setText("Last Name");
+        ptLastName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ptLastNameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                ptLastNameFocusLost(evt);
+            }
+        });
+
+        lblptEmail.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblptEmail.setText("Email:");
+
+        ptFirstName1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        ptFirstName1.setForeground(new java.awt.Color(153, 153, 153));
+        ptFirstName1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ptFirstName1.setText("First Name");
+        ptFirstName1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ptFirstName1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                ptFirstName1FocusLost(evt);
+            }
+        });
+
+        addPatientTitle.setFont(new java.awt.Font("Quicksand Medium", 0, 24)); // NOI18N
+        addPatientTitle.setText("Add Patient");
+
+        lblptSex.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblptSex.setText("Sex:");
+
+        ptContacts1.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        ptContacts1.setForeground(new java.awt.Color(153, 153, 153));
+        ptContacts1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ptContacts1.setText("####-###-####");
+        ptContacts1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ptContacts1FocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                ptContacts1FocusLost(evt);
+            }
+        });
+
+        lblptGenPass.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblptGenPass.setText("Generated Password:");
+
+        jLabel10.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        jLabel10.setText("(generated UID)");
+
+        lblptGenUID.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblptGenUID.setText("Generated UID:");
+
+        lblptBday.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblptBday.setText("Date of Birth:");
+
+        jButton4.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        jButton4.setText("Add");
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        lblptContact.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblptContact.setText("Contact Number:");
+
+        jButton5.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        jButton5.setText("Generate");
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel11.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        jLabel11.setText("(generated password)");
+
+        buttonGroup1.add(jRadioButton3);
+        jRadioButton3.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        jRadioButton3.setText("Male");
+
+        jButton6.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        jButton6.setText("Generate");
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        buttonGroup1.add(jRadioButton4);
+        jRadioButton4.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        jRadioButton4.setText("Female");
+
+        javax.swing.GroupLayout addPatientLayout = new javax.swing.GroupLayout(addPatient);
+        addPatient.setLayout(addPatientLayout);
+        addPatientLayout.setHorizontalGroup(
+            addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addPatientLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(addPatientTitle)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(addPatientLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addPatientLayout.createSequentialGroup()
+                        .addComponent(lblptContact)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ptContacts1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(addPatientLayout.createSequentialGroup()
+                        .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblptEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblptName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(addPatientLayout.createSequentialGroup()
+                                .addComponent(ptLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comma1, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ptFirstName1, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ptMiddleName1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ptEmail1))
+                        .addGap(25, 25, 25))
+                    .addGroup(addPatientLayout.createSequentialGroup()
+                        .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(addPatientLayout.createSequentialGroup()
+                                .addComponent(lblptGenUID)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel10))
+                            .addGroup(addPatientLayout.createSequentialGroup()
+                                .addComponent(lblptGenPass)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton6)
+                                .addGap(12, 12, 12)
+                                .addComponent(jLabel11))
+                            .addGroup(addPatientLayout.createSequentialGroup()
+                                .addComponent(lblptBday)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(addPatientLayout.createSequentialGroup()
+                                .addComponent(lblptSex)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addPatientLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        addPatientLayout.setVerticalGroup(
+            addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addPatientLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(addPatientTitle)
+                .addGap(36, 36, 36)
+                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblptName)
+                    .addComponent(ptLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comma1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ptFirstName1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ptMiddleName1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblptEmail)
+                    .addComponent(ptEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblptContact)
+                    .addComponent(ptContacts1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblptSex)
+                    .addComponent(jRadioButton3)
+                    .addComponent(jRadioButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblptBday)
+                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblptGenPass)
+                    .addComponent(jButton6)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblptGenUID)
+                    .addComponent(jButton5)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        addDoctor.setPreferredSize(new java.awt.Dimension(615, 461));
+
+        lblName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblName.setText("Name:");
+
+        addDoctorTitle.setFont(new java.awt.Font("Quicksand Medium", 0, 24)); // NOI18N
+        addDoctorTitle.setText("Add Doctors");
+
+        comma.setText(",");
+
+        tfLastName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        tfLastName.setForeground(new java.awt.Color(153, 153, 153));
+        tfLastName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfLastName.setText("Last Name");
+        tfLastName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfLastNameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfLastNameFocusLost(evt);
+            }
+        });
+
+        tfFirstName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        tfFirstName.setForeground(new java.awt.Color(153, 153, 153));
+        tfFirstName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfFirstName.setText("First Name");
+        tfFirstName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfFirstNameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfFirstNameFocusLost(evt);
+            }
+        });
+
+        tfMiddleName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        tfMiddleName.setForeground(new java.awt.Color(153, 153, 153));
+        tfMiddleName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfMiddleName.setText("Middle Name");
+        tfMiddleName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfMiddleNameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfMiddleNameFocusLost(evt);
+            }
+        });
+
+        lblEmail.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblEmail.setText("Email:");
+
+        tfEmail.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        tfEmail.setForeground(new java.awt.Color(153, 153, 153));
+        tfEmail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfEmail.setText("youdata@gmail.com");
+        tfEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfEmailFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfEmailFocusLost(evt);
+            }
+        });
+
+        lblContacts.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblContacts.setText("Contact Number:");
+
+        tfContacts.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        tfContacts.setForeground(new java.awt.Color(153, 153, 153));
+        tfContacts.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfContacts.setText("####-###-####");
+        tfContacts.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfContactsFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfContactsFocusLost(evt);
+            }
+        });
+
+        lblSex.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblSex.setText("Sex:");
+
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        jRadioButton1.setText("Male");
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        jRadioButton2.setText("Female");
+
+        lblBDay.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblBDay.setText("Date of Birth:");
+
+        lblGPass.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblGPass.setText("Generated Password:");
+
+        jLabel4.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        jLabel4.setText("(generated password)");
+
+        jButton2.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        jButton2.setText("Generate");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        lblGUID.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblGUID.setText("Generated UID:");
+
+        jButton3.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        jButton3.setText("Generate");
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel9.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        jLabel9.setText("(generated UID)");
+
+        jButton1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        jButton1.setText("Add");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout addDoctorLayout = new javax.swing.GroupLayout(addDoctor);
+        addDoctor.setLayout(addDoctorLayout);
+        addDoctorLayout.setHorizontalGroup(
+            addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addDoctorLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(addDoctorTitle)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(addDoctorLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addDoctorLayout.createSequentialGroup()
+                        .addComponent(lblContacts)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tfContacts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(addDoctorLayout.createSequentialGroup()
+                        .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(addDoctorLayout.createSequentialGroup()
+                                .addComponent(tfLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comma, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tfEmail))
+                        .addGap(25, 25, 25))
+                    .addGroup(addDoctorLayout.createSequentialGroup()
+                        .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(addDoctorLayout.createSequentialGroup()
+                                .addComponent(lblGUID)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel9))
+                            .addGroup(addDoctorLayout.createSequentialGroup()
+                                .addComponent(lblGPass)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton2)
+                                .addGap(12, 12, 12)
+                                .addComponent(jLabel4))
+                            .addGroup(addDoctorLayout.createSequentialGroup()
+                                .addComponent(lblBDay)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(addDoctorLayout.createSequentialGroup()
+                                .addComponent(lblSex)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addDoctorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        addDoctorLayout.setVerticalGroup(
+            addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addDoctorLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(addDoctorTitle)
+                .addGap(36, 36, 36)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblName)
+                    .addComponent(tfLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comma, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEmail)
+                    .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblContacts)
+                    .addComponent(tfContacts, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSex)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblBDay)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblGPass)
+                    .addComponent(jButton2)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblGUID)
+                    .addComponent(jButton3)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jLayeredPane1.setLayer(removePage, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(reportsPage, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(requestPage, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(addPatient, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(addDoctor, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
+        jLayeredPane1.setLayout(jLayeredPane1Layout);
+        jLayeredPane1Layout.setHorizontalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(addDoctor, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
+            .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(addPatient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(requestPage, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+                    .addContainerGap()))
+            .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(reportsPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(removePage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jLayeredPane1Layout.setVerticalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(addDoctor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(addPatient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                    .addGap(3, 3, 3)
+                    .addComponent(requestPage, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+                    .addGap(3, 3, 3)))
+            .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(reportsPage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(removePage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout windowPanelLayout = new javax.swing.GroupLayout(windowPanel);
+        windowPanel.setLayout(windowPanelLayout);
+        windowPanelLayout.setHorizontalGroup(
+            windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
+            .addGroup(windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(windowPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(welcomePage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        windowPanelLayout.setVerticalGroup(
+            windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(windowPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(welcomePage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(windowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(windowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -161,12 +930,12 @@ public class Admin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 566, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(minimized, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(infoPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -183,7 +952,7 @@ public class Admin extends javax.swing.JFrame {
                             .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(minimized, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(infoPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -218,7 +987,11 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_exitMouseExited
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
-        System.exit(0);
+        int exit = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", 
+                "Exit",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        if (exit == 0){//yes
+            System.exit(0);
+        }
     }//GEN-LAST:event_exitActionPerformed
 
     private void minimizedMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizedMouseEntered
@@ -243,6 +1016,106 @@ public class Admin extends javax.swing.JFrame {
         xMouse = evt.getX();
         yMouse = evt.getY();
     }//GEN-LAST:event_frameDragMousePressed
+
+    private void addDoctorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDoctorBtnActionPerformed
+        setDisplay(addDoctor);
+    }//GEN-LAST:event_addDoctorBtnActionPerformed
+
+    private void addPatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPatBtnActionPerformed
+        setDisplay(addPatient);
+    }//GEN-LAST:event_addPatBtnActionPerformed
+
+    private void requestsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestsBtnActionPerformed
+        setDisplay(requestPage);
+    }//GEN-LAST:event_requestsBtnActionPerformed
+
+    private void reportsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportsBtnActionPerformed
+        setDisplay(reportsPage);
+    }//GEN-LAST:event_reportsBtnActionPerformed
+
+    private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
+        setDisplay(removePage);
+    }//GEN-LAST:event_removeBtnActionPerformed
+
+    private void tfLastNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfLastNameFocusGained
+         focusOn(tfLastName, "Last Name");
+    }//GEN-LAST:event_tfLastNameFocusGained
+
+    private void tfLastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfLastNameFocusLost
+        focusOff(tfLastName, "Last Name");
+    }//GEN-LAST:event_tfLastNameFocusLost
+
+    private void tfFirstNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfFirstNameFocusGained
+        focusOn(tfFirstName, "First Name");
+    }//GEN-LAST:event_tfFirstNameFocusGained
+
+    private void tfFirstNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfFirstNameFocusLost
+        focusOff(tfFirstName, "First Name");
+    }//GEN-LAST:event_tfFirstNameFocusLost
+
+    private void tfMiddleNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfMiddleNameFocusGained
+         focusOn(tfMiddleName, "Middle Name");
+    }//GEN-LAST:event_tfMiddleNameFocusGained
+
+    private void tfMiddleNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfMiddleNameFocusLost
+         focusOff(tfMiddleName, "Middle Name");
+    }//GEN-LAST:event_tfMiddleNameFocusLost
+
+    private void tfEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusGained
+        focusOn(tfEmail, "youdata@gmail.com");
+    }//GEN-LAST:event_tfEmailFocusGained
+
+    private void tfEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusLost
+         focusOff(tfEmail, "youdata@gmail.com");
+    }//GEN-LAST:event_tfEmailFocusLost
+
+    private void tfContactsFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfContactsFocusGained
+         focusOn(tfContacts, "####-###-####");
+    }//GEN-LAST:event_tfContactsFocusGained
+
+    private void tfContactsFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfContactsFocusLost
+        focusOff(tfContacts, "####-###-####");
+    }//GEN-LAST:event_tfContactsFocusLost
+
+    private void ptEmail1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptEmail1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptEmail1FocusGained
+
+    private void ptEmail1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptEmail1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptEmail1FocusLost
+
+    private void ptMiddleName1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptMiddleName1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptMiddleName1FocusGained
+
+    private void ptMiddleName1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptMiddleName1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptMiddleName1FocusLost
+
+    private void ptLastNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptLastNameFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptLastNameFocusGained
+
+    private void ptLastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptLastNameFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptLastNameFocusLost
+
+    private void ptFirstName1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptFirstName1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptFirstName1FocusGained
+
+    private void ptFirstName1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptFirstName1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptFirstName1FocusLost
+
+    private void ptContacts1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptContacts1FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptContacts1FocusGained
+
+    private void ptContacts1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptContacts1FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ptContacts1FocusLost
 
     /**
      * @param args the command line arguments
@@ -281,20 +1154,80 @@ public class Admin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel addDoctor;
+    private javax.swing.JButton addDoctorBtn;
+    private javax.swing.JLabel addDoctorTitle;
+    private javax.swing.JButton addPatBtn;
+    private javax.swing.JPanel addPatient;
+    private javax.swing.JLabel addPatientTitle;
     private javax.swing.JLabel background;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel comma;
+    private javax.swing.JLabel comma1;
     private javax.swing.JButton exit;
     private javax.swing.JLabel frameDrag;
+    private javax.swing.JPanel infoPane;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JLabel lblBDay;
+    private javax.swing.JLabel lblContacts;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblGPass;
+    private javax.swing.JLabel lblGUID;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblSex;
+    private javax.swing.JLabel lblptBday;
+    private javax.swing.JLabel lblptContact;
+    private javax.swing.JLabel lblptEmail;
+    private javax.swing.JLabel lblptGenPass;
+    private javax.swing.JLabel lblptGenUID;
+    private javax.swing.JLabel lblptName;
+    private javax.swing.JLabel lblptSex;
     private javax.swing.JLabel logo;
     private javax.swing.JButton minimized;
+    private javax.swing.JPanel navbar;
+    private javax.swing.JTextField ptContacts1;
+    private javax.swing.JTextField ptEmail1;
+    private javax.swing.JTextField ptFirstName1;
+    private javax.swing.JTextField ptLastName;
+    private javax.swing.JTextField ptMiddleName1;
+    private javax.swing.JButton removeBtn;
+    private javax.swing.JPanel removePage;
+    private javax.swing.JButton reportsBtn;
+    private javax.swing.JPanel reportsPage;
+    private javax.swing.JPanel requestPage;
+    private javax.swing.JButton requestsBtn;
+    private javax.swing.JTextField tfContacts;
+    private javax.swing.JTextField tfEmail;
+    private javax.swing.JTextField tfFirstName;
+    private javax.swing.JTextField tfLastName;
+    private javax.swing.JTextField tfMiddleName;
+    private javax.swing.JLabel welcomeAdmin;
+    private javax.swing.JPanel welcomePage;
+    private javax.swing.JPanel windowPanel;
     // End of variables declaration//GEN-END:variables
 }
