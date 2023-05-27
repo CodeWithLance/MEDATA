@@ -67,33 +67,39 @@ public class MEDATA_Application extends javax.swing.JFrame {
             pst.setString(2, enterPassword.getText());
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()) {
-                JOptionPane.showMessageDialog(null, "Welcome!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                String query = "SELECT role FROM userinfo WHERE username = ?";
-                PreparedStatement statement = con.prepareStatement(query);
-                statement.setString(1, enterUsername.getText());
-                ResultSet rs = statement.executeQuery();   
-                String result = null;
-                if(rs.next()){
-                    result = resultSet.getString("role");
-                    rs.close();
-                    statement.close();
-                    if(result.equals("admin")){
+                String lastName = resultSet.getString("lastName");
+                String generatedPassword = lastName.toLowerCase() + ".medata";
+                if (enterPassword.getText().equals(generatedPassword)) {
+                    promptPasswordChange(enterUsername.getText(), lastName);
+                    return;
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Welcome!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    String query = "SELECT role FROM userinfo WHERE username = ?";
+                    PreparedStatement statement = con.prepareStatement(query);
+                    statement.setString(1, enterUsername.getText());
+                    ResultSet rs = statement.executeQuery();
+                    String result = null;
+                    if (rs.next()) {
+                        result = resultSet.getString("role");
+                        rs.close();
+                        statement.close();
+                        if (result.equals("admin")) {
 //                        JOptionPane.showMessageDialog(null, "Developer!", "Role", JOptionPane.INFORMATION_MESSAGE);
-                        dispose();
-                        new Admin().setVisible(true);
-                    }
-                    else if(result.equals("doctor")){
+                            dispose();
+                            new Admin().setVisible(true);
+                        } else if (result.equals("doctor")) {
 //                        JOptionPane.showMessageDialog(null, "Doctor!", "Role", JOptionPane.INFORMATION_MESSAGE);
-                        dispose();
-                        new Doctor().setVisible(true);
-                    }
-                    else if(result.equals("patient")){
+                            dispose();
+                            new Doctor().setVisible(true);
+                        } else if (result.equals("patient")) {
 //                        JOptionPane.showMessageDialog(null, "Patient!", "Role", JOptionPane.INFORMATION_MESSAGE);
-                        dispose();
-                        new Patient().setVisible(true);
+                            dispose();
+                            new Patient().setVisible(true);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error!", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
-                    else
-                        JOptionPane.showMessageDialog(null, "Error!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
             else{
@@ -104,6 +110,33 @@ public class MEDATA_Application extends javax.swing.JFrame {
         }
         catch(Exception e){
             e.printStackTrace();
+        }
+    }
+    
+    void promptPasswordChange(String username, String lastName) {
+        String newPassword = JOptionPane.showInputDialog(null, "Please type in your new password", "New Password", JOptionPane.QUESTION_MESSAGE);
+        String confirmNewPassword = JOptionPane.showInputDialog(null, "Please confirm your new password", "Confirm Password", JOptionPane.QUESTION_MESSAGE);
+
+        if (newPassword != null && confirmNewPassword != null && newPassword.equals(confirmNewPassword)) {
+            try {
+                String updateSql = "UPDATE userinfo SET password = ? WHERE username = ?";
+                PreparedStatement updateStatement = con.prepareStatement(updateSql);
+                updateStatement.setString(1, newPassword);
+                updateStatement.setString(2, username);
+                int rowsAffected = updateStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Password updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failed to update password.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                updateStatement.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Passwords do not match. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     

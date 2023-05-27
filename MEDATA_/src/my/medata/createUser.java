@@ -10,11 +10,11 @@ import java.sql.*;
  */
 
 public class createUser {    
-    public static void processInput(String lastName, String firstName, String middleName, int age, String dateOfBirth, String address, String contact, String email, String sex, String civilStatus, int height, int weight, String username, String password,String confirmPassword, String role){
+    public static void processInput(String lastName, String firstName, String middleName, int age, String dateOfBirth, String address, String contact, String email, String sex, String civilStatus, int height, int weight, String username, String password, String role){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
-            String sql = "INSERT INTO userinfo (lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, confirmPassword, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO userinfo (lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setString(1, lastName);
@@ -31,12 +31,12 @@ public class createUser {
             statement.setInt(12, weight);
             statement.setString(13, username);
             statement.setString(14, password);
-            statement.setString(15, confirmPassword);
-            statement.setString(16, role);
+            statement.setString(15, role);
             
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Data inserted successfully.");
+                
             } else {
                 System.out.println("Failed to insert data.");
             }

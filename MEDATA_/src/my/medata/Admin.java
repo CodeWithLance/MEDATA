@@ -1,7 +1,9 @@
 package my.medata;
 
+import java.awt.Color;
 import static java.awt.Color.*;
 import java.awt.Font;
+import java.awt.List;
 import java.awt.event.KeyEvent;
 //import java.awt.FontFormatException;
 //import java.awt.GraphicsEnvironment;
@@ -11,13 +13,19 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import static java.util.Collections.list;
 import java.util.Date;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import static javax.swing.SwingConstants.*;
+import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /*
  * Authors:
@@ -31,7 +39,7 @@ public class Admin extends javax.swing.JFrame {
     /**
      * Creates new form Admin_Page
      */
-    
+    String uid;
    //Font fn;
     int xMouse, yMouse;
     String username;
@@ -40,31 +48,22 @@ public class Admin extends javax.swing.JFrame {
     String firstName;
     Date dateOfBirth;
     String id;
-    
+    UIDGenerator generateID = new UIDGenerator();
     
     private static final String email_Pattern =   "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     
+  
     
-    UIDGenerator generateID = new UIDGenerator();
-   
+    
+    
     public Admin() {
         initComponents();
         setLocationRelativeTo(null);
         jLayeredPane1.setVisible(false);
         welcomePage.setVisible(true);
-        
-        
-        //Font
-//        try{
-//            fn = Font.createFont(Font.TRUETYPE_FONT,new File("Quicksand-Regular.ttf"));
-//            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Quicksand-Regular.ttf")));
-//        } catch(IOException | FontFormatException e){
-//             e.printStackTrace();
-//        } 
-    }
     
+   }
     
     
     public void setDisplay(JPanel Panel){
@@ -76,13 +75,14 @@ public class Admin extends javax.swing.JFrame {
         jLayeredPane1.setVisible(true);
         Panel.setVisible(true);
     }
+   
     
     public void focusOn(JTextField textfield, String intext){
         if (textfield.getText().equals(intext)) {
             textfield.setText("");
             textfield.setForeground(black);
             textfield.setHorizontalAlignment(LEFT);
-        }
+        } 
         textfield.selectAll();
     } 
     
@@ -92,20 +92,21 @@ public class Admin extends javax.swing.JFrame {
             textfield.setForeground(gray);
             textfield.setHorizontalAlignment(CENTER);
         }
-    }  
+        textfield.selectAll();
+     }
      
     public String generateID(){
-        String uid;
         lastName = mdLastName.getText();
         firstName = mdFirstName.getText();
         
         for (int i = 0; i < 10; i++) {
-            id = generateID.generateUID(lastName, firstName, jDateChooser3.getDate());
+            id = new UIDGenerator().generateUID(lastName, firstName, jDateChooser3.getDate(), uid);
         }
         uid = id;
         
         return uid;
     }
+    
     
     private void updateAgeLabel() {
         LocalDate selectedDate = jDateChooser3.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -116,7 +117,7 @@ public class Admin extends javax.swing.JFrame {
         mdAge.setText(String.valueOf(age));
     }
     
-    void injectData() {
+   void injectData() {
         lastName = mdLastName.getText();
         firstName = mdFirstName.getText();
         String middleName = mdMiddleName.getText();
@@ -145,10 +146,9 @@ public class Admin extends javax.swing.JFrame {
         int height = 0;
         int weight = 0;
         String role = "doctor";
-        username = new usernameGenerator().generateUsername(lastName, firstName, jDateChooser3.getDate());
+        username = new UIDGenerator().generateUID(lastName, firstName, jDateChooser3.getDate(), uid);
         password = new passwordGenerator().generatePassword(lastName);
-        String confirmPassword = "";
-        createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, confirmPassword,role);
+        createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role);
     }
     
     /**
@@ -236,29 +236,6 @@ public class Admin extends javax.swing.JFrame {
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jButton6 = new javax.swing.JButton();
         jRadioButton4 = new javax.swing.JRadioButton();
-        addDoctorInitialPanel = new javax.swing.JPanel();
-        lblName = new javax.swing.JLabel();
-        addDoctorTitle = new javax.swing.JLabel();
-        comma = new javax.swing.JLabel();
-        tfLastName = new javax.swing.JTextField();
-        tfFirstName = new javax.swing.JTextField();
-        tfMiddleName = new javax.swing.JTextField();
-        lblEmail = new javax.swing.JLabel();
-        tfEmail = new javax.swing.JTextField();
-        lblContacts = new javax.swing.JLabel();
-        tfContacts = new javax.swing.JTextField();
-        lblSex = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        lblBDay = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        lblGPass = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        lblGUID = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         welcomePage = new javax.swing.JPanel();
         welcomeAdmin = new javax.swing.JLabel();
         frameDrag = new javax.swing.JLabel();
@@ -452,6 +429,11 @@ public class Admin extends javax.swing.JFrame {
                 mdLastNameFocusLost(evt);
             }
         });
+        mdLastName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mdLastNameActionPerformed(evt);
+            }
+        });
 
         mdFirstName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         mdFirstName.setForeground(new java.awt.Color(153, 153, 153));
@@ -465,6 +447,11 @@ public class Admin extends javax.swing.JFrame {
                 mdFirstNameFocusLost(evt);
             }
         });
+        mdFirstName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mdFirstNameActionPerformed(evt);
+            }
+        });
 
         mdMiddleName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         mdMiddleName.setForeground(new java.awt.Color(153, 153, 153));
@@ -476,6 +463,11 @@ public class Admin extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 mdMiddleNameFocusLost(evt);
+            }
+        });
+        mdMiddleName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mdMiddleNameActionPerformed(evt);
             }
         });
 
@@ -626,7 +618,7 @@ public class Admin extends javax.swing.JFrame {
                             .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
                                 .addComponent(lblBDay3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(mdCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(mdCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
                                 .addComponent(lblGPass1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -653,7 +645,7 @@ public class Admin extends javax.swing.JFrame {
                                 .addComponent(jButton8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(generatedUsername)))
-                        .addGap(0, 70, Short.MAX_VALUE))
+                        .addGap(0, 85, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, proposedDoctorPanelLayout.createSequentialGroup()
                         .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
@@ -972,203 +964,17 @@ public class Admin extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        addDoctorInitialPanel.setPreferredSize(new java.awt.Dimension(615, 461));
-
-        lblName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblName.setText("Name:");
-
-        addDoctorTitle.setFont(new java.awt.Font("Quicksand Medium", 0, 24)); // NOI18N
-        addDoctorTitle.setText("Add Doctor");
-
-        comma.setText(",");
-
-        tfLastName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        tfLastName.setForeground(new java.awt.Color(153, 153, 153));
-        tfLastName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfLastName.setText("Last Name");
-
-        tfFirstName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        tfFirstName.setForeground(new java.awt.Color(153, 153, 153));
-        tfFirstName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfFirstName.setText("First Name");
-
-        tfMiddleName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        tfMiddleName.setForeground(new java.awt.Color(153, 153, 153));
-        tfMiddleName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfMiddleName.setText("Middle Name");
-
-        lblEmail.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblEmail.setText("Email:");
-
-        tfEmail.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        tfEmail.setForeground(new java.awt.Color(153, 153, 153));
-        tfEmail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfEmail.setText("youdata@gmail.com");
-
-        lblContacts.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblContacts.setText("Contact Number:");
-
-        tfContacts.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
-        tfContacts.setForeground(new java.awt.Color(153, 153, 153));
-        tfContacts.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfContacts.setText("####-###-####");
-
-        lblSex.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblSex.setText("Sex:");
-
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        jRadioButton1.setText("Male");
-
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        jRadioButton2.setText("Female");
-
-        lblBDay.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblBDay.setText("Date of Birth:");
-
-        lblGPass.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblGPass.setText("Generated Password:");
-
-        jLabel4.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        jLabel4.setText("(generated password)");
-
-        jButton2.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        jButton2.setText("Generate");
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        lblGUID.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblGUID.setText("Generated UID:");
-
-        jButton3.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        jButton3.setText("Generate");
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        jLabel9.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        jLabel9.setText("(generated UID)");
-
-        jButton1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        jButton1.setText("Add");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        javax.swing.GroupLayout addDoctorInitialPanelLayout = new javax.swing.GroupLayout(addDoctorInitialPanel);
-        addDoctorInitialPanel.setLayout(addDoctorInitialPanelLayout);
-        addDoctorInitialPanelLayout.setHorizontalGroup(
-            addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addDoctorInitialPanelLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(addDoctorTitle)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(addDoctorInitialPanelLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addDoctorInitialPanelLayout.createSequentialGroup()
-                        .addComponent(lblContacts)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfContacts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(addDoctorInitialPanelLayout.createSequentialGroup()
-                        .addGroup(addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(addDoctorInitialPanelLayout.createSequentialGroup()
-                                .addComponent(tfLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comma, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfFirstName)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(tfEmail))
-                        .addGap(25, 25, 25))
-                    .addGroup(addDoctorInitialPanelLayout.createSequentialGroup()
-                        .addGroup(addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(addDoctorInitialPanelLayout.createSequentialGroup()
-                                .addComponent(lblGUID)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel9))
-                            .addGroup(addDoctorInitialPanelLayout.createSequentialGroup()
-                                .addComponent(lblGPass)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2)
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel4))
-                            .addGroup(addDoctorInitialPanelLayout.createSequentialGroup()
-                                .addComponent(lblBDay)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(addDoctorInitialPanelLayout.createSequentialGroup()
-                                .addComponent(lblSex)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addDoctorInitialPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        addDoctorInitialPanelLayout.setVerticalGroup(
-            addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addDoctorInitialPanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(addDoctorTitle)
-                .addGap(36, 36, 36)
-                .addGroup(addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName)
-                    .addComponent(tfLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comma, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblEmail)
-                    .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblContacts)
-                    .addComponent(tfContacts, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSex)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblBDay)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblGPass)
-                    .addComponent(jButton2)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addDoctorInitialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblGUID)
-                    .addComponent(jButton3)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
         jLayeredPane1.setLayer(proposedDoctorPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(removePage, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(reportsPage, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(requestPage, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(addPatient, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(addDoctorInitialPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(addDoctorInitialPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+            .addGap(0, 637, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(addPatient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1187,7 +993,7 @@ public class Admin extends javax.swing.JFrame {
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(addDoctorInitialPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 467, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addComponent(addPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1218,7 +1024,7 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(welcomePageLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(welcomeAdmin)
-                .addContainerGap(497, Short.MAX_VALUE))
+                .addContainerGap(549, Short.MAX_VALUE))
         );
         welcomePageLayout.setVerticalGroup(
             welcomePageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1232,7 +1038,7 @@ public class Admin extends javax.swing.JFrame {
         windowPanel.setLayout(windowPanelLayout);
         windowPanelLayout.setHorizontalGroup(
             windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
             .addGroup(windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(windowPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -1394,6 +1200,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        
         password = new passwordGenerator().generatePassword(lastName);
         generatedPassword.setText(password);
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -1404,6 +1211,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void mdLastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdLastNameFocusLost
         focusOff(mdLastName, "Last Name");
+        
     }//GEN-LAST:event_mdLastNameFocusLost
 
     private void mdFirstNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdFirstNameFocusGained
@@ -1412,6 +1220,8 @@ public class Admin extends javax.swing.JFrame {
 
     private void mdFirstNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdFirstNameFocusLost
         focusOff(mdFirstName, "First Name");
+        
+
     }//GEN-LAST:event_mdFirstNameFocusLost
 
     private void mdMiddleNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdMiddleNameFocusGained
@@ -1420,6 +1230,8 @@ public class Admin extends javax.swing.JFrame {
 
     private void mdMiddleNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdMiddleNameFocusLost
         focusOff(mdMiddleName, "Middle Name");
+//        setBtnsTrue();
+
     }//GEN-LAST:event_mdMiddleNameFocusLost
 
     private void mdEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdEmailFocusGained
@@ -1428,6 +1240,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void mdEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdEmailFocusLost
      
+         focusOff(mdEmail, "youdata@gmail.com");
         if (!mdEmail.getText().matches(email_Pattern)) {
             JOptionPane.showMessageDialog(null, "Invalid email format", "Error", JOptionPane.ERROR_MESSAGE);
             mdEmail.setForeground(red);
@@ -1487,6 +1300,18 @@ public class Admin extends javax.swing.JFrame {
         mdContact.setText(contactNumber.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"));
     }//GEN-LAST:event_mdContactKeyPressed
 
+    private void mdLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mdLastNameActionPerformed
+
+    }//GEN-LAST:event_mdLastNameActionPerformed
+
+    private void mdFirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mdFirstNameActionPerformed
+
+    }//GEN-LAST:event_mdFirstNameActionPerformed
+
+    private void mdMiddleNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mdMiddleNameActionPerformed
+
+    }//GEN-LAST:event_mdMiddleNameActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1525,8 +1350,6 @@ public class Admin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addDoctorBtn;
-    private javax.swing.JPanel addDoctorInitialPanel;
-    private javax.swing.JLabel addDoctorTitle;
     private javax.swing.JLabel addDoctorTitle1;
     private javax.swing.JButton addPatBtn;
     private javax.swing.JPanel addPatient;
@@ -1535,7 +1358,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel adminPicture;
     private javax.swing.JLabel background;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JLabel comma;
     private javax.swing.JLabel comma1;
     private javax.swing.JLabel comma2;
     private javax.swing.JButton exit;
@@ -1543,46 +1365,31 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel generatedPassword;
     private javax.swing.JLabel generatedUsername;
     private javax.swing.JPanel informationPanel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private com.toedter.calendar.JDateChooser jDateChooser3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JLabel lblBDay;
     private javax.swing.JLabel lblBDay1;
     private javax.swing.JLabel lblBDay2;
     private javax.swing.JLabel lblBDay3;
-    private javax.swing.JLabel lblContacts;
     private javax.swing.JLabel lblContacts1;
-    private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblEmail1;
-    private javax.swing.JLabel lblGPass;
     private javax.swing.JLabel lblGPass1;
-    private javax.swing.JLabel lblGUID;
     private javax.swing.JLabel lblGUID1;
-    private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblName1;
-    private javax.swing.JLabel lblSex;
     private javax.swing.JLabel lblSex1;
     private javax.swing.JLabel lblptBday;
     private javax.swing.JLabel lblptContact;
@@ -1618,14 +1425,12 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel requestPage;
     private javax.swing.JButton requestsBtn;
     private javax.swing.JPanel sidebar;
-    private javax.swing.JTextField tfContacts;
-    private javax.swing.JTextField tfEmail;
-    private javax.swing.JTextField tfFirstName;
-    private javax.swing.JTextField tfLastName;
-    private javax.swing.JTextField tfMiddleName;
     private javax.swing.JPanel uiButtonPanel;
     private javax.swing.JLabel welcomeAdmin;
     private javax.swing.JPanel welcomePage;
     private javax.swing.JPanel windowPanel;
     // End of variables declaration//GEN-END:variables
+
+
+
 }
