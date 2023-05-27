@@ -1,23 +1,18 @@
 package my.medata;
 
 import static java.awt.Color.*;
-import java.awt.Font;
 import java.awt.event.KeyEvent;
-//import java.awt.FontFormatException;
-//import java.awt.GraphicsEnvironment;
-//import java.io.File;
-//import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.Date;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import static javax.swing.SwingConstants.*;
+import java.sql.*;
 
 /*
  * Authors:
@@ -25,45 +20,36 @@ import static javax.swing.SwingConstants.*;
  * Muñoz, Nathan Sheary G.
  * Pare, Neo Jezer A.
  */
-
 public class Doctor extends javax.swing.JFrame {
+
+    Connection con;
 
     /**
      * Creates new form Doctor
      */
-    Font fn;
-    
-    int xMouse, yMouse;
-    String username;
-    String password;
-    String lastName;
-    String firstName;
-    Date dateOfBirth;
-    String id, uid;
-
-    
-    private static final String email_Pattern =   "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    
     public Doctor() {
         initComponents();
         setLocationRelativeTo(null);
         jLayeredPane1.setVisible(false);
         welcomePage.setVisible(true);
-        
-        
-        //Font
-//        try{
-//            fn = Font.createFont(Font.TRUETYPE_FONT,new File("Quicksand-Regular.ttf"));
-//            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Quicksand-Regular.ttf")));
-//        } catch(IOException | FontFormatException e){
-//             e.printStackTrace();
-//        } 
+        pack();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
-     public void setDisplay(JPanel Panel){
-        
+
+    private static final String email_Pattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+    int xMouse, yMouse;
+    String uid;
+    String username;
+    String password;
+
+    public void setDisplay(JPanel Panel) {
         for (int i = 0; i < jLayeredPane1.getComponentCount(); i++) {
             JComponent component = (JComponent) jLayeredPane1.getComponent(i);
             component.setVisible(false);
@@ -71,36 +57,24 @@ public class Doctor extends javax.swing.JFrame {
         jLayeredPane1.setVisible(true);
         Panel.setVisible(true);
     }
-    
-    public void focusOn(JTextField textfield, String intext){
+
+    public void focusOn(JTextField textfield, String intext) {
         if (textfield.getText().equals(intext)) {
             textfield.setText("");
             textfield.setForeground(black);
             textfield.setHorizontalAlignment(LEFT);
         }
         textfield.selectAll();
-    } 
-    
-     public void focusOff(JTextField textfield, String intext){
+    }
+
+    public void focusOff(JTextField textfield, String intext) {
         if (textfield.getText().isEmpty()) {
             textfield.setText(intext);
             textfield.setForeground(gray);
             textfield.setHorizontalAlignment(CENTER);
         }
-    }  
-     
-    public String generateID(){
-        lastName = mdLastName.getText();
-        firstName = mdFirstName.getText();
-        
-        for (int i = 0; i < 10; i++) {
-            id = new UIDGenerator().generateUID(lastName, firstName, jDateChooser3.getDate(), uid);
-        }
-        uid = id;
-        
-        return uid;
     }
-    
+
     private void updateAgeLabel() {
         LocalDate selectedDate = jDateChooser3.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate currentDate = LocalDate.now();
@@ -109,10 +83,10 @@ public class Doctor extends javax.swing.JFrame {
         mdAge.setForeground(black);
         mdAge.setText(String.valueOf(age));
     }
-    
- void injectData() {
-        lastName = mdLastName.getText();
-        firstName = mdFirstName.getText();
+
+    void insertUserData(String role) {
+        String lastName = mdLastName.getText();
+        String firstName = mdFirstName.getText();
         String middleName = mdMiddleName.getText();
         String email = mdEmail.getText();
         String contact = mdContact.getText();
@@ -138,15 +112,27 @@ public class Doctor extends javax.swing.JFrame {
         String address = "";
         int height = 0;
         int weight = 0;
-        String role = "patient";
-        username = new UIDGenerator().generateUID(lastName, firstName, jDateChooser3.getDate(), uid);
+
+        int username_count = 0;
+        do {
+            try {
+                username = new UIDGenerator().generateUID(lastName, firstName, jDateChooser3.getDate(), uid);
+                String sql = "Select COUNT(username) as username_count from userinfo where username = ?";
+                PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, username);
+
+                ResultSet resultSet = pst.executeQuery();
+                if (resultSet.next()) {
+                    username_count = resultSet.getInt("username_count");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } while (username_count > 0);
         password = new passwordGenerator().generatePassword(lastName);
+
         createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role);
     }
-    
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -205,12 +191,6 @@ public class Doctor extends javax.swing.JFrame {
         mdSexFemale = new javax.swing.JRadioButton();
         lblBDay1 = new javax.swing.JLabel();
         jDateChooser3 = new com.toedter.calendar.JDateChooser();
-        lblGPass1 = new javax.swing.JLabel();
-        generatedPassword = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
-        lblGUID1 = new javax.swing.JLabel();
-        jButton8 = new javax.swing.JButton();
-        generatedUsername = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
         lblBDay2 = new javax.swing.JLabel();
         mdAge = new javax.swing.JTextField();
@@ -627,36 +607,6 @@ public class Doctor extends javax.swing.JFrame {
             }
         });
 
-        lblGPass1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblGPass1.setText("Generated Password:");
-
-        generatedPassword.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        generatedPassword.setText("(generated password)");
-
-        jButton7.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        jButton7.setText("Generate");
-        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        lblGUID1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblGUID1.setText("Generated UID:");
-
-        jButton8.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        jButton8.setText("Generate");
-        jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        generatedUsername.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        generatedUsername.setText("(generated UID)");
-
         jButton9.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         jButton9.setText("Add");
         jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -669,18 +619,13 @@ public class Doctor extends javax.swing.JFrame {
         lblBDay2.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblBDay2.setText("Age:");
 
+        mdAge.setEditable(false);
+        mdAge.setBackground(new java.awt.Color(255, 255, 255));
         mdAge.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         mdAge.setForeground(new java.awt.Color(153, 153, 153));
         mdAge.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         mdAge.setText("Age");
-        mdAge.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                mdAgeFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                mdAgeFocusLost(evt);
-            }
-        });
+        mdAge.setFocusable(false);
 
         lblBDay3.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblBDay3.setText("Civil Status:");
@@ -716,12 +661,6 @@ public class Doctor extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(mdCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(addPatientLayout.createSequentialGroup()
-                                .addComponent(lblGPass1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(generatedPassword))
-                            .addGroup(addPatientLayout.createSequentialGroup()
                                 .addComponent(lblBDay1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -734,13 +673,7 @@ public class Doctor extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(mdSexMale, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(mdSexFemale, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(addPatientLayout.createSequentialGroup()
-                                .addComponent(lblGUID1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(generatedUsername)))
+                                .addComponent(mdSexFemale, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 85, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addPatientLayout.createSequentialGroup()
                         .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -803,17 +736,7 @@ public class Doctor extends javax.swing.JFrame {
                 .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblBDay3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(mdCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblGUID1)
-                    .addComponent(jButton8)
-                    .addComponent(generatedUsername))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblGPass1)
-                    .addComponent(jButton7)
-                    .addComponent(generatedPassword))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8))
         );
@@ -828,13 +751,13 @@ public class Doctor extends javax.swing.JFrame {
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 633, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(schedule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(requestPage, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
+                    .addComponent(requestPage, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(listofpatients, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -848,7 +771,7 @@ public class Doctor extends javax.swing.JFrame {
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 486, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(schedule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1003,8 +926,8 @@ public class Doctor extends javax.swing.JFrame {
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         int exit = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?",
-            "Exit",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-        if (exit == 0){//yes
+                "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        if (exit == 0) {//yes
             System.exit(0);
         }
     }//GEN-LAST:event_exitActionPerformed
@@ -1086,10 +1009,10 @@ public class Doctor extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Invalid email format", "Error", JOptionPane.ERROR_MESSAGE);
             mdEmail.setForeground(red);
             jButton9.setEnabled(false);
-        } else if (mdEmail.getText().matches(email_Pattern) && !mdEmail.getText().equals("youdata@gmail.com")){
+        } else if (mdEmail.getText().matches(email_Pattern) && !mdEmail.getText().equals("youdata@gmail.com")) {
             mdEmail.setForeground(black);
             jButton9.setEnabled(true);
-        }else{
+        } else {
             focusOff(mdEmail, "youdata@gmail.com");
         }
     }//GEN-LAST:event_mdEmailFocusLost
@@ -1112,14 +1035,13 @@ public class Doctor extends javax.swing.JFrame {
     }//GEN-LAST:event_mdContactKeyPressed
 
     private void mdContactKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mdContactKeyTyped
-
         char c = evt.getKeyChar();
         String b = mdContact.getText();
 
-        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != '-' ) {
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != '-') {
             evt.consume();
             JOptionPane.showMessageDialog(null, "Input only numbers", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (b.length()>=12){
+        } else if (b.length() >= 12) {
             evt.consume();
             JOptionPane.showMessageDialog(null, "Reached contact number limit", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -1131,28 +1053,9 @@ public class Doctor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jDateChooser3PropertyChange
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        password = new passwordGenerator().generatePassword(lastName);
-        generatedPassword.setText(password);
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-
-        generatedUsername.setText(generateID());
-    }//GEN-LAST:event_jButton8ActionPerformed
-
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        injectData();
+        insertUserData("patient");
     }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void mdAgeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdAgeFocusGained
-        focusOn(mdAge, "Age");
-        //mdAge.setText(""+updateAge(jDateChooser3.getDate()));
-    }//GEN-LAST:event_mdAgeFocusGained
-
-    private void mdAgeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdAgeFocusLost
-        focusOff(mdAge, "Age");
-    }//GEN-LAST:event_mdAgeFocusLost
 
     /**
      * @param args the command line arguments
@@ -1198,11 +1101,7 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JLabel comma2;
     private javax.swing.JButton exit;
     private javax.swing.JLabel frameDrag;
-    private javax.swing.JLabel generatedPassword;
-    private javax.swing.JLabel generatedUsername;
     private javax.swing.JPanel infoPane;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private com.toedter.calendar.JDateChooser jDateChooser3;
     private javax.swing.JFrame jFrame1;
@@ -1225,8 +1124,6 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JLabel lblBDay3;
     private javax.swing.JLabel lblContacts1;
     private javax.swing.JLabel lblEmail1;
-    private javax.swing.JLabel lblGPass1;
-    private javax.swing.JLabel lblGUID1;
     private javax.swing.JLabel lblName1;
     private javax.swing.JLabel lblSex1;
     private javax.swing.JPanel listofpatients;

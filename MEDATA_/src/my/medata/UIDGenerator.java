@@ -1,16 +1,19 @@
 package my.medata;
 
-/**
- *
- * @author Neo
- */
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+/*
+ * Authors:
+ * Arcega, Lance Angelo P.
+ * Muñoz, Nathan Sheary G.
+ * Pare, Neo Jezer A.
+ */
 public class UIDGenerator {
+
     private Set<String> usedUIDs;
     private Random random;
 
@@ -21,7 +24,7 @@ public class UIDGenerator {
 
     public String generateUID(String lastName, String firstName, Date dateOfBirth, String uid) {
         StringBuilder username = new StringBuilder();
-       
+
         // Append the last name
         if (lastName != null && !lastName.isEmpty()) {
             username.append(lastName.toLowerCase());
@@ -42,16 +45,15 @@ public class UIDGenerator {
             String dayOfBirth = dateFormat.format(dateOfBirth);
             username.append("-").append(dayOfBirth);
         }
-        
+
         //return username.toString().toLowerCase();
         do {
             uid = generateRandomUID();
         } while (usedUIDs.contains(uid));
-        
+
         usedUIDs.add(uid);
         username.append(uid);
-        //return uid;
-        return username.toString().toLowerCase();
+        return username.toString().toLowerCase(); //return final username with uid;
     }
 
     private String generateRandomUID() {
@@ -63,7 +65,4 @@ public class UIDGenerator {
         }
         return uidBuilder.toString();
     }
-    
-       
 }
-

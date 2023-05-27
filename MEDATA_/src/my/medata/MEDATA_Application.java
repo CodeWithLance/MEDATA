@@ -3,16 +3,13 @@ package my.medata;
 import com.formdev.flatlaf.FlatLightLaf;
 import static java.awt.Color.*;
 import java.awt.Font;
-//import java.awt.FontFormatException;
-//import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.font.TextAttribute;
-//import java.io.File;
-//import java.io.IOException;
 import java.util.Map;
 import javax.swing.JFrame;
 import static javax.swing.SwingConstants.*;
 import java.sql.*;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -22,11 +19,10 @@ import javax.swing.JTextField;
  * Muñoz, Nathan Sheary G.
  * Pare, Neo Jezer A.
  */
-
 public class MEDATA_Application extends javax.swing.JFrame {
-   
+
     Connection con;
-    Font fn;
+
     /**
      * Creates new form MEDATA_Application
      */
@@ -34,66 +30,55 @@ public class MEDATA_Application extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         pack();
-        enterPassword.setEchoChar((char)0);
-       
-        try{
+        enterPassword.setEchoChar((char) 0);
+
+        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        //Font
-//        try{
-//            fn = Font.createFont(Font.TRUETYPE_FONT,new File("Quicksand-Regular.ttf"));
-//            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Quicksand-Regular.ttf")));
-//        } catch(IOException | FontFormatException e){
-//             e.printStackTrace();
-//    }
-        
-   }
+    }
 
     int xMouse, yMouse;
-    
-    void logIn(){
-        try{
-//            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
+
+    void userSignIn() {
+        try {
             String sql = "Select * from userinfo where username = ? and password = ?";
-        
+
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, enterUsername.getText());
             pst.setString(2, enterPassword.getText());
+
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()) {
                 String lastName = resultSet.getString("lastName");
                 String generatedPassword = lastName.toLowerCase() + ".medata";
+
                 if (enterPassword.getText().equals(generatedPassword)) {
                     promptPasswordChange(enterUsername.getText(), lastName);
                     return;
-                }
-                else {
+                } else {
                     JOptionPane.showMessageDialog(null, "Welcome!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    
                     String query = "SELECT role FROM userinfo WHERE username = ?";
                     PreparedStatement statement = con.prepareStatement(query);
                     statement.setString(1, enterUsername.getText());
                     ResultSet rs = statement.executeQuery();
                     String result = null;
+                    
                     if (rs.next()) {
                         result = resultSet.getString("role");
                         rs.close();
                         statement.close();
+                        
                         if (result.equals("admin")) {
-//                        JOptionPane.showMessageDialog(null, "Developer!", "Role", JOptionPane.INFORMATION_MESSAGE);
                             dispose();
                             new Admin().setVisible(true);
                         } else if (result.equals("doctor")) {
-//                        JOptionPane.showMessageDialog(null, "Doctor!", "Role", JOptionPane.INFORMATION_MESSAGE);
                             dispose();
                             new Doctor().setVisible(true);
                         } else if (result.equals("patient")) {
-//                        JOptionPane.showMessageDialog(null, "Patient!", "Role", JOptionPane.INFORMATION_MESSAGE);
                             dispose();
                             new Patient().setVisible(true);
                         } else {
@@ -101,18 +86,29 @@ public class MEDATA_Application extends javax.swing.JFrame {
                         }
                     }
                 }
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "You're username and password does not match any data in our system.", "Sorry", JOptionPane.INFORMATION_MESSAGE);
             }
+            
             pst.close();
             resultSet.close();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
+    void validateTextfieldInput() {
+        if ((enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) && (enterPassword.getText().equals("Password") || enterPassword.getText().equals(""))) {
+            JOptionPane.showMessageDialog(null, "Username and Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Username should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (enterPassword.getText().equals("Password") || enterPassword.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            userSignIn();
+        }
+    }
+
     void promptPasswordChange(String username, String lastName) {
         String newPassword = JOptionPane.showInputDialog(null, "Please type in your new password", "New Password", JOptionPane.QUESTION_MESSAGE);
         String confirmNewPassword = JOptionPane.showInputDialog(null, "Please confirm your new password", "Confirm Password", JOptionPane.QUESTION_MESSAGE);
@@ -139,23 +135,31 @@ public class MEDATA_Application extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Passwords do not match. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    void focusOn(JTextField textfield, String intext){
+
+    void focusOn(JTextField textfield, String intext) {
         if (textfield.getText().equals(intext)) {
             textfield.setText("");
             textfield.setForeground(black);
             textfield.setHorizontalAlignment(LEFT);
         }
         textfield.selectAll();
-    } 
-    
-    void focusOff(JTextField textfield, String intext){
+    }
+
+    void focusOff(JTextField textfield, String intext) {
         if (textfield.getText().isEmpty()) {
             textfield.setText(intext);
             textfield.setForeground(gray);
             textfield.setHorizontalAlignment(CENTER);
         }
-    }  
+    }
+    
+    void mouseEnter(JButton button){
+        button.setContentAreaFilled(true);
+    }
+    
+    void mouseExit(JButton button){
+        button.setContentAreaFilled(false);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -438,79 +442,49 @@ public class MEDATA_Application extends javax.swing.JFrame {
     }//GEN-LAST:event_forgotPasswordMouseExited
 
     private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
-        if ((enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) && (enterPassword.getText().equals("Password") || enterPassword.getText().equals(""))) {
-            JOptionPane.showMessageDialog(null, "Username and Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Username should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (enterPassword.getText().equals("Password") || enterPassword.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
-        } else{
-            logIn();
-        }
+        validateTextfieldInput();
     }//GEN-LAST:event_signInActionPerformed
-
-    private void signInMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signInMouseEntered
-        signIn.setContentAreaFilled(true);
-    }//GEN-LAST:event_signInMouseEntered
-
-    private void signInMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signInMouseExited
-        signIn.setContentAreaFilled(false);
-    }//GEN-LAST:event_signInMouseExited
-
-    private void minimizedMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizedMouseEntered
-        minimized.setContentAreaFilled(true);
-    }//GEN-LAST:event_minimizedMouseEntered
-
-    private void minimizedMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizedMouseExited
-        minimized.setContentAreaFilled(false);
-    }//GEN-LAST:event_minimizedMouseExited
-
-    private void exitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseEntered
-        exit.setContentAreaFilled(true);
-    }//GEN-LAST:event_exitMouseEntered
-
-    private void exitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseExited
-        exit.setContentAreaFilled(false);
-    }//GEN-LAST:event_exitMouseExited
 
     private void enterUsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enterUsernameKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if ((enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) && (enterPassword.getText().equals("Password") || enterPassword.getText().equals(""))) {
-                JOptionPane.showMessageDialog(null, "Username and Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Username should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (enterPassword.getText().equals("Password") || enterPassword.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                logIn();
-            }
+            validateTextfieldInput();
         }
     }//GEN-LAST:event_enterUsernameKeyPressed
 
     private void enterPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enterPasswordKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if ((enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) && (enterPassword.getText().equals("Password") || enterPassword.getText().equals(""))) {
-                JOptionPane.showMessageDialog(null, "Username and Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (enterUsername.getText().equals("Username") || enterUsername.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Username should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (enterPassword.getText().equals("Password") || enterPassword.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Password should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                logIn();
-            }
+            validateTextfieldInput();
         }
     }//GEN-LAST:event_enterPasswordKeyPressed
+
+    private void exitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseEntered
+        mouseEnter(exit);
+    }//GEN-LAST:event_exitMouseEntered
+
+    private void minimizedMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizedMouseEntered
+        mouseEnter(minimized);
+    }//GEN-LAST:event_minimizedMouseEntered
+
+    private void signInMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signInMouseEntered
+        mouseEnter(signIn);
+    }//GEN-LAST:event_signInMouseEntered
+
+    private void exitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseExited
+        mouseExit(exit);
+    }//GEN-LAST:event_exitMouseExited
+
+    private void minimizedMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizedMouseExited
+        mouseExit(minimized);
+    }//GEN-LAST:event_minimizedMouseExited
+
+    private void signInMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signInMouseExited
+        mouseExit(signIn);
+    }//GEN-LAST:event_signInMouseExited
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-//        try{
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//        }
-//        catch(Exception e){
-//            e.printStackTrace();
-//        }
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

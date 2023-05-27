@@ -1,22 +1,11 @@
 package my.medata;
 
-import java.awt.Color;
 import static java.awt.Color.*;
-import java.awt.Font;
-import java.awt.List;
 import java.awt.event.KeyEvent;
-//import java.awt.FontFormatException;
-//import java.awt.GraphicsEnvironment;
-//import java.io.File;
-//import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import static java.util.Collections.list;
-import java.util.Date;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -24,9 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import static javax.swing.SwingConstants.*;
 import java.sql.*;
-import javax.swing.UIManager;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+
 
 /*
  * Authors:
@@ -34,50 +21,36 @@ import javax.swing.event.DocumentListener;
  * Muñoz, Nathan Sheary G.
  * Pare, Neo Jezer A.
  */
-
 public class Admin extends javax.swing.JFrame {
+
+    Connection con;
 
     /**
      * Creates new form Admin_Page
      */
-   //Font fn;
-    int xMouse, yMouse;
-    String username;
-    String password;
-    String lastName;
-    String firstName;
-    Date dateOfBirth;
-    String id, uid;
-
-    Connection con;
-    
-    private static final String email_Pattern =   "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    
-  
-    
-    
-    
     public Admin() {
         initComponents();
         setLocationRelativeTo(null);
         jLayeredPane1.setVisible(false);
         welcomePage.setVisible(true);
-    
-        try{
+        pack();
+
+        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-   }
-    
-     
-    
-    
-    public void setDisplay(JPanel Panel){
-        
+    }
+
+    private static final String email_Pattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+    int xMouse, yMouse;
+    String uid;
+    String username;
+    String password;
+
+    public void setDisplay(JPanel Panel) {
         for (int i = 0; i < jLayeredPane1.getComponentCount(); i++) {
             JComponent component = (JComponent) jLayeredPane1.getComponent(i);
             component.setVisible(false);
@@ -85,39 +58,24 @@ public class Admin extends javax.swing.JFrame {
         jLayeredPane1.setVisible(true);
         Panel.setVisible(true);
     }
-   
-    
-    public void focusOn(JTextField textfield, String intext){
+
+    public void focusOn(JTextField textfield, String intext) {
         if (textfield.getText().equals(intext)) {
             textfield.setText("");
             textfield.setForeground(black);
             textfield.setHorizontalAlignment(LEFT);
-        } 
+        }
         textfield.selectAll();
-    } 
-    
-     public void focusOff(JTextField textfield, String intext){
+    }
+
+    public void focusOff(JTextField textfield, String intext) {
         if (textfield.getText().isEmpty()) {
             textfield.setText(intext);
             textfield.setForeground(gray);
             textfield.setHorizontalAlignment(CENTER);
         }
-        textfield.selectAll();
-     }
-     
-    public String generateID(){
-        lastName = mdLastName.getText();
-        firstName = mdFirstName.getText();
-        
-        for (int i = 0; i < 10; i++) {
-            id = new UIDGenerator().generateUID(lastName, firstName, jDateChooserMD.getDate(), uid);
-        }
-        uid = id;
-        
-        return uid;
     }
-    
-    
+
     private void updateAgeLabel() {
         LocalDate selectedDate = jDateChooserMD.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate currentDate = LocalDate.now();
@@ -126,10 +84,10 @@ public class Admin extends javax.swing.JFrame {
         mdAge.setForeground(black);
         mdAge.setText(String.valueOf(age));
     }
-    
-   void injectData() {
-        lastName = mdLastName.getText();
-        firstName = mdFirstName.getText();
+
+    void insertUserData(String role) {
+        String lastName = mdLastName.getText();
+        String firstName = mdFirstName.getText();
         String middleName = mdMiddleName.getText();
         String email = mdEmail.getText();
         String contact = mdContact.getText();
@@ -155,29 +113,28 @@ public class Admin extends javax.swing.JFrame {
         String address = "";
         int height = 0;
         int weight = 0;
-        String role = "doctor";
+
         int username_count = 0;
         do {
-           try {
-               username = new UIDGenerator().generateUID(lastName, firstName, jDateChooserMD.getDate(), uid);
-               String sql = "Select COUNT(username) as username_count from userinfo where username = ?";
-               PreparedStatement pst = con.prepareStatement(sql);
-               pst.setString(1, username);
+            try {
+                username = new UIDGenerator().generateUID(lastName, firstName, jDateChooserMD.getDate(), uid);
+                String sql = "Select COUNT(username) as username_count from userinfo where username = ?";
+                PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, username);
 
-               ResultSet resultSet = pst.executeQuery();
-               if (resultSet.next()) {
-                   username_count = resultSet.getInt("username_count");
-               }
-           } catch (Exception e) {
-               e.printStackTrace();
-           }
-       } while (username_count > 0);
-       
-   
+                ResultSet resultSet = pst.executeQuery();
+                if (resultSet.next()) {
+                    username_count = resultSet.getInt("username_count");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } while (username_count > 0);
         password = new passwordGenerator().generatePassword(lastName);
+
         createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -444,11 +401,6 @@ public class Admin extends javax.swing.JFrame {
                 mdLastNameFocusLost(evt);
             }
         });
-        mdLastName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mdLastNameActionPerformed(evt);
-            }
-        });
 
         mdFirstName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         mdFirstName.setForeground(new java.awt.Color(153, 153, 153));
@@ -462,11 +414,6 @@ public class Admin extends javax.swing.JFrame {
                 mdFirstNameFocusLost(evt);
             }
         });
-        mdFirstName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mdFirstNameActionPerformed(evt);
-            }
-        });
 
         mdMiddleName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         mdMiddleName.setForeground(new java.awt.Color(153, 153, 153));
@@ -478,11 +425,6 @@ public class Admin extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 mdMiddleNameFocusLost(evt);
-            }
-        });
-        mdMiddleName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mdMiddleNameActionPerformed(evt);
             }
         });
 
@@ -558,18 +500,13 @@ public class Admin extends javax.swing.JFrame {
         lblAgeMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblAgeMD.setText("Age:");
 
+        mdAge.setEditable(false);
+        mdAge.setBackground(new java.awt.Color(255, 255, 255));
         mdAge.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         mdAge.setForeground(new java.awt.Color(153, 153, 153));
         mdAge.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         mdAge.setText("Age");
-        mdAge.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                mdAgeFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                mdAgeFocusLost(evt);
-            }
-        });
+        mdAge.setFocusable(false);
 
         lblCivilStatMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblCivilStatMD.setText("Civil Status:");
@@ -982,7 +919,7 @@ public class Admin extends javax.swing.JFrame {
         uiButtonPanel.setLayout(uiButtonPanelLayout);
         uiButtonPanelLayout.setHorizontalGroup(
             uiButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(windowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 631, Short.MAX_VALUE)
+            .addComponent(windowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
         );
         uiButtonPanelLayout.setVerticalGroup(
             uiButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1061,9 +998,9 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_exitMouseExited
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
-        int exit = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", 
-                "Exit",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-        if (exit == 0){//yes
+        int exit = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?",
+                "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        if (exit == 0) {//yes
             System.exit(0);
         }
     }//GEN-LAST:event_exitActionPerformed
@@ -1112,8 +1049,8 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_reportsBtnActionPerformed
 
     private void mdInjectSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mdInjectSQLActionPerformed
-        injectData();
-        JOptionPane.showMessageDialog(null, "Username: " + username + "\n Password: " + password, "Credentials", JOptionPane.INFORMATION_MESSAGE); 
+        insertUserData("doctor");
+        JOptionPane.showMessageDialog(null, "Username: " + username + "\n Password: " + password, "Credentials", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_mdInjectSQLActionPerformed
 
     private void mdLastNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdLastNameFocusGained
@@ -1122,7 +1059,6 @@ public class Admin extends javax.swing.JFrame {
 
     private void mdLastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdLastNameFocusLost
         focusOff(mdLastName, "Last Name");
-        
     }//GEN-LAST:event_mdLastNameFocusLost
 
     private void mdFirstNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdFirstNameFocusGained
@@ -1131,8 +1067,6 @@ public class Admin extends javax.swing.JFrame {
 
     private void mdFirstNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdFirstNameFocusLost
         focusOff(mdFirstName, "First Name");
-        
-
     }//GEN-LAST:event_mdFirstNameFocusLost
 
     private void mdMiddleNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdMiddleNameFocusGained
@@ -1141,8 +1075,6 @@ public class Admin extends javax.swing.JFrame {
 
     private void mdMiddleNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdMiddleNameFocusLost
         focusOff(mdMiddleName, "Middle Name");
-//        setBtnsTrue();
-
     }//GEN-LAST:event_mdMiddleNameFocusLost
 
     private void mdEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdEmailFocusGained
@@ -1150,16 +1082,14 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_mdEmailFocusGained
 
     private void mdEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdEmailFocusLost
-     
-         focusOff(mdEmail, "youdata@gmail.com");
         if (!mdEmail.getText().matches(email_Pattern)) {
             JOptionPane.showMessageDialog(null, "Invalid email format", "Error", JOptionPane.ERROR_MESSAGE);
             mdEmail.setForeground(red);
             mdInjectSQL.setEnabled(false);
-        } else if (mdEmail.getText().matches(email_Pattern) && !mdEmail.getText().equals("youdata@gmail.com")){
+        } else if (mdEmail.getText().matches(email_Pattern) && !mdEmail.getText().equals("youdata@gmail.com")) {
             mdEmail.setForeground(black);
             mdInjectSQL.setEnabled(true);
-        }else{
+        } else {
             focusOff(mdEmail, "youdata@gmail.com");
         }
     }//GEN-LAST:event_mdEmailFocusLost
@@ -1170,21 +1100,11 @@ public class Admin extends javax.swing.JFrame {
         if (contactNumber.length() == 10) {
             mdContact.setText(contactNumber.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"));
         }
-
     }//GEN-LAST:event_mdContactFocusGained
 
     private void mdContactFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdContactFocusLost
         focusOff(mdContact, "###-###-####");
     }//GEN-LAST:event_mdContactFocusLost
-
-    private void mdAgeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdAgeFocusGained
-       focusOn(mdAge, "Age");
-       //mdAge.setText(""+updateAge(jDateChooser3.getDate()));
-    }//GEN-LAST:event_mdAgeFocusGained
-
-    private void mdAgeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdAgeFocusLost
-       focusOff(mdAge, "Age");
-    }//GEN-LAST:event_mdAgeFocusLost
 
     private void jDateChooserMDPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserMDPropertyChange
         if ("date".equals(evt.getPropertyName())) {
@@ -1193,35 +1113,22 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jDateChooserMDPropertyChange
 
     private void mdContactKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mdContactKeyTyped
-
         char c = evt.getKeyChar();
         String b = mdContact.getText();
-        
-            if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != '-' ) {
-                 evt.consume();
-                 JOptionPane.showMessageDialog(null, "Input only numbers", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if (b.length()>=12){
-                evt.consume();
-                JOptionPane.showMessageDialog(null, "Reached contact number limit", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != '-') {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Numbers input only", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (b.length() >= 12) {
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Maxed Character Input", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_mdContactKeyTyped
 
     private void mdContactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mdContactKeyPressed
-       String contactNumber = mdContact.getText();
+        String contactNumber = mdContact.getText();
         mdContact.setText(contactNumber.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"));
     }//GEN-LAST:event_mdContactKeyPressed
-
-    private void mdLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mdLastNameActionPerformed
-
-    }//GEN-LAST:event_mdLastNameActionPerformed
-
-    private void mdFirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mdFirstNameActionPerformed
-
-    }//GEN-LAST:event_mdFirstNameActionPerformed
-
-    private void mdMiddleNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mdMiddleNameActionPerformed
-
-    }//GEN-LAST:event_mdMiddleNameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1329,7 +1236,5 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel welcomePage;
     private javax.swing.JPanel windowPanel;
     // End of variables declaration//GEN-END:variables
-
-
 
 }

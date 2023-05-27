@@ -1,17 +1,10 @@
 package my.medata;
 
-import static java.awt.Color.*;
-import java.awt.Font;
-//import java.awt.FontFormatException;
-//import java.awt.GraphicsEnvironment;
-//import java.io.File;
-//import java.io.IOException;
+import java.sql.*;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import static javax.swing.SwingConstants.*;
 
 /*
  * Authors:
@@ -19,34 +12,32 @@ import static javax.swing.SwingConstants.*;
  * Muñoz, Nathan Sheary G.
  * Pare, Neo Jezer A.
  */
-
 public class Patient extends javax.swing.JFrame {
+
+    Connection con;
 
     /**
      * Creates new form Patient
      */
-    
-    int xMouse, yMouse;
-    Font fn;
-    
     public Patient() {
         initComponents();
         setLocationRelativeTo(null);
         jLayeredPane1.setVisible(false);
         welcomePage.setVisible(true);
+        pack();
         
-        //Font
-//        try{
-//            fn = Font.createFont(Font.TRUETYPE_FONT,new File("Quicksand-Regular.ttf"));
-//            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Quicksand-Regular.ttf")));
-//        } catch(IOException | FontFormatException e){
-//             e.printStackTrace();
-//        }
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
-    
-    public void setDisplay(JPanel Panel){
-        
+
+    int xMouse, yMouse;
+
+    public void setDisplay(JPanel Panel) {
         for (int i = 0; i < jLayeredPane1.getComponentCount(); i++) {
             JComponent component = (JComponent) jLayeredPane1.getComponent(i);
             component.setVisible(false);
@@ -576,8 +567,8 @@ public class Patient extends javax.swing.JFrame {
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         int exit = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?",
-            "Exit",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-        if (exit == 0){//yes
+                "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        if (exit == 0) {//yes
             System.exit(0);
         }
     }//GEN-LAST:event_exitActionPerformed
