@@ -10,7 +10,7 @@ import java.sql.*;
  */
 
 public class createUser {    
-    public static void processInput(String lastName, String firstName, String middleName, int age, String dateOfBirth, String address, String contact, String email, String sex, String civilStatus, int height, int weight, String username, String password, String confirmPassword, String role){
+    public static void processInput(String lastName, String firstName, String middleName, int age, String dateOfBirth, String address, String contact, String email, String sex, String civilStatus, int height, int weight, String username, String password,String confirmPassword, String role){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
