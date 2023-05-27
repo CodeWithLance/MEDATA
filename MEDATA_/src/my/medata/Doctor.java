@@ -130,8 +130,9 @@ public class Doctor extends javax.swing.JFrame {
             }
         } while (username_count > 0);
         password = new passwordGenerator().generatePassword(lastName);
+        boolean isActivated = false;
 
-        createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role);
+        createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role, isActivated);
     }
 
     /**

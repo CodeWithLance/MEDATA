@@ -10,11 +10,11 @@ import java.sql.*;
  */
 public class createUser {
 
-    public static void processInput(String lastName, String firstName, String middleName, int age, String dateOfBirth, String address, String contact, String email, String sex, String civilStatus, int height, int weight, String username, String password, String role) {
+    public static void processInput(String lastName, String firstName, String middleName, int age, String dateOfBirth, String address, String contact, String email, String sex, String civilStatus, int height, int weight, String username, String password, String role, Boolean isActivated) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
-            String sql = "INSERT INTO userinfo (lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO userinfo (lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role, isActivated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setString(1, lastName);
@@ -32,6 +32,7 @@ public class createUser {
             statement.setString(13, username);
             statement.setString(14, password);
             statement.setString(15, role);
+            statement.setBoolean(16, isActivated);
 
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {

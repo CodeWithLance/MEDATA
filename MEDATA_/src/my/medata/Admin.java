@@ -145,8 +145,9 @@ public class Admin extends javax.swing.JFrame {
             }
         } while (username_count > 0);
         password = new passwordGenerator().generatePassword(lastName);
+        boolean isActivated = false;
 
-        createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role);
+        createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role, isActivated);
     }
 
     /**
@@ -1057,11 +1058,11 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_requestsBtnActionPerformed
 
     private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
-        setDisplay(reportsPage);
+        setDisplay(removePage);
     }//GEN-LAST:event_removeBtnActionPerformed
 
     private void reportsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportsBtnActionPerformed
-        setDisplay(removePage);
+        setDisplay(reportsPage);
     }//GEN-LAST:event_reportsBtnActionPerformed
 
     private void btnAddUserToSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserToSQLActionPerformed

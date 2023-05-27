@@ -52,11 +52,10 @@ public class MEDATA_Application extends javax.swing.JFrame {
 
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()) {
-                String lastName = resultSet.getString("lastName");
-                String generatedPassword = lastName.toLowerCase() + ".medata";
+                boolean isActivated = resultSet.getBoolean("isActivated");
 
-                if (enterPassword.getText().equals(generatedPassword)) {
-                    promptPasswordChange(enterUsername.getText(), lastName);
+                if (!isActivated) {
+                    promptPasswordChange(enterUsername.getText());
                     return;
                 } else {
                     JOptionPane.showMessageDialog(null, "Welcome!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -109,16 +108,17 @@ public class MEDATA_Application extends javax.swing.JFrame {
         }
     }
 
-    void promptPasswordChange(String username, String lastName) {
+    void promptPasswordChange(String username) {
         String newPassword = JOptionPane.showInputDialog(null, "Please type in your new password", "New Password", JOptionPane.QUESTION_MESSAGE);
         String confirmNewPassword = JOptionPane.showInputDialog(null, "Please confirm your new password", "Confirm Password", JOptionPane.QUESTION_MESSAGE);
 
         if (newPassword != null && confirmNewPassword != null && newPassword.equals(confirmNewPassword)) {
             try {
-                String updateSql = "UPDATE userinfo SET password = ? WHERE username = ?";
+                String updateSql = "UPDATE userinfo SET password = ?, isActivated = ? WHERE username = ?";
                 PreparedStatement updateStatement = con.prepareStatement(updateSql);
                 updateStatement.setString(1, newPassword);
-                updateStatement.setString(2, username);
+                updateStatement.setBoolean(2, true);
+                updateStatement.setString(3, username);
                 int rowsAffected = updateStatement.executeUpdate();
 
                 if (rowsAffected > 0) {
