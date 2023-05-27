@@ -222,12 +222,6 @@ public class Admin extends javax.swing.JFrame {
         mdSexFemale = new javax.swing.JRadioButton();
         lblBirthDateMD = new javax.swing.JLabel();
         jDateChooserMD = new com.toedter.calendar.JDateChooser();
-        lblGenPassMD = new javax.swing.JLabel();
-        generatedPasswordMD = new javax.swing.JLabel();
-        btnGenPassMD = new javax.swing.JButton();
-        lblGenUIDMD = new javax.swing.JLabel();
-        btnGenUIDMD = new javax.swing.JButton();
-        generatedUsernameMD = new javax.swing.JLabel();
         mdInjectSQL = new javax.swing.JButton();
         lblAgeMD = new javax.swing.JLabel();
         mdAge = new javax.swing.JTextField();
@@ -251,17 +245,11 @@ public class Admin extends javax.swing.JFrame {
         addPatientTitle = new javax.swing.JLabel();
         lblptSex = new javax.swing.JLabel();
         ptContacts1 = new javax.swing.JTextField();
-        lblptGenPass = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        lblptGenUID = new javax.swing.JLabel();
         lblptBday = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         lblptContact = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
         jRadioButton3 = new javax.swing.JRadioButton();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jButton6 = new javax.swing.JButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         welcomePage = new javax.swing.JPanel();
         welcomeAdmin = new javax.swing.JLabel();
@@ -558,26 +546,6 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
-        lblGenPassMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblGenPassMD.setText("Generated Password:");
-
-        generatedPasswordMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        generatedPasswordMD.setText("(generated password)");
-
-        btnGenPassMD.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        btnGenPassMD.setText("Generate");
-        btnGenPassMD.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        lblGenUIDMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblGenUIDMD.setText("Generated UID:");
-
-        btnGenUIDMD.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        btnGenUIDMD.setText("Generate");
-        btnGenUIDMD.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        generatedUsernameMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        generatedUsernameMD.setText("(generated UID)");
-
         mdInjectSQL.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         mdInjectSQL.setText("Add");
         mdInjectSQL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -637,12 +605,6 @@ public class Admin extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(mdCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(addDoctorLayout.createSequentialGroup()
-                                .addComponent(lblGenPassMD)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnGenPassMD)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(generatedPasswordMD))
-                            .addGroup(addDoctorLayout.createSequentialGroup()
                                 .addComponent(lblBirthDateMD)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jDateChooserMD, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -655,14 +617,8 @@ public class Admin extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(mdSexMale, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(mdSexFemale, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(addDoctorLayout.createSequentialGroup()
-                                .addComponent(lblGenUIDMD)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnGenUIDMD)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(generatedUsernameMD)))
-                        .addGap(0, 85, Short.MAX_VALUE))
+                                .addComponent(mdSexFemale, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 89, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addDoctorLayout.createSequentialGroup()
                         .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(addDoctorLayout.createSequentialGroup()
@@ -724,17 +680,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCivilStatMD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(mdCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblGenUIDMD)
-                    .addComponent(btnGenUIDMD)
-                    .addComponent(generatedUsernameMD))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblGenPassMD)
-                    .addComponent(btnGenPassMD)
-                    .addComponent(generatedPasswordMD))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addComponent(mdInjectSQL, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8))
         );
@@ -837,15 +783,6 @@ public class Admin extends javax.swing.JFrame {
         ptContacts1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ptContacts1.setText("####-###-####");
 
-        lblptGenPass.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblptGenPass.setText("Generated Password:");
-
-        jLabel10.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        jLabel10.setText("(generated UID)");
-
-        lblptGenUID.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblptGenUID.setText("Generated UID:");
-
         lblptBday.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblptBday.setText("Date of Birth:");
 
@@ -856,20 +793,9 @@ public class Admin extends javax.swing.JFrame {
         lblptContact.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblptContact.setText("Contact Number:");
 
-        jButton5.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        jButton5.setText("Generate");
-        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        jLabel11.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        jLabel11.setText("(generated password)");
-
         buttonGroup1.add(jRadioButton3);
         jRadioButton3.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         jRadioButton3.setText("Male");
-
-        jButton6.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        jButton6.setText("Generate");
-        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         buttonGroup1.add(jRadioButton4);
         jRadioButton4.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
@@ -910,18 +836,6 @@ public class Admin extends javax.swing.JFrame {
                     .addGroup(addPatientLayout.createSequentialGroup()
                         .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(addPatientLayout.createSequentialGroup()
-                                .addComponent(lblptGenUID)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel10))
-                            .addGroup(addPatientLayout.createSequentialGroup()
-                                .addComponent(lblptGenPass)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton6)
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel11))
-                            .addGroup(addPatientLayout.createSequentialGroup()
                                 .addComponent(lblptBday)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -931,7 +845,7 @@ public class Admin extends javax.swing.JFrame {
                                 .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jRadioButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 288, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addPatientLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -966,19 +880,9 @@ public class Admin extends javax.swing.JFrame {
                 .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblptBday)
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblptGenPass)
-                    .addComponent(jButton6)
-                    .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblptGenUID)
-                    .addComponent(jButton5)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addGap(31, 31, 31)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         jLayeredPane1.setLayer(addDoctor, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -1078,7 +982,7 @@ public class Admin extends javax.swing.JFrame {
         uiButtonPanel.setLayout(uiButtonPanelLayout);
         uiButtonPanelLayout.setHorizontalGroup(
             uiButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(windowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+            .addComponent(windowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 631, Short.MAX_VALUE)
         );
         uiButtonPanelLayout.setVerticalGroup(
             uiButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1364,22 +1268,14 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel adminInformation;
     private javax.swing.JLabel adminPicture;
     private javax.swing.JLabel background;
-    private javax.swing.JButton btnGenPassMD;
-    private javax.swing.JButton btnGenUIDMD;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel comma1;
     private javax.swing.JButton exit;
     private javax.swing.JLabel frameDrag;
-    private javax.swing.JLabel generatedPasswordMD;
-    private javax.swing.JLabel generatedUsernameMD;
     private javax.swing.JPanel informationPanel;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private com.toedter.calendar.JDateChooser jDateChooserMD;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1393,16 +1289,12 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel lblComma;
     private javax.swing.JLabel lblContactMD;
     private javax.swing.JLabel lblEmailMD;
-    private javax.swing.JLabel lblGenPassMD;
-    private javax.swing.JLabel lblGenUIDMD;
     private javax.swing.JLabel lblMD63;
     private javax.swing.JLabel lblNameMD;
     private javax.swing.JLabel lblSexMD;
     private javax.swing.JLabel lblptBday;
     private javax.swing.JLabel lblptContact;
     private javax.swing.JLabel lblptEmail;
-    private javax.swing.JLabel lblptGenPass;
-    private javax.swing.JLabel lblptGenUID;
     private javax.swing.JLabel lblptName;
     private javax.swing.JLabel lblptSex;
     private javax.swing.JLabel logoIcon;

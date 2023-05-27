@@ -496,13 +496,6 @@
                                                   <Component id="mdCivilStatus" min="-2" pref="175" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="lblGenPassMD" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="btnGenPassMD" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="generatedPasswordMD" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
                                                   <Component id="lblBirthDateMD" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                   <Component id="jDateChooserMD" min="-2" pref="192" max="-2" attributes="0"/>
@@ -518,15 +511,8 @@
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="mdSexFemale" min="-2" pref="118" max="-2" attributes="0"/>
                                               </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="lblGenUIDMD" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="btnGenUIDMD" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="generatedUsernameMD" min="-2" max="-2" attributes="0"/>
-                                              </Group>
                                           </Group>
-                                          <EmptySpace min="0" pref="85" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="89" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
                                           <Group type="103" groupAlignment="1" attributes="0">
@@ -605,19 +591,7 @@
                                       <Component id="lblCivilStatMD" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="mdCivilStatus" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblGenUIDMD" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="btnGenUIDMD" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="generatedUsernameMD" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="unrelated" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblGenPassMD" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="btnGenPassMD" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="generatedPasswordMD" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace pref="82" max="32767" attributes="0"/>
                                   <Component id="mdInjectSQL" min="-2" pref="39" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                               </Group>
@@ -792,60 +766,6 @@
                           <Events>
                             <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jDateChooserMDPropertyChange"/>
                           </Events>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="lblGenPassMD">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="18" style="0"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Generated Password:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="generatedPasswordMD">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="18" style="0"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="(generated password)"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="btnGenPassMD">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="12" style="0"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Generate"/>
-                            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                              <Color id="Hand Cursor"/>
-                            </Property>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="lblGenUIDMD">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="18" style="0"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Generated UID:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="btnGenUIDMD">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="12" style="0"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Generate"/>
-                            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                              <Color id="Hand Cursor"/>
-                            </Property>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="generatedUsernameMD">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="18" style="0"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="(generated UID)"/>
-                          </Properties>
                         </Component>
                         <Component class="javax.swing.JButton" name="mdInjectSQL">
                           <Properties>
@@ -1070,20 +990,6 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="lblptGenUID" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jButton5" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="lblptGenPass" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Component id="jButton6" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                                  <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
                                                   <Component id="lblptBday" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                   <Component id="jDateChooser2" min="-2" pref="192" max="-2" attributes="0"/>
@@ -1096,7 +1002,7 @@
                                                   <Component id="jRadioButton4" min="-2" pref="118" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="288" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -1141,21 +1047,9 @@
                                       <Component id="lblptBday" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jDateChooser2" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblptGenPass" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblptGenUID" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace pref="56" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                   <Component id="jButton4" min="-2" pref="39" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace pref="107" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1258,30 +1152,6 @@
                             <Property name="text" type="java.lang.String" value="####-###-####"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lblptGenPass">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="18" style="0"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Generated Password:"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel10">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="18" style="0"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="(generated UID)"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="lblptGenUID">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="18" style="0"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Generated UID:"/>
-                          </Properties>
-                        </Component>
                         <Component class="javax.swing.JLabel" name="lblptBday">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -1309,25 +1179,6 @@
                             <Property name="text" type="java.lang.String" value="Contact Number:"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton5">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="12" style="0"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Generate"/>
-                            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                              <Color id="Hand Cursor"/>
-                            </Property>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel11">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="18" style="0"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="(generated password)"/>
-                          </Properties>
-                        </Component>
                         <Component class="javax.swing.JRadioButton" name="jRadioButton3">
                           <Properties>
                             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
@@ -1340,17 +1191,6 @@
                           </Properties>
                         </Component>
                         <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
-                        </Component>
-                        <Component class="javax.swing.JButton" name="jButton6">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="12" style="0"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Generate"/>
-                            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                              <Color id="Hand Cursor"/>
-                            </Property>
-                          </Properties>
                         </Component>
                         <Component class="javax.swing.JRadioButton" name="jRadioButton4">
                           <Properties>
