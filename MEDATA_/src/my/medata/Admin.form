@@ -422,7 +422,7 @@
                           <Group type="103" rootIndex="5" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                  <Component id="proposedDoctorPanel" min="-2" pref="630" max="-2" attributes="0"/>
+                                  <Component id="addDoctor" min="-2" pref="630" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -453,7 +453,7 @@
                           <Group type="103" rootIndex="5" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="proposedDoctorPanel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="addDoctor" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -461,7 +461,7 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Container class="javax.swing.JPanel" name="proposedDoctorPanel">
+                    <Container class="javax.swing.JPanel" name="addDoctor">
                       <Properties>
                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[615, 455]"/>
@@ -481,9 +481,9 @@
                                   <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="lblContacts1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblContactMD" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblMD63" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="mdContact" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
@@ -491,39 +491,39 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" attributes="0">
-                                                  <Component id="lblBDay3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lblCivilStatMD" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="mdCivilStatus" min="-2" pref="175" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="lblGPass1" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lblGenPassMD" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jButton7" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="btnGenPassMD" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="generatedPassword" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="generatedPasswordMD" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="lblBDay1" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lblBirthDateMD" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Component id="jDateChooser3" min="-2" pref="192" max="-2" attributes="0"/>
+                                                  <Component id="jDateChooserMD" min="-2" pref="192" max="-2" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="lblBDay2" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lblAgeMD" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="mdAge" min="-2" pref="133" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="lblSex1" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lblSexMD" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                   <Component id="mdSexMale" min="-2" pref="65" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="mdSexFemale" min="-2" pref="118" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="lblGUID1" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lblGenUIDMD" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jButton8" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="btnGenUIDMD" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="generatedUsername" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="generatedUsernameMD" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <EmptySpace min="0" pref="85" max="32767" attributes="0"/>
@@ -536,13 +536,13 @@
                                               </Group>
                                               <Group type="102" alignment="1" attributes="0">
                                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="lblEmail1" alignment="0" max="32767" attributes="0"/>
-                                                      <Component id="lblName1" alignment="0" max="32767" attributes="0"/>
+                                                      <Component id="lblEmailMD" alignment="0" max="32767" attributes="0"/>
+                                                      <Component id="lblNameMD" alignment="0" max="32767" attributes="0"/>
                                                   </Group>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="mdLastName" min="-2" pref="133" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="comma2" min="-2" pref="6" max="-2" attributes="0"/>
+                                                  <Component id="lblComma" min="-2" pref="6" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="mdFirstName" max="32767" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
@@ -555,77 +555,77 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                                  <Component id="addDoctorTitle1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblAddDoctor" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jButton9" alignment="0" max="32767" attributes="0"/>
+                              <Component id="mdInjectSQL" alignment="0" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                  <Component id="addDoctorTitle1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblAddDoctor" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblName1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblNameMD" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="mdLastName" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="comma2" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                                      <Component id="lblComma" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                                       <Component id="mdFirstName" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                       <Component id="mdMiddleName" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblEmail1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblEmailMD" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="mdEmail" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblContacts1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblContactMD" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="mdContact" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblMD63" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblSex1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblSexMD" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="mdSexMale" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="mdSexFemale" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lblBDay1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jDateChooser3" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Component id="lblBirthDateMD" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jDateChooserMD" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
                                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                          <Component id="lblBDay2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblAgeMD" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="mdAge" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblBDay3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblCivilStatMD" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="mdCivilStatus" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblGUID1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton8" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="generatedUsername" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblGenUIDMD" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnGenUIDMD" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="generatedUsernameMD" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblGPass1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jButton7" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="generatedPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblGenPassMD" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnGenPassMD" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="generatedPasswordMD" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jButton9" min="-2" pref="39" max="-2" attributes="0"/>
+                                  <Component id="mdInjectSQL" min="-2" pref="39" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="lblName1">
+                        <Component class="javax.swing.JLabel" name="lblNameMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="18" style="0"/>
@@ -633,7 +633,7 @@
                             <Property name="text" type="java.lang.String" value="Name:"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="addDoctorTitle1">
+                        <Component class="javax.swing.JLabel" name="lblAddDoctor">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand Medium" size="24" style="0"/>
@@ -641,7 +641,7 @@
                             <Property name="text" type="java.lang.String" value="Add Doctor"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="comma2">
+                        <Component class="javax.swing.JLabel" name="lblComma">
                           <Properties>
                             <Property name="text" type="java.lang.String" value=","/>
                           </Properties>
@@ -697,7 +697,7 @@
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mdMiddleNameActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lblEmail1">
+                        <Component class="javax.swing.JLabel" name="lblEmailMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="18" style="0"/>
@@ -721,7 +721,7 @@
                             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="mdEmailFocusLost"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lblContacts1">
+                        <Component class="javax.swing.JLabel" name="lblContactMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="18" style="0"/>
@@ -750,7 +750,7 @@
                             <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="Admin_mdContact"/>
                           </AuxValues>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lblSex1">
+                        <Component class="javax.swing.JLabel" name="lblSexMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="18" style="0"/>
@@ -780,7 +780,7 @@
                             <Property name="text" type="java.lang.String" value="Female"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lblBDay1">
+                        <Component class="javax.swing.JLabel" name="lblBirthDateMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="18" style="0"/>
@@ -788,12 +788,12 @@
                             <Property name="text" type="java.lang.String" value="Date of Birth:"/>
                           </Properties>
                         </Component>
-                        <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser3">
+                        <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserMD">
                           <Events>
-                            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jDateChooser3PropertyChange"/>
+                            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jDateChooserMDPropertyChange"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lblGPass1">
+                        <Component class="javax.swing.JLabel" name="lblGenPassMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="18" style="0"/>
@@ -801,7 +801,7 @@
                             <Property name="text" type="java.lang.String" value="Generated Password:"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="generatedPassword">
+                        <Component class="javax.swing.JLabel" name="generatedPasswordMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="18" style="0"/>
@@ -809,7 +809,7 @@
                             <Property name="text" type="java.lang.String" value="(generated password)"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton7">
+                        <Component class="javax.swing.JButton" name="btnGenPassMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="12" style="0"/>
@@ -819,11 +819,8 @@
                               <Color id="Hand Cursor"/>
                             </Property>
                           </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
-                          </Events>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lblGUID1">
+                        <Component class="javax.swing.JLabel" name="lblGenUIDMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="18" style="0"/>
@@ -831,7 +828,7 @@
                             <Property name="text" type="java.lang.String" value="Generated UID:"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton8">
+                        <Component class="javax.swing.JButton" name="btnGenUIDMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="12" style="0"/>
@@ -841,11 +838,8 @@
                               <Color id="Hand Cursor"/>
                             </Property>
                           </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton8ActionPerformed"/>
-                          </Events>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="generatedUsername">
+                        <Component class="javax.swing.JLabel" name="generatedUsernameMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="18" style="0"/>
@@ -853,7 +847,7 @@
                             <Property name="text" type="java.lang.String" value="(generated UID)"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JButton" name="jButton9">
+                        <Component class="javax.swing.JButton" name="mdInjectSQL">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="18" style="0"/>
@@ -864,10 +858,10 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton9ActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mdInjectSQLActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lblBDay2">
+                        <Component class="javax.swing.JLabel" name="lblAgeMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="18" style="0"/>
@@ -891,7 +885,7 @@
                             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="mdAgeFocusLost"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lblBDay3">
+                        <Component class="javax.swing.JLabel" name="lblCivilStatMD">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Quicksand" size="18" style="0"/>
@@ -929,7 +923,7 @@
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="jLabel1">
+                        <Component class="javax.swing.JLabel" name="lblMD63">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Segoe UI" size="18" style="0"/>

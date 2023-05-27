@@ -7,8 +7,8 @@ import java.awt.Font;
 //import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.font.TextAttribute;
-import java.io.File;
-import java.io.IOException;
+//import java.io.File;
+//import java.io.IOException;
 import java.util.Map;
 import javax.swing.JFrame;
 import static javax.swing.SwingConstants.*;
@@ -51,7 +51,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
 //            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("Quicksand-Regular.ttf")));
 //        } catch(IOException | FontFormatException e){
 //             e.printStackTrace();
-//    } 
+//    }
         
    }
 

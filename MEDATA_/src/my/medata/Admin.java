@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import static javax.swing.SwingConstants.*;
+import java.sql.*;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -48,6 +49,7 @@ public class Admin extends javax.swing.JFrame {
     Date dateOfBirth;
     String id, uid;
 
+    Connection con;
     
     private static final String email_Pattern =   "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -62,7 +64,16 @@ public class Admin extends javax.swing.JFrame {
         jLayeredPane1.setVisible(false);
         welcomePage.setVisible(true);
     
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
    }
+    
+     
     
     
     public void setDisplay(JPanel Panel){
@@ -99,7 +110,7 @@ public class Admin extends javax.swing.JFrame {
         firstName = mdFirstName.getText();
         
         for (int i = 0; i < 10; i++) {
-            id = new UIDGenerator().generateUID(lastName, firstName, jDateChooser3.getDate(), uid);
+            id = new UIDGenerator().generateUID(lastName, firstName, jDateChooserMD.getDate(), uid);
         }
         uid = id;
         
@@ -108,7 +119,7 @@ public class Admin extends javax.swing.JFrame {
     
     
     private void updateAgeLabel() {
-        LocalDate selectedDate = jDateChooser3.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate selectedDate = jDateChooserMD.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate currentDate = LocalDate.now();
         Period period = Period.between(selectedDate, currentDate);
         int age = period.getYears();
@@ -129,7 +140,7 @@ public class Admin extends javax.swing.JFrame {
             sex = mdSexFemale.getText();
         }
         SimpleDateFormat birthDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateOfBirth = birthDateFormatter.format(jDateChooser3.getDate());
+        String dateOfBirth = birthDateFormatter.format(jDateChooserMD.getDate());
         String civilStatus;
         if (mdCivilStatus.getSelectedIndex() == 0) {
             civilStatus = "Single";
@@ -145,7 +156,24 @@ public class Admin extends javax.swing.JFrame {
         int height = 0;
         int weight = 0;
         String role = "doctor";
-        username = new UIDGenerator().generateUID(lastName, firstName, jDateChooser3.getDate(), uid);
+        int username_count = 0;
+        do {
+           try {
+               username = new UIDGenerator().generateUID(lastName, firstName, jDateChooserMD.getDate(), uid);
+               String sql = "Select COUNT(username) as username_count from userinfo where username = ?";
+               PreparedStatement pst = con.prepareStatement(sql);
+               pst.setString(1, username);
+
+               ResultSet resultSet = pst.executeQuery();
+               if (resultSet.next()) {
+                   username_count = resultSet.getInt("username_count");
+               }
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+       } while (username_count > 0);
+       
+   
         password = new passwordGenerator().generatePassword(lastName);
         createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role);
     }
@@ -178,34 +206,34 @@ public class Admin extends javax.swing.JFrame {
         uiButtonPanel = new javax.swing.JPanel();
         windowPanel = new javax.swing.JPanel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        proposedDoctorPanel = new javax.swing.JPanel();
-        lblName1 = new javax.swing.JLabel();
-        addDoctorTitle1 = new javax.swing.JLabel();
-        comma2 = new javax.swing.JLabel();
+        addDoctor = new javax.swing.JPanel();
+        lblNameMD = new javax.swing.JLabel();
+        lblAddDoctor = new javax.swing.JLabel();
+        lblComma = new javax.swing.JLabel();
         mdLastName = new javax.swing.JTextField();
         mdFirstName = new javax.swing.JTextField();
         mdMiddleName = new javax.swing.JTextField();
-        lblEmail1 = new javax.swing.JLabel();
+        lblEmailMD = new javax.swing.JLabel();
         mdEmail = new javax.swing.JTextField();
-        lblContacts1 = new javax.swing.JLabel();
+        lblContactMD = new javax.swing.JLabel();
         mdContact = new javax.swing.JTextField();
-        lblSex1 = new javax.swing.JLabel();
+        lblSexMD = new javax.swing.JLabel();
         mdSexMale = new javax.swing.JRadioButton();
         mdSexFemale = new javax.swing.JRadioButton();
-        lblBDay1 = new javax.swing.JLabel();
-        jDateChooser3 = new com.toedter.calendar.JDateChooser();
-        lblGPass1 = new javax.swing.JLabel();
-        generatedPassword = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
-        lblGUID1 = new javax.swing.JLabel();
-        jButton8 = new javax.swing.JButton();
-        generatedUsername = new javax.swing.JLabel();
-        jButton9 = new javax.swing.JButton();
-        lblBDay2 = new javax.swing.JLabel();
+        lblBirthDateMD = new javax.swing.JLabel();
+        jDateChooserMD = new com.toedter.calendar.JDateChooser();
+        lblGenPassMD = new javax.swing.JLabel();
+        generatedPasswordMD = new javax.swing.JLabel();
+        btnGenPassMD = new javax.swing.JButton();
+        lblGenUIDMD = new javax.swing.JLabel();
+        btnGenUIDMD = new javax.swing.JButton();
+        generatedUsernameMD = new javax.swing.JLabel();
+        mdInjectSQL = new javax.swing.JButton();
+        lblAgeMD = new javax.swing.JLabel();
         mdAge = new javax.swing.JTextField();
-        lblBDay3 = new javax.swing.JLabel();
+        lblCivilStatMD = new javax.swing.JLabel();
         mdCivilStatus = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
+        lblMD63 = new javax.swing.JLabel();
         removePage = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         reportsPage = new javax.swing.JPanel();
@@ -404,17 +432,17 @@ public class Admin extends javax.swing.JFrame {
 
         jLayeredPane1.setPreferredSize(new java.awt.Dimension(689, 461));
 
-        proposedDoctorPanel.setMaximumSize(new java.awt.Dimension(615, 455));
-        proposedDoctorPanel.setMinimumSize(new java.awt.Dimension(615, 455));
-        proposedDoctorPanel.setPreferredSize(new java.awt.Dimension(615, 455));
+        addDoctor.setMaximumSize(new java.awt.Dimension(615, 455));
+        addDoctor.setMinimumSize(new java.awt.Dimension(615, 455));
+        addDoctor.setPreferredSize(new java.awt.Dimension(615, 455));
 
-        lblName1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblName1.setText("Name:");
+        lblNameMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblNameMD.setText("Name:");
 
-        addDoctorTitle1.setFont(new java.awt.Font("Quicksand Medium", 0, 24)); // NOI18N
-        addDoctorTitle1.setText("Add Doctor");
+        lblAddDoctor.setFont(new java.awt.Font("Quicksand Medium", 0, 24)); // NOI18N
+        lblAddDoctor.setText("Add Doctor");
 
-        comma2.setText(",");
+        lblComma.setText(",");
 
         mdLastName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         mdLastName.setForeground(new java.awt.Color(153, 153, 153));
@@ -470,8 +498,8 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
-        lblEmail1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblEmail1.setText("Email:");
+        lblEmailMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblEmailMD.setText("Email:");
 
         mdEmail.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         mdEmail.setForeground(new java.awt.Color(153, 153, 153));
@@ -486,8 +514,8 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
-        lblContacts1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblContacts1.setText("Contact Number:");
+        lblContactMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblContactMD.setText("Contact Number:");
 
         mdContact.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
         mdContact.setForeground(new java.awt.Color(153, 153, 153));
@@ -510,8 +538,8 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
-        lblSex1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblSex1.setText("Sex:");
+        lblSexMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblSexMD.setText("Sex:");
 
         buttonGroup1.add(mdSexMale);
         mdSexMale.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
@@ -521,56 +549,46 @@ public class Admin extends javax.swing.JFrame {
         mdSexFemale.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         mdSexFemale.setText("Female");
 
-        lblBDay1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblBDay1.setText("Date of Birth:");
+        lblBirthDateMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblBirthDateMD.setText("Date of Birth:");
 
-        jDateChooser3.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        jDateChooserMD.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jDateChooser3PropertyChange(evt);
+                jDateChooserMDPropertyChange(evt);
             }
         });
 
-        lblGPass1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblGPass1.setText("Generated Password:");
+        lblGenPassMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblGenPassMD.setText("Generated Password:");
 
-        generatedPassword.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        generatedPassword.setText("(generated password)");
+        generatedPasswordMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        generatedPasswordMD.setText("(generated password)");
 
-        jButton7.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        jButton7.setText("Generate");
-        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btnGenPassMD.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        btnGenPassMD.setText("Generate");
+        btnGenPassMD.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        lblGenUIDMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblGenUIDMD.setText("Generated UID:");
+
+        btnGenUIDMD.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        btnGenUIDMD.setText("Generate");
+        btnGenUIDMD.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        generatedUsernameMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        generatedUsernameMD.setText("(generated UID)");
+
+        mdInjectSQL.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        mdInjectSQL.setText("Add");
+        mdInjectSQL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        mdInjectSQL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                mdInjectSQLActionPerformed(evt);
             }
         });
 
-        lblGUID1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblGUID1.setText("Generated UID:");
-
-        jButton8.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        jButton8.setText("Generate");
-        jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        generatedUsername.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        generatedUsername.setText("(generated UID)");
-
-        jButton9.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        jButton9.setText("Add");
-        jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-
-        lblBDay2.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblBDay2.setText("Age:");
+        lblAgeMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblAgeMD.setText("Age:");
 
         mdAge.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         mdAge.setForeground(new java.awt.Color(153, 153, 153));
@@ -585,9 +603,9 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
-        lblBDay3.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblBDay3.setText("Civil Status:");
-        lblBDay3.setPreferredSize(new java.awt.Dimension(95, 30));
+        lblCivilStatMD.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblCivilStatMD.setText("Civil Status:");
+        lblCivilStatMD.setPreferredSize(new java.awt.Dimension(95, 30));
 
         mdCivilStatus.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         mdCivilStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Single", "Married", "Divorced", "Widowed" }));
@@ -595,129 +613,129 @@ public class Admin extends javax.swing.JFrame {
         mdCivilStatus.setMinimumSize(new java.awt.Dimension(100, 30));
         mdCivilStatus.setPreferredSize(new java.awt.Dimension(100, 30));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("+63");
+        lblMD63.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblMD63.setText("+63");
 
-        javax.swing.GroupLayout proposedDoctorPanelLayout = new javax.swing.GroupLayout(proposedDoctorPanel);
-        proposedDoctorPanel.setLayout(proposedDoctorPanelLayout);
-        proposedDoctorPanelLayout.setHorizontalGroup(
-            proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout addDoctorLayout = new javax.swing.GroupLayout(addDoctor);
+        addDoctor.setLayout(addDoctorLayout);
+        addDoctorLayout.setHorizontalGroup(
+            addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addDoctorLayout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
-                        .addComponent(lblContacts1)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addDoctorLayout.createSequentialGroup()
+                        .addComponent(lblContactMD)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1)
+                        .addComponent(lblMD63)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(mdContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
-                        .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
-                                .addComponent(lblBDay3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(addDoctorLayout.createSequentialGroup()
+                        .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(addDoctorLayout.createSequentialGroup()
+                                .addComponent(lblCivilStatMD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(mdCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
-                                .addComponent(lblGPass1)
+                            .addGroup(addDoctorLayout.createSequentialGroup()
+                                .addComponent(lblGenPassMD)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7)
+                                .addComponent(btnGenPassMD)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(generatedPassword))
-                            .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
-                                .addComponent(lblBDay1)
+                                .addComponent(generatedPasswordMD))
+                            .addGroup(addDoctorLayout.createSequentialGroup()
+                                .addComponent(lblBirthDateMD)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jDateChooserMD, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(lblBDay2)
+                                .addComponent(lblAgeMD)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(mdAge, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
-                                .addComponent(lblSex1)
+                            .addGroup(addDoctorLayout.createSequentialGroup()
+                                .addComponent(lblSexMD)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(mdSexMale, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(mdSexFemale, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
-                                .addComponent(lblGUID1)
+                            .addGroup(addDoctorLayout.createSequentialGroup()
+                                .addComponent(lblGenUIDMD)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton8)
+                                .addComponent(btnGenUIDMD)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(generatedUsername)))
+                                .addComponent(generatedUsernameMD)))
                         .addGap(0, 85, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, proposedDoctorPanelLayout.createSequentialGroup()
-                        .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addDoctorLayout.createSequentialGroup()
+                        .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(addDoctorLayout.createSequentialGroup()
                                 .addGap(58, 58, 58)
                                 .addComponent(mdEmail))
-                            .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
-                                .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblEmail1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblName1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(addDoctorLayout.createSequentialGroup()
+                                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblEmailMD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNameMD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(mdLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comma2, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblComma, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(mdFirstName)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(mdMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(28, 28, 28))))
-            .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
+            .addGroup(addDoctorLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(addDoctorTitle1)
+                .addComponent(lblAddDoctor)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mdInjectSQL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        proposedDoctorPanelLayout.setVerticalGroup(
-            proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
+        addDoctorLayout.setVerticalGroup(
+            addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addDoctorLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(addDoctorTitle1)
+                .addComponent(lblAddDoctor)
                 .addGap(36, 36, 36)
-                .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName1)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNameMD)
                     .addComponent(mdLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comma2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblComma, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(mdFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(mdMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblEmail1)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEmailMD)
                     .addComponent(mdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblContacts1)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblContactMD)
                     .addComponent(mdContact, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(lblMD63))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSex1)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSexMD)
                     .addComponent(mdSexMale)
                     .addComponent(mdSexFemale))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblBDay1)
-                    .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblBDay2)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblBirthDateMD)
+                    .addComponent(jDateChooserMD, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblAgeMD)
                         .addComponent(mdAge, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(12, 12, 12)
-                .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblBDay3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCivilStatMD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(mdCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
-                .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblGUID1)
-                    .addComponent(jButton8)
-                    .addComponent(generatedUsername))
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblGenUIDMD)
+                    .addComponent(btnGenUIDMD)
+                    .addComponent(generatedUsernameMD))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblGPass1)
-                    .addComponent(jButton7)
-                    .addComponent(generatedPassword))
+                .addGroup(addDoctorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblGenPassMD)
+                    .addComponent(btnGenPassMD)
+                    .addComponent(generatedPasswordMD))
                 .addGap(18, 18, 18)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mdInjectSQL, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8))
         );
 
@@ -963,7 +981,7 @@ public class Admin extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLayeredPane1.setLayer(proposedDoctorPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(addDoctor, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(removePage, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(reportsPage, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(requestPage, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -973,7 +991,7 @@ public class Admin extends javax.swing.JFrame {
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 637, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(addPatient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -987,12 +1005,12 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addGap(1, 1, 1)
-                    .addComponent(proposedDoctorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 467, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addComponent(addPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1009,7 +1027,7 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(proposedDoctorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -1170,7 +1188,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_frameDragMousePressed
 
     private void addDoctorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDoctorBtnActionPerformed
-        setDisplay(proposedDoctorPanel);
+        setDisplay(addDoctor);
     }//GEN-LAST:event_addDoctorBtnActionPerformed
 
     private void addPatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPatBtnActionPerformed
@@ -1189,20 +1207,10 @@ public class Admin extends javax.swing.JFrame {
         setDisplay(removePage);
     }//GEN-LAST:event_reportsBtnActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void mdInjectSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mdInjectSQLActionPerformed
         injectData();
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-
-        generatedUsername.setText(generateID());
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        
-        password = new passwordGenerator().generatePassword(lastName);
-        generatedPassword.setText(password);
-    }//GEN-LAST:event_jButton7ActionPerformed
+        JOptionPane.showMessageDialog(null, "Username: " + username + "\n Password: " + password, "Credentials", JOptionPane.INFORMATION_MESSAGE); 
+    }//GEN-LAST:event_mdInjectSQLActionPerformed
 
     private void mdLastNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdLastNameFocusGained
         focusOn(mdLastName, "Last Name");
@@ -1243,10 +1251,10 @@ public class Admin extends javax.swing.JFrame {
         if (!mdEmail.getText().matches(email_Pattern)) {
             JOptionPane.showMessageDialog(null, "Invalid email format", "Error", JOptionPane.ERROR_MESSAGE);
             mdEmail.setForeground(red);
-            jButton9.setEnabled(false);
+            mdInjectSQL.setEnabled(false);
         } else if (mdEmail.getText().matches(email_Pattern) && !mdEmail.getText().equals("youdata@gmail.com")){
             mdEmail.setForeground(black);
-            jButton9.setEnabled(true);
+            mdInjectSQL.setEnabled(true);
         }else{
             focusOff(mdEmail, "youdata@gmail.com");
         }
@@ -1274,11 +1282,11 @@ public class Admin extends javax.swing.JFrame {
        focusOff(mdAge, "Age");
     }//GEN-LAST:event_mdAgeFocusLost
 
-    private void jDateChooser3PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser3PropertyChange
+    private void jDateChooserMDPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserMDPropertyChange
         if ("date".equals(evt.getPropertyName())) {
             updateAgeLabel();
         }
-    }//GEN-LAST:event_jDateChooser3PropertyChange
+    }//GEN-LAST:event_jDateChooserMDPropertyChange
 
     private void mdContactKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mdContactKeyTyped
 
@@ -1348,31 +1356,28 @@ public class Admin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel addDoctor;
     private javax.swing.JButton addDoctorBtn;
-    private javax.swing.JLabel addDoctorTitle1;
     private javax.swing.JButton addPatBtn;
     private javax.swing.JPanel addPatient;
     private javax.swing.JLabel addPatientTitle;
     private javax.swing.JLabel adminInformation;
     private javax.swing.JLabel adminPicture;
     private javax.swing.JLabel background;
+    private javax.swing.JButton btnGenPassMD;
+    private javax.swing.JButton btnGenUIDMD;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel comma1;
-    private javax.swing.JLabel comma2;
     private javax.swing.JButton exit;
     private javax.swing.JLabel frameDrag;
-    private javax.swing.JLabel generatedPassword;
-    private javax.swing.JLabel generatedUsername;
+    private javax.swing.JLabel generatedPasswordMD;
+    private javax.swing.JLabel generatedUsernameMD;
     private javax.swing.JPanel informationPanel;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private com.toedter.calendar.JDateChooser jDateChooser2;
-    private com.toedter.calendar.JDateChooser jDateChooser3;
-    private javax.swing.JLabel jLabel1;
+    private com.toedter.calendar.JDateChooser jDateChooserMD;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel6;
@@ -1381,15 +1386,18 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JLabel lblBDay1;
-    private javax.swing.JLabel lblBDay2;
-    private javax.swing.JLabel lblBDay3;
-    private javax.swing.JLabel lblContacts1;
-    private javax.swing.JLabel lblEmail1;
-    private javax.swing.JLabel lblGPass1;
-    private javax.swing.JLabel lblGUID1;
-    private javax.swing.JLabel lblName1;
-    private javax.swing.JLabel lblSex1;
+    private javax.swing.JLabel lblAddDoctor;
+    private javax.swing.JLabel lblAgeMD;
+    private javax.swing.JLabel lblBirthDateMD;
+    private javax.swing.JLabel lblCivilStatMD;
+    private javax.swing.JLabel lblComma;
+    private javax.swing.JLabel lblContactMD;
+    private javax.swing.JLabel lblEmailMD;
+    private javax.swing.JLabel lblGenPassMD;
+    private javax.swing.JLabel lblGenUIDMD;
+    private javax.swing.JLabel lblMD63;
+    private javax.swing.JLabel lblNameMD;
+    private javax.swing.JLabel lblSexMD;
     private javax.swing.JLabel lblptBday;
     private javax.swing.JLabel lblptContact;
     private javax.swing.JLabel lblptEmail;
@@ -1404,6 +1412,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JTextField mdContact;
     private javax.swing.JTextField mdEmail;
     private javax.swing.JTextField mdFirstName;
+    private javax.swing.JButton mdInjectSQL;
     private javax.swing.JTextField mdLastName;
     private javax.swing.JTextField mdMiddleName;
     private javax.swing.JRadioButton mdSexFemale;
@@ -1411,7 +1420,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton minimized;
     private javax.swing.JPanel navbar;
     private javax.swing.JLabel organizationTitle;
-    private javax.swing.JPanel proposedDoctorPanel;
     private javax.swing.JTextField ptContacts1;
     private javax.swing.JTextField ptEmail1;
     private javax.swing.JTextField ptFirstName1;
