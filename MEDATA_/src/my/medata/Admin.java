@@ -39,7 +39,6 @@ public class Admin extends javax.swing.JFrame {
     /**
      * Creates new form Admin_Page
      */
-    String uid;
    //Font fn;
     int xMouse, yMouse;
     String username;
@@ -47,8 +46,8 @@ public class Admin extends javax.swing.JFrame {
     String lastName;
     String firstName;
     Date dateOfBirth;
-    String id;
-    UIDGenerator generateID = new UIDGenerator();
+    String id, uid;
+
     
     private static final String email_Pattern =   "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";

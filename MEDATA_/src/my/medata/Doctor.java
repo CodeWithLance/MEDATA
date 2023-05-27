@@ -39,14 +39,12 @@ public class Doctor extends javax.swing.JFrame {
     String lastName;
     String firstName;
     Date dateOfBirth;
-    String id;
-    
+    String id, uid;
+
     
     private static final String email_Pattern =   "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     
-    
-    UIDGenerator generateID = new UIDGenerator();
     public Doctor() {
         initComponents();
         setLocationRelativeTo(null);
@@ -92,12 +90,11 @@ public class Doctor extends javax.swing.JFrame {
     }  
      
     public String generateID(){
-        String uid;
         lastName = mdLastName.getText();
         firstName = mdFirstName.getText();
         
         for (int i = 0; i < 10; i++) {
-            id = generateID.generateUID(lastName, firstName, jDateChooser3.getDate());
+            id = new UIDGenerator().generateUID(lastName, firstName, jDateChooser3.getDate(), uid);
         }
         uid = id;
         
@@ -113,7 +110,7 @@ public class Doctor extends javax.swing.JFrame {
         mdAge.setText(String.valueOf(age));
     }
     
-    void injectData() {
+ void injectData() {
         lastName = mdLastName.getText();
         firstName = mdFirstName.getText();
         String middleName = mdMiddleName.getText();
@@ -141,11 +138,10 @@ public class Doctor extends javax.swing.JFrame {
         String address = "";
         int height = 0;
         int weight = 0;
-        String role = "doctor";
-        username = new usernameGenerator().generateUsername(lastName, firstName, jDateChooser3.getDate());
+        String role = "patient";
+        username = new UIDGenerator().generateUID(lastName, firstName, jDateChooser3.getDate(), uid);
         password = new passwordGenerator().generatePassword(lastName);
-        String confirmPassword = "";
-        createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, confirmPassword,role);
+        createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role);
     }
     
     
