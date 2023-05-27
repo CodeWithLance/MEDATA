@@ -60,18 +60,18 @@ public class MEDATA_Application extends javax.swing.JFrame {
                     return;
                 } else {
                     JOptionPane.showMessageDialog(null, "Welcome!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    
+
                     String query = "SELECT role FROM userinfo WHERE username = ?";
                     PreparedStatement statement = con.prepareStatement(query);
                     statement.setString(1, enterUsername.getText());
                     ResultSet rs = statement.executeQuery();
                     String result = null;
-                    
+
                     if (rs.next()) {
                         result = resultSet.getString("role");
                         rs.close();
                         statement.close();
-                        
+
                         if (result.equals("admin")) {
                             dispose();
                             new Admin().setVisible(true);
@@ -89,7 +89,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "You're username and password does not match any data in our system.", "Sorry", JOptionPane.INFORMATION_MESSAGE);
             }
-            
+
             pst.close();
             resultSet.close();
         } catch (Exception e) {
@@ -152,12 +152,12 @@ public class MEDATA_Application extends javax.swing.JFrame {
             textfield.setHorizontalAlignment(CENTER);
         }
     }
-    
-    void mouseEnter(JButton button){
+
+    void mouseEnter(JButton button) {
         button.setContentAreaFilled(true);
     }
-    
-    void mouseExit(JButton button){
+
+    void mouseExit(JButton button) {
         button.setContentAreaFilled(false);
     }
 
@@ -177,6 +177,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
         enterPassword = new javax.swing.JPasswordField();
         forgotPassword = new javax.swing.JLabel();
         signIn = new javax.swing.JButton();
+        showPassword = new javax.swing.JCheckBox();
         frameDrag = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
 
@@ -317,6 +318,16 @@ public class MEDATA_Application extends javax.swing.JFrame {
             }
         });
 
+        showPassword.setText("Show Password");
+        showPassword.setMaximumSize(new java.awt.Dimension(105, 25));
+        showPassword.setMinimumSize(new java.awt.Dimension(105, 25));
+        showPassword.setPreferredSize(new java.awt.Dimension(105, 25));
+        showPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showPasswordActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout logInPanelLayout = new javax.swing.GroupLayout(logInPanel);
         logInPanel.setLayout(logInPanelLayout);
         logInPanelLayout.setHorizontalGroup(
@@ -338,6 +349,8 @@ public class MEDATA_Application extends javax.swing.JFrame {
                             .addComponent(forgotPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(signIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(50, 50, 50)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(showPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         logInPanelLayout.setVerticalGroup(
@@ -350,7 +363,9 @@ public class MEDATA_Application extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 200, Short.MAX_VALUE)
                 .addComponent(enterUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(enterPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(logInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(enterPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addComponent(forgotPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
@@ -391,9 +406,9 @@ public class MEDATA_Application extends javax.swing.JFrame {
     }//GEN-LAST:event_frameDragMouseDragged
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
-        int exit = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?", 
-                "Exit",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-        if (exit == 0){//yes
+        int exit = JOptionPane.showOptionDialog(null, "Are you sure you want to exit?",
+                "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        if (exit == 0) {//yes
             System.exit(0);
         }
     }//GEN-LAST:event_exitActionPerformed
@@ -413,7 +428,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
     private void enterPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_enterPasswordFocusGained
         focusOn(enterPassword, "Password");
         enterPassword.setEchoChar('\u2022');
-        enterPassword.selectAll();       
+        enterPassword.selectAll();
     }//GEN-LAST:event_enterPasswordFocusGained
 
     private void enterPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_enterPasswordFocusLost
@@ -421,7 +436,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
             enterPassword.setText("Password");
             enterPassword.setForeground(gray);
             enterPassword.setHorizontalAlignment(CENTER);
-            enterPassword.setEchoChar((char)0);
+            enterPassword.setEchoChar((char) 0);
         }
     }//GEN-LAST:event_enterPasswordFocusLost
 
@@ -452,6 +467,10 @@ public class MEDATA_Application extends javax.swing.JFrame {
     }//GEN-LAST:event_enterUsernameKeyPressed
 
     private void enterPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enterPasswordKeyPressed
+        if(showPassword.isSelected()){
+            enterPassword.setEchoChar((char)0);
+        }
+        
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             validateTextfieldInput();
         }
@@ -481,11 +500,23 @@ public class MEDATA_Application extends javax.swing.JFrame {
         mouseExit(signIn);
     }//GEN-LAST:event_signInMouseExited
 
+    private void showPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPasswordActionPerformed
+        if (enterPassword.getText().equals("Password")) {
+            //Empty || Null
+        } else {
+            if (showPassword.isSelected()) {
+                enterPassword.setEchoChar((char) 0);
+            } else {
+                enterPassword.setEchoChar('\u2022');
+            }
+        }
+    }//GEN-LAST:event_showPasswordActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -528,6 +559,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
     private javax.swing.JLabel frameDrag;
     private javax.swing.JPanel logInPanel;
     private javax.swing.JButton minimized;
+    private javax.swing.JCheckBox showPassword;
     private javax.swing.JButton signIn;
     // End of variables declaration//GEN-END:variables
 }
