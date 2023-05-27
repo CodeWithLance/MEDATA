@@ -514,9 +514,6 @@ public class Admin extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 mdContactKeyPressed(evt);
             }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                mdContactKeyReleased(evt);
-            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 mdContactKeyTyped(evt);
             }
@@ -656,7 +653,7 @@ public class Admin extends javax.swing.JFrame {
                                 .addComponent(jButton8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(generatedUsername)))
-                        .addGap(0, 85, Short.MAX_VALUE))
+                        .addGap(0, 70, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, proposedDoctorPanelLayout.createSequentialGroup()
                         .addGroup(proposedDoctorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(proposedDoctorPanelLayout.createSequentialGroup()
@@ -1430,15 +1427,16 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_mdEmailFocusGained
 
     private void mdEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdEmailFocusLost
-        focusOff(mdEmail, "youdata@gmail.com");
-       
+     
         if (!mdEmail.getText().matches(email_Pattern)) {
             JOptionPane.showMessageDialog(null, "Invalid email format", "Error", JOptionPane.ERROR_MESSAGE);
             mdEmail.setForeground(red);
             jButton9.setEnabled(false);
-        } else {
+        } else if (mdEmail.getText().matches(email_Pattern) && !mdEmail.getText().equals("youdata@gmail.com")){
             mdEmail.setForeground(black);
             jButton9.setEnabled(true);
+        }else{
+            focusOff(mdEmail, "youdata@gmail.com");
         }
     }//GEN-LAST:event_mdEmailFocusLost
 
@@ -1471,8 +1469,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jDateChooser3PropertyChange
 
     private void mdContactKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mdContactKeyTyped
-                
-        
+
         char c = evt.getKeyChar();
         String b = mdContact.getText();
         
@@ -1484,10 +1481,6 @@ public class Admin extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Reached contact number limit", "Error", JOptionPane.ERROR_MESSAGE);
             }
     }//GEN-LAST:event_mdContactKeyTyped
-
-    private void mdContactKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mdContactKeyReleased
-
-    }//GEN-LAST:event_mdContactKeyReleased
 
     private void mdContactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mdContactKeyPressed
        String contactNumber = mdContact.getText();

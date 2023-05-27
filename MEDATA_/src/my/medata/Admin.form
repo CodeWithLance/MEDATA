@@ -366,7 +366,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLayeredPane1" alignment="0" pref="631" max="32767" attributes="0"/>
+                      <Component id="jLayeredPane1" alignment="0" max="32767" attributes="0"/>
                       <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -403,13 +403,13 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="addDoctorInitialPanel" alignment="0" pref="637" max="32767" attributes="0"/>
+                          <Component id="addDoctorInitialPanel" alignment="0" pref="689" max="32767" attributes="0"/>
                           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                               <Component id="addPatient" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="103" rootIndex="2" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="requestPage" pref="631" max="32767" attributes="0"/>
+                                  <Component id="requestPage" pref="683" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -741,7 +741,6 @@
                             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="mdContactFocusGained"/>
                             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="mdContactFocusLost"/>
                             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="mdContactKeyPressed"/>
-                            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="mdContactKeyReleased"/>
                             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="mdContactKeyTyped"/>
                           </Events>
                           <AuxValues>
@@ -1721,7 +1720,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                               <Component id="welcomeAdmin" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="497" max="32767" attributes="0"/>
+                              <EmptySpace pref="549" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
