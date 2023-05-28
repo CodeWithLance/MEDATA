@@ -160,7 +160,6 @@ public class Doctor extends javax.swing.JFrame {
         navbar = new javax.swing.JPanel();
         addDoctorBtn = new javax.swing.JButton();
         addPatBtn = new javax.swing.JButton();
-        requestsBtn = new javax.swing.JButton();
         reportsBtn = new javax.swing.JButton();
         removeBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -301,7 +300,7 @@ public class Doctor extends javax.swing.JFrame {
         jPanel3.setOpaque(false);
 
         navbar.setOpaque(false);
-        navbar.setLayout(new java.awt.GridLayout(5, 1));
+        navbar.setLayout(new java.awt.GridLayout(4, 1));
 
         addDoctorBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
         addDoctorBtn.setText("Add Patient");
@@ -321,15 +320,6 @@ public class Doctor extends javax.swing.JFrame {
             }
         });
         navbar.add(addPatBtn);
-
-        requestsBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        requestsBtn.setText("Requests");
-        requestsBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                requestsBtnActionPerformed(evt);
-            }
-        });
-        navbar.add(requestsBtn);
 
         reportsBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
         reportsBtn.setText("List of Patients");
@@ -802,7 +792,7 @@ public class Doctor extends javax.swing.JFrame {
         windowPanel.setLayout(windowPanelLayout);
         windowPanelLayout.setHorizontalGroup(
             windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, Short.MAX_VALUE)
             .addGroup(windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(windowPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -811,7 +801,7 @@ public class Doctor extends javax.swing.JFrame {
         );
         windowPanelLayout.setVerticalGroup(
             windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, Short.MAX_VALUE)
             .addGroup(windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(windowPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -857,7 +847,7 @@ public class Doctor extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 13, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -869,7 +859,7 @@ public class Doctor extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         frameDrag.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -959,10 +949,6 @@ public class Doctor extends javax.swing.JFrame {
     private void addPatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPatBtnActionPerformed
         setDisplay(schedule);
     }//GEN-LAST:event_addPatBtnActionPerformed
-
-    private void requestsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestsBtnActionPerformed
-        setDisplay(requestPage);
-    }//GEN-LAST:event_requestsBtnActionPerformed
 
     private void reportsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportsBtnActionPerformed
         setDisplay(listofpatients);
@@ -1162,7 +1148,6 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JButton removeBtn;
     private javax.swing.JButton reportsBtn;
     private javax.swing.JPanel requestPage;
-    private javax.swing.JButton requestsBtn;
     private javax.swing.JPanel schedule;
     private javax.swing.JPanel tba;
     private javax.swing.JLabel welcomeAdmin;
