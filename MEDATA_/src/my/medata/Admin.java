@@ -465,19 +465,23 @@ public class Admin extends javax.swing.JFrame {
 
         jLayeredPane1.setPreferredSize(new java.awt.Dimension(689, 461));
 
-        addUser.setMaximumSize(new java.awt.Dimension(615, 455));
-        addUser.setMinimumSize(new java.awt.Dimension(615, 455));
-        addUser.setPreferredSize(new java.awt.Dimension(615, 455));
+        addUser.setMaximumSize(new java.awt.Dimension(600, 400));
+        addUser.setMinimumSize(new java.awt.Dimension(600, 400));
+        addUser.setPreferredSize(new java.awt.Dimension(600, 400));
+        addUser.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblName.setText("Name:");
+        addUser.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 89, -1, -1));
 
         lblAddUser.setFont(new java.awt.Font("Quicksand Medium", 0, 24)); // NOI18N
         lblAddUser.setText("Add User");
+        addUser.add(lblAddUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 18, -1, -1));
 
         lblComma.setText(",");
+        addUser.add(lblComma, new org.netbeans.lib.awtextra.AbsoluteConstraints(236, 92, 6, 22));
 
-        tfLastName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        tfLastName.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
         tfLastName.setForeground(new java.awt.Color(153, 153, 153));
         tfLastName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfLastName.setText("Last Name");
@@ -489,11 +493,15 @@ public class Admin extends javax.swing.JFrame {
                 tfLastNameFocusLost(evt);
             }
         });
+        addUser.add(tfLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(97, 86, 133, 30));
 
-        tfFirstName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        tfFirstName.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
         tfFirstName.setForeground(new java.awt.Color(153, 153, 153));
         tfFirstName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfFirstName.setText("First Name");
+        tfFirstName.setMaximumSize(new java.awt.Dimension(190, 30));
+        tfFirstName.setMinimumSize(new java.awt.Dimension(190, 30));
+        tfFirstName.setPreferredSize(new java.awt.Dimension(190, 30));
         tfFirstName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 tfFirstNameFocusGained(evt);
@@ -502,8 +510,9 @@ public class Admin extends javax.swing.JFrame {
                 tfFirstNameFocusLost(evt);
             }
         });
+        addUser.add(tfFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(248, 86, 190, -1));
 
-        tfMiddleName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        tfMiddleName.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
         tfMiddleName.setForeground(new java.awt.Color(153, 153, 153));
         tfMiddleName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfMiddleName.setText("Middle Name");
@@ -515,11 +524,13 @@ public class Admin extends javax.swing.JFrame {
                 tfMiddleNameFocusLost(evt);
             }
         });
+        addUser.add(tfMiddleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(447, 86, 140, 30));
 
         lblEmail.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblEmail.setText("Email:");
+        addUser.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 131, 52, -1));
 
-        tfEmail.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        tfEmail.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
         tfEmail.setForeground(new java.awt.Color(153, 153, 153));
         tfEmail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfEmail.setText("youdata@gmail.com");
@@ -531,9 +542,11 @@ public class Admin extends javax.swing.JFrame {
                 tfEmailFocusLost(evt);
             }
         });
+        addUser.add(tfEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(97, 128, 490, 30));
 
         lblContact.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblContact.setText("Contact Number:");
+        addUser.add(lblContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 171, -1, -1));
 
         tfContact.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
         tfContact.setForeground(new java.awt.Color(153, 153, 153));
@@ -555,26 +568,33 @@ public class Admin extends javax.swing.JFrame {
                 tfContactKeyTyped(evt);
             }
         });
+        addUser.add(tfContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(224, 170, -1, 30));
 
         lblSex.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblSex.setText("Sex:");
+        addUser.add(lblSex, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 214, -1, -1));
 
         buttonGroup1.add(rbMaleSex);
         rbMaleSex.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        rbMaleSex.setSelected(true);
         rbMaleSex.setText("Male");
+        addUser.add(rbMaleSex, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 212, 65, -1));
 
         buttonGroup1.add(rbFemaleSex);
         rbFemaleSex.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         rbFemaleSex.setText("Female");
+        addUser.add(rbFemaleSex, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 212, 118, -1));
 
         lblBirthDate.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblBirthDate.setText("Date of Birth:");
+        addUser.add(lblBirthDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 253, -1, -1));
 
         jDateChooser1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jDateChooser1PropertyChange(evt);
             }
         });
+        addUser.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 253, 192, 30));
 
         btnAddUserToSQL.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         btnAddUserToSQL.setText("Add");
@@ -584,131 +604,36 @@ public class Admin extends javax.swing.JFrame {
                 btnAddUserToSQLActionPerformed(evt);
             }
         });
+        addUser.add(btnAddUserToSQL, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 370, 130, 39));
 
         lblAge.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblAge.setText("Age:");
+        addUser.add(lblAge, new org.netbeans.lib.awtextra.AbsoluteConstraints(366, 256, -1, -1));
 
         tfAge.setEditable(false);
         tfAge.setBackground(new java.awt.Color(255, 255, 255));
-        tfAge.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        tfAge.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
         tfAge.setForeground(new java.awt.Color(153, 153, 153));
         tfAge.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfAge.setText("Age");
         tfAge.setFocusable(false);
+        addUser.add(tfAge, new org.netbeans.lib.awtextra.AbsoluteConstraints(408, 253, 133, 30));
 
         lblCivilStatus.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblCivilStatus.setText("Civil Status:");
         lblCivilStatus.setPreferredSize(new java.awt.Dimension(95, 30));
+        addUser.add(lblCivilStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 295, -1, -1));
 
         cbCivilStatus.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         cbCivilStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Single", "Married", "Divorced", "Widowed" }));
         cbCivilStatus.setMaximumSize(new java.awt.Dimension(100, 30));
         cbCivilStatus.setMinimumSize(new java.awt.Dimension(100, 30));
         cbCivilStatus.setPreferredSize(new java.awt.Dimension(100, 30));
+        addUser.add(cbCivilStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 296, 175, -1));
 
         lblPH63.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblPH63.setText("+63");
-
-        javax.swing.GroupLayout addUserLayout = new javax.swing.GroupLayout(addUser);
-        addUser.setLayout(addUserLayout);
-        addUserLayout.setHorizontalGroup(
-            addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addUserLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addUserLayout.createSequentialGroup()
-                        .addComponent(lblContact)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblPH63)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(addUserLayout.createSequentialGroup()
-                        .addGroup(addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(addUserLayout.createSequentialGroup()
-                                .addComponent(lblCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(addUserLayout.createSequentialGroup()
-                                .addComponent(lblBirthDate)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblAge)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfAge, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(addUserLayout.createSequentialGroup()
-                                .addComponent(lblSex)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rbMaleSex, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbFemaleSex, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 70, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addUserLayout.createSequentialGroup()
-                        .addGroup(addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(addUserLayout.createSequentialGroup()
-                                .addGap(58, 58, 58)
-                                .addComponent(tfEmail))
-                            .addGroup(addUserLayout.createSequentialGroup()
-                                .addGroup(addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblComma, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfFirstName)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(28, 28, 28))))
-            .addGroup(addUserLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(lblAddUser)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(btnAddUserToSQL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        addUserLayout.setVerticalGroup(
-            addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addUserLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(lblAddUser)
-                .addGap(36, 36, 36)
-                .addGroup(addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName)
-                    .addComponent(tfLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblComma, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblEmail)
-                    .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblContact)
-                    .addComponent(tfContact, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPH63))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSex)
-                    .addComponent(rbMaleSex)
-                    .addComponent(rbFemaleSex))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblBirthDate)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblAge)
-                        .addComponent(tfAge, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(12, 12, 12)
-                .addGroup(addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addComponent(btnAddUserToSQL, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8))
-        );
+        addUser.add(lblPH63, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 170, -1, -1));
 
         listPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -808,7 +733,7 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addGap(1, 1, 1)
-                    .addComponent(addUser, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addUser, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jLayeredPane1Layout.setVerticalGroup(
@@ -821,7 +746,7 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(addUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addUser, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -1008,15 +933,17 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_reportsBtnActionPerformed
 
     private void btnAddUserToSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserToSQLActionPerformed
-
         insertUserData();
         JOptionPane.showMessageDialog(null, "Username: " + username + "\n Password: " + password, "Credentials", JOptionPane.INFORMATION_MESSAGE);
                 
         JTextField[] textFields = {tfFirstName, tfMiddleName, tfLastName, tfAge, tfContact, tfEmail};
+        String[] phText = {"First Name", "Middle Name", "Last Name", "Age", "###-###-####", "youdata@gmail.com"};
         for (int i = 0; i <textFields.length; i++) {
-            textFields[i].setText(null);
+            textFields[i].setText(phText[i]);
+            textFields[i].setForeground(gray);
+            textFields[i].setHorizontalAlignment(CENTER);
         }
-        buttonGroup1.clearSelection();
+        rbMaleSex.setSelected(true);
         cbCivilStatus.setSelectedIndex(0);
         Calendar calendar = Calendar.getInstance();
         java.util.Date currentDate = calendar.getTime();
