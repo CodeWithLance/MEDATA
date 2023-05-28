@@ -23,6 +23,7 @@ import java.sql.*;
 public class Doctor extends javax.swing.JFrame {
 
     Connection con;
+    
 
     /**
      * Creates new form Doctor
@@ -48,6 +49,7 @@ public class Doctor extends javax.swing.JFrame {
     String uid;
     String username;
     String password;
+    String setRole;
 
     public void setDisplay(JPanel Panel) {
         for (int i = 0; i < jLayeredPane1.getComponentCount(); i++) {
@@ -80,39 +82,39 @@ public class Doctor extends javax.swing.JFrame {
         LocalDate currentDate = LocalDate.now();
         Period period = Period.between(selectedDate, currentDate);
         int age = period.getYears();
-        mdAge.setForeground(black);
-        mdAge.setText(String.valueOf(age));
+        ptAge.setForeground(black);
+        ptAge.setText(String.valueOf(age));
     }
 
-    void insertUserData(String role) {
-        String lastName = mdLastName.getText();
-        String firstName = mdFirstName.getText();
-        String middleName = mdMiddleName.getText();
-        String email = mdEmail.getText();
-        String contact = mdContact.getText();
+ void insertUserData() {
+        String lastName = ptLastName.getText();
+        String firstName = ptFirstName.getText();
+        String middleName = ptMiddleName.getText();
+        String email = ptEmail.getText();
+        String contact = ptContact.getText();
         String sex;
-        if (mdSexMale.isSelected()) {
-            sex = mdSexMale.getText();
+        if (ptRbMale.isSelected()) {
+            sex = ptRbMale.getText();
         } else {
-            sex = mdSexFemale.getText();
+            sex = ptRbMale.getText();
         }
         SimpleDateFormat birthDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateOfBirth = birthDateFormatter.format(jDateChooser3.getDate());
         String civilStatus;
-        if (mdCivilStatus.getSelectedIndex() == 0) {
+        if (ptCivilStatus.getSelectedIndex() == 0) {
             civilStatus = "Single";
-        } else if (mdCivilStatus.getSelectedIndex() == 1) {
+        } else if (ptCivilStatus.getSelectedIndex() == 1) {
             civilStatus = "Married";
-        } else if (mdCivilStatus.getSelectedIndex() == 2) {
+        } else if (ptCivilStatus.getSelectedIndex() == 2) {
             civilStatus = "Divorced";
         } else {
             civilStatus = "Widowed";
         }
-        int age = Integer.parseInt(mdAge.getText());
+        int age = Integer.parseInt(ptAge.getText());
         String address = "";
         int height = 0;
         int weight = 0;
-
+        String role = "patient";
         int username_count = 0;
         do {
             try {
@@ -145,6 +147,7 @@ public class Doctor extends javax.swing.JFrame {
     private void initComponents() {
 
         jFrame1 = new javax.swing.JFrame();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         exit = new javax.swing.JButton();
         minimized = new javax.swing.JButton();
@@ -180,23 +183,23 @@ public class Doctor extends javax.swing.JFrame {
         lblName1 = new javax.swing.JLabel();
         addDoctorTitle1 = new javax.swing.JLabel();
         comma2 = new javax.swing.JLabel();
-        mdLastName = new javax.swing.JTextField();
-        mdFirstName = new javax.swing.JTextField();
-        mdMiddleName = new javax.swing.JTextField();
+        ptLastName = new javax.swing.JTextField();
+        ptFirstName = new javax.swing.JTextField();
+        ptMiddleName = new javax.swing.JTextField();
         lblEmail1 = new javax.swing.JLabel();
-        mdEmail = new javax.swing.JTextField();
+        ptEmail = new javax.swing.JTextField();
         lblContacts1 = new javax.swing.JLabel();
-        mdContact = new javax.swing.JTextField();
+        ptContact = new javax.swing.JTextField();
         lblSex1 = new javax.swing.JLabel();
-        mdSexMale = new javax.swing.JRadioButton();
-        mdSexFemale = new javax.swing.JRadioButton();
+        ptRbMale = new javax.swing.JRadioButton();
+        ptRbFemale = new javax.swing.JRadioButton();
         lblBDay1 = new javax.swing.JLabel();
         jDateChooser3 = new com.toedter.calendar.JDateChooser();
         jButton9 = new javax.swing.JButton();
         lblBDay2 = new javax.swing.JLabel();
-        mdAge = new javax.swing.JTextField();
+        ptAge = new javax.swing.JTextField();
         lblBDay3 = new javax.swing.JLabel();
-        mdCivilStatus = new javax.swing.JComboBox<>();
+        ptCivilStatus = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         frameDrag = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
@@ -511,93 +514,95 @@ public class Doctor extends javax.swing.JFrame {
 
         comma2.setText(",");
 
-        mdLastName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        mdLastName.setForeground(new java.awt.Color(153, 153, 153));
-        mdLastName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        mdLastName.setText("Last Name");
-        mdLastName.addFocusListener(new java.awt.event.FocusAdapter() {
+        ptLastName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        ptLastName.setForeground(new java.awt.Color(153, 153, 153));
+        ptLastName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ptLastName.setText("Last Name");
+        ptLastName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                mdLastNameFocusGained(evt);
+                ptLastNameFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                mdLastNameFocusLost(evt);
+                ptLastNameFocusLost(evt);
             }
         });
 
-        mdFirstName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        mdFirstName.setForeground(new java.awt.Color(153, 153, 153));
-        mdFirstName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        mdFirstName.setText("First Name");
-        mdFirstName.addFocusListener(new java.awt.event.FocusAdapter() {
+        ptFirstName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        ptFirstName.setForeground(new java.awt.Color(153, 153, 153));
+        ptFirstName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ptFirstName.setText("First Name");
+        ptFirstName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                mdFirstNameFocusGained(evt);
+                ptFirstNameFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                mdFirstNameFocusLost(evt);
+                ptFirstNameFocusLost(evt);
             }
         });
 
-        mdMiddleName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        mdMiddleName.setForeground(new java.awt.Color(153, 153, 153));
-        mdMiddleName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        mdMiddleName.setText("Middle Name");
-        mdMiddleName.addFocusListener(new java.awt.event.FocusAdapter() {
+        ptMiddleName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        ptMiddleName.setForeground(new java.awt.Color(153, 153, 153));
+        ptMiddleName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ptMiddleName.setText("Middle Name");
+        ptMiddleName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                mdMiddleNameFocusGained(evt);
+                ptMiddleNameFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                mdMiddleNameFocusLost(evt);
+                ptMiddleNameFocusLost(evt);
             }
         });
 
         lblEmail1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblEmail1.setText("Email:");
 
-        mdEmail.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        mdEmail.setForeground(new java.awt.Color(153, 153, 153));
-        mdEmail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        mdEmail.setText("youdata@gmail.com");
-        mdEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+        ptEmail.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        ptEmail.setForeground(new java.awt.Color(153, 153, 153));
+        ptEmail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ptEmail.setText("youdata@gmail.com");
+        ptEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                mdEmailFocusGained(evt);
+                ptEmailFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                mdEmailFocusLost(evt);
+                ptEmailFocusLost(evt);
             }
         });
 
         lblContacts1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblContacts1.setText("Contact Number:");
 
-        mdContact.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
-        mdContact.setForeground(new java.awt.Color(153, 153, 153));
-        mdContact.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        mdContact.setText("###-###-####");
-        mdContact.addFocusListener(new java.awt.event.FocusAdapter() {
+        ptContact.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        ptContact.setForeground(new java.awt.Color(153, 153, 153));
+        ptContact.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ptContact.setText("###-###-####");
+        ptContact.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                mdContactFocusGained(evt);
+                ptContactFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                mdContactFocusLost(evt);
+                ptContactFocusLost(evt);
             }
         });
-        mdContact.addKeyListener(new java.awt.event.KeyAdapter() {
+        ptContact.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                mdContactKeyPressed(evt);
+                ptContactKeyPressed(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                mdContactKeyTyped(evt);
+                ptContactKeyTyped(evt);
             }
         });
 
         lblSex1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblSex1.setText("Sex:");
 
-        mdSexMale.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        mdSexMale.setText("Male");
+        buttonGroup1.add(ptRbMale);
+        ptRbMale.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        ptRbMale.setText("Male");
 
-        mdSexFemale.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        mdSexFemale.setText("Female");
+        buttonGroup1.add(ptRbFemale);
+        ptRbFemale.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        ptRbFemale.setText("Female");
 
         lblBDay1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblBDay1.setText("Date of Birth:");
@@ -620,23 +625,23 @@ public class Doctor extends javax.swing.JFrame {
         lblBDay2.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblBDay2.setText("Age:");
 
-        mdAge.setEditable(false);
-        mdAge.setBackground(new java.awt.Color(255, 255, 255));
-        mdAge.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        mdAge.setForeground(new java.awt.Color(153, 153, 153));
-        mdAge.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        mdAge.setText("Age");
-        mdAge.setFocusable(false);
+        ptAge.setEditable(false);
+        ptAge.setBackground(new java.awt.Color(255, 255, 255));
+        ptAge.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        ptAge.setForeground(new java.awt.Color(153, 153, 153));
+        ptAge.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ptAge.setText("Age");
+        ptAge.setFocusable(false);
 
         lblBDay3.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         lblBDay3.setText("Civil Status:");
         lblBDay3.setPreferredSize(new java.awt.Dimension(95, 30));
 
-        mdCivilStatus.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        mdCivilStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Single", "Married", "Divorced", "Widowed" }));
-        mdCivilStatus.setMaximumSize(new java.awt.Dimension(100, 30));
-        mdCivilStatus.setMinimumSize(new java.awt.Dimension(100, 30));
-        mdCivilStatus.setPreferredSize(new java.awt.Dimension(100, 30));
+        ptCivilStatus.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        ptCivilStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Single", "Married", "Divorced", "Widowed" }));
+        ptCivilStatus.setMaximumSize(new java.awt.Dimension(100, 30));
+        ptCivilStatus.setMinimumSize(new java.awt.Dimension(100, 30));
+        ptCivilStatus.setPreferredSize(new java.awt.Dimension(100, 30));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel5.setText("+63");
@@ -653,14 +658,14 @@ public class Doctor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mdContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ptContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(addPatientLayout.createSequentialGroup()
                         .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(addPatientLayout.createSequentialGroup()
                                 .addComponent(lblBDay3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(mdCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(ptCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(addPatientLayout.createSequentialGroup()
                                 .addComponent(lblBDay1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -668,31 +673,31 @@ public class Doctor extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(lblBDay2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(mdAge, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(ptAge, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(addPatientLayout.createSequentialGroup()
                                 .addComponent(lblSex1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(mdSexMale, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ptRbMale, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(mdSexFemale, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(ptRbFemale, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 85, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addPatientLayout.createSequentialGroup()
                         .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(addPatientLayout.createSequentialGroup()
                                 .addGap(58, 58, 58)
-                                .addComponent(mdEmail))
+                                .addComponent(ptEmail))
                             .addGroup(addPatientLayout.createSequentialGroup()
                                 .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(lblEmail1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(lblName1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(mdLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ptLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(comma2, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(mdFirstName)
+                                .addComponent(ptFirstName)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(mdMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(ptMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(28, 28, 28))))
             .addGroup(addPatientLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
@@ -708,36 +713,36 @@ public class Doctor extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblName1)
-                    .addComponent(mdLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ptLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comma2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mdFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mdMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ptFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ptMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEmail1)
-                    .addComponent(mdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ptEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblContacts1)
-                    .addComponent(mdContact, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ptContact, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSex1)
-                    .addComponent(mdSexMale)
-                    .addComponent(mdSexFemale))
+                    .addComponent(ptRbMale)
+                    .addComponent(ptRbFemale))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblBDay1)
                     .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblBDay2)
-                        .addComponent(mdAge, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(ptAge, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(12, 12, 12)
                 .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblBDay3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mdCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                    .addComponent(ptCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8))
         );
@@ -758,7 +763,7 @@ public class Doctor extends javax.swing.JFrame {
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(requestPage, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
+                    .addComponent(requestPage, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(listofpatients, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -774,11 +779,13 @@ public class Doctor extends javax.swing.JFrame {
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(schedule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                    .addComponent(schedule, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 15, Short.MAX_VALUE)))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addGap(3, 3, 3)
-                    .addComponent(requestPage, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                    .addComponent(requestPage, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
                     .addGap(3, 3, 3)))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(listofpatients, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -850,7 +857,7 @@ public class Doctor extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 13, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -862,7 +869,7 @@ public class Doctor extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         frameDrag.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -976,68 +983,68 @@ public class Doctor extends javax.swing.JFrame {
         yMouse = evt.getY();
     }//GEN-LAST:event_frameDragMousePressed
 
-    private void mdLastNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdLastNameFocusGained
-        focusOn(mdLastName, "Last Name");
-    }//GEN-LAST:event_mdLastNameFocusGained
+    private void ptLastNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptLastNameFocusGained
+        focusOn(ptLastName, "Last Name");
+    }//GEN-LAST:event_ptLastNameFocusGained
 
-    private void mdLastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdLastNameFocusLost
-        focusOff(mdLastName, "Last Name");
-    }//GEN-LAST:event_mdLastNameFocusLost
+    private void ptLastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptLastNameFocusLost
+        focusOff(ptLastName, "Last Name");
+    }//GEN-LAST:event_ptLastNameFocusLost
 
-    private void mdFirstNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdFirstNameFocusGained
-        focusOn(mdFirstName, "First Name");
-    }//GEN-LAST:event_mdFirstNameFocusGained
+    private void ptFirstNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptFirstNameFocusGained
+        focusOn(ptFirstName, "First Name");
+    }//GEN-LAST:event_ptFirstNameFocusGained
 
-    private void mdFirstNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdFirstNameFocusLost
-        focusOff(mdFirstName, "First Name");
-    }//GEN-LAST:event_mdFirstNameFocusLost
+    private void ptFirstNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptFirstNameFocusLost
+        focusOff(ptFirstName, "First Name");
+    }//GEN-LAST:event_ptFirstNameFocusLost
 
-    private void mdMiddleNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdMiddleNameFocusGained
-        focusOn(mdMiddleName, "Middle Name");
-    }//GEN-LAST:event_mdMiddleNameFocusGained
+    private void ptMiddleNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptMiddleNameFocusGained
+        focusOn(ptMiddleName, "Middle Name");
+    }//GEN-LAST:event_ptMiddleNameFocusGained
 
-    private void mdMiddleNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdMiddleNameFocusLost
-        focusOff(mdMiddleName, "Middle Name");
-    }//GEN-LAST:event_mdMiddleNameFocusLost
+    private void ptMiddleNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptMiddleNameFocusLost
+        focusOff(ptMiddleName, "Middle Name");
+    }//GEN-LAST:event_ptMiddleNameFocusLost
 
-    private void mdEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdEmailFocusGained
-        focusOn(mdEmail, "youdata@gmail.com");
-    }//GEN-LAST:event_mdEmailFocusGained
+    private void ptEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptEmailFocusGained
+        focusOn(ptEmail, "youdata@gmail.com");
+    }//GEN-LAST:event_ptEmailFocusGained
 
-    private void mdEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdEmailFocusLost
-        focusOff(mdEmail, "youdata@gmail.com");
-        if (!mdEmail.getText().matches(email_Pattern)) {
+    private void ptEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptEmailFocusLost
+        focusOff(ptEmail, "youdata@gmail.com");
+        if (!ptEmail.getText().matches(email_Pattern)) {
             JOptionPane.showMessageDialog(null, "Invalid email format", "Error", JOptionPane.ERROR_MESSAGE);
-            mdEmail.setForeground(red);
+            ptEmail.setForeground(red);
             jButton9.setEnabled(false);
-        } else if (mdEmail.getText().matches(email_Pattern) && !mdEmail.getText().equals("youdata@gmail.com")) {
-            mdEmail.setForeground(black);
+        } else if (ptEmail.getText().matches(email_Pattern) && !ptEmail.getText().equals("youdata@gmail.com")) {
+            ptEmail.setForeground(black);
             jButton9.setEnabled(true);
         } else {
-            focusOff(mdEmail, "youdata@gmail.com");
+            focusOff(ptEmail, "youdata@gmail.com");
         }
-    }//GEN-LAST:event_mdEmailFocusLost
+    }//GEN-LAST:event_ptEmailFocusLost
 
-    private void mdContactFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdContactFocusGained
-        focusOn(mdContact, "###-###-####");
-        String contactNumber = mdContact.getText();
+    private void ptContactFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptContactFocusGained
+        focusOn(ptContact, "###-###-####");
+        String contactNumber = ptContact.getText();
         if (contactNumber.length() == 10) {
-            mdContact.setText(contactNumber.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"));
+            ptContact.setText(contactNumber.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"));
         }
-    }//GEN-LAST:event_mdContactFocusGained
+    }//GEN-LAST:event_ptContactFocusGained
 
-    private void mdContactFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_mdContactFocusLost
-        focusOff(mdContact, "###-###-####");
-    }//GEN-LAST:event_mdContactFocusLost
+    private void ptContactFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptContactFocusLost
+        focusOff(ptContact, "###-###-####");
+    }//GEN-LAST:event_ptContactFocusLost
 
-    private void mdContactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mdContactKeyPressed
-        String contactNumber = mdContact.getText();
-        mdContact.setText(contactNumber.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"));
-    }//GEN-LAST:event_mdContactKeyPressed
+    private void ptContactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ptContactKeyPressed
+        String contactNumber = ptContact.getText();
+        ptContact.setText(contactNumber.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"));
+    }//GEN-LAST:event_ptContactKeyPressed
 
-    private void mdContactKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mdContactKeyTyped
+    private void ptContactKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ptContactKeyTyped
         char c = evt.getKeyChar();
-        String b = mdContact.getText();
+        String b = ptContact.getText();
 
         if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != '-') {
             evt.consume();
@@ -1046,7 +1053,7 @@ public class Doctor extends javax.swing.JFrame {
             evt.consume();
             JOptionPane.showMessageDialog(null, "Reached contact number limit", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_mdContactKeyTyped
+    }//GEN-LAST:event_ptContactKeyTyped
 
     private void jDateChooser3PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser3PropertyChange
         if ("date".equals(evt.getPropertyName())) {
@@ -1055,7 +1062,17 @@ public class Doctor extends javax.swing.JFrame {
     }//GEN-LAST:event_jDateChooser3PropertyChange
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        insertUserData("patient");
+        insertUserData();
+        JOptionPane.showMessageDialog(null, "Username: " + username + "\n Password: " + password, "Credentials", JOptionPane.INFORMATION_MESSAGE);
+                
+        JTextField[] textFields = {ptFirstName, ptMiddleName, ptLastName, ptAge, ptContact, ptEmail};
+        for (int i = 0; i <textFields.length; i++) {
+            textFields[i].setText(null);
+        }
+        
+        ptCivilStatus.setSelectedIndex(0);
+        buttonGroup1.clearSelection();
+        jDateChooser3.setDate(null);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
@@ -1099,6 +1116,7 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JButton addPatBtn;
     private javax.swing.JPanel addPatient;
     private javax.swing.JLabel background;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel comma2;
     private javax.swing.JButton exit;
     private javax.swing.JLabel frameDrag;
@@ -1130,17 +1148,17 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JPanel listofpatients;
     private javax.swing.JPanel listofpatients1;
     private javax.swing.JLabel logo;
-    private javax.swing.JTextField mdAge;
-    private javax.swing.JComboBox<String> mdCivilStatus;
-    private javax.swing.JTextField mdContact;
-    private javax.swing.JTextField mdEmail;
-    private javax.swing.JTextField mdFirstName;
-    private javax.swing.JTextField mdLastName;
-    private javax.swing.JTextField mdMiddleName;
-    private javax.swing.JRadioButton mdSexFemale;
-    private javax.swing.JRadioButton mdSexMale;
     private javax.swing.JButton minimized;
     private javax.swing.JPanel navbar;
+    private javax.swing.JTextField ptAge;
+    private javax.swing.JComboBox<String> ptCivilStatus;
+    private javax.swing.JTextField ptContact;
+    private javax.swing.JTextField ptEmail;
+    private javax.swing.JTextField ptFirstName;
+    private javax.swing.JTextField ptLastName;
+    private javax.swing.JTextField ptMiddleName;
+    private javax.swing.JRadioButton ptRbFemale;
+    private javax.swing.JRadioButton ptRbMale;
     private javax.swing.JButton removeBtn;
     private javax.swing.JButton reportsBtn;
     private javax.swing.JPanel requestPage;

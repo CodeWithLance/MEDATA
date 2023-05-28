@@ -86,7 +86,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
                     }
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "You're username and password does not match any data in our system.", "Sorry", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Your username and password does not match any data in our system.", "Sorry", JOptionPane.INFORMATION_MESSAGE);
             }
 
             pst.close();
@@ -122,7 +122,8 @@ public class MEDATA_Application extends javax.swing.JFrame {
                 int rowsAffected = updateStatement.executeUpdate();
 
                 if (rowsAffected > 0) {
-                    JOptionPane.showMessageDialog(null, "Password updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Password updated successfully.\nPlease use new password to log in", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    enterPassword.setText("");
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed to update password.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -318,7 +319,8 @@ public class MEDATA_Application extends javax.swing.JFrame {
             }
         });
 
-        showPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        showPassword.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        showPassword.setForeground(new java.awt.Color(51, 51, 51));
         showPassword.setText("Show Password");
         showPassword.setMaximumSize(new java.awt.Dimension(105, 50));
         showPassword.setMinimumSize(new java.awt.Dimension(105, 50));
