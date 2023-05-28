@@ -44,7 +44,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
 
     void userSignIn() {
         try {
-            String sql = "Select * from userinfo where username = ? and password = ?";
+            String sql = "Select * FROM userinfo WHERE username = ? and password = ?";
 
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, enterUsername.getText());

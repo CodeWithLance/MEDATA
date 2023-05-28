@@ -55,47 +55,6 @@ public class Admin extends javax.swing.JFrame {
     String username;
     String password;
     String setRole;
-    
-    public void showList(String role){
-        jTable3.setModel(model);
-        String role1 = role;
-        try {
-            String query = "SELECT * FROM userinfo WHERE role = ?";
-            PreparedStatement pstmt = con.prepareStatement(query);
-            pstmt.setString(1, role1);
-      
-            ResultSet rs = pstmt.executeQuery();
-            
-            // Get the metadata of the ResultSet  
-            ResultSetMetaData metaData = rs.getMetaData();
-            int columnCount = metaData.getColumnCount();
-            
-              // Create an array to hold column names
-            String[] columnNames = new String[columnCount];
-            for (int i = 1; i <= columnCount; i++) {
-                columnNames[i - 1] = metaData.getColumnName(i);
-            }
-            model.setColumnIdentifiers(columnNames);
-            
-            //prevent duplicating the table data 
-            if (model.getRowCount() > 0) {
-                model.setRowCount(0);
-            }
-
-            while (rs.next()) {
-                Object[] rowData = new Object[columnCount];
-                for (int i = 1; i <= columnCount; i++) {
-                    rowData[i - 1] = rs.getObject(i);
-                }
-                model.addRow(rowData);
-            }
-
-            rs.close();
-            pstmt.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public void focusOn(JTextField textfield, String intext) {
         if (textfield.getText().equals(intext)) {
@@ -194,6 +153,47 @@ public class Admin extends javax.swing.JFrame {
         boolean isActivated = false;
 
         createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role, isActivated);
+    }
+
+    public void showList() {
+        jTable3.setModel(model);
+        String role = setRole;
+        try {
+            String query = "SELECT username, lastName, firstName, sex, civilStatus, contact FROM userinfo WHERE role = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setString(1, role);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            // Get the metadata of the ResultSet  
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            // Create an array to hold column names
+            String[] columnNames = new String[columnCount];
+            for (int i = 1; i <= columnCount; i++) {
+                columnNames[i - 1] = metaData.getColumnName(i);
+            }
+            model.setColumnIdentifiers(columnNames);
+
+            //prevent duplicating the table data 
+            if (model.getRowCount() > 0) {
+                model.setRowCount(0);
+            }
+
+            while (rs.next()) {
+                Object[] rowData = new Object[columnCount];
+                for (int i = 1; i <= columnCount; i++) {
+                    rowData[i - 1] = rs.getObject(i);
+                }
+                model.addRow(rowData);
+            }
+
+            rs.close();
+            pstmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -962,13 +962,15 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_addPatBtnActionPerformed
 
     private void ptListBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptListBtnActionPerformed
-        showList("patient");
         setDisplay(listPage);
+        determineRole(ptListBtn, "patient");
+        showList();
     }//GEN-LAST:event_ptListBtnActionPerformed
 
     private void mdListBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mdListBtnActionPerformed
-        showList("doctor");
         setDisplay(listPage);
+        determineRole(mdListBtn, "doctor");
+        showList();
     }//GEN-LAST:event_mdListBtnActionPerformed
 
     private void reportsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportsBtnActionPerformed
