@@ -112,7 +112,7 @@ public class Admin extends javax.swing.JFrame {
         String firstName = tfFirstName.getText();
         String middleName = tfMiddleName.getText();
         String email = tfEmail.getText();
-        String contact = tfContact.getText();
+        String contact = "+63 " + tfContact.getText();
         String sex;
         if (rbMaleSex.isSelected()) {
             sex = rbMaleSex.getText();
