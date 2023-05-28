@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2023 at 08:21 AM
+-- Generation Time: May 28, 2023 at 07:24 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -52,7 +52,12 @@ CREATE TABLE `userinfo` (
 --
 
 INSERT INTO `userinfo` (`sno`, `lastName`, `firstName`, `middleName`, `age`, `dateOfBirth`, `address`, `contact`, `email`, `sex`, `civilStatus`, `height`, `weight`, `username`, `password`, `role`, `isActivated`) VALUES
-(0, 'none', 'SuperAdmin', 'none', 0, '2023-05-28', 'Java x MySQL', '+63000-000-0000', 'tuwatech@auf.edu.ph', 'none', 'none', 0, 0, '01.superadmin', 'admincommand', 'admin', 1);
+(0, 'none', 'SuperAdmin', 'none', 0, '2023-05-28', 'Java x MySQL', '+63000-000-0000', 'tuwatech@auf.edu.ph', 'none', 'none', 0, 0, '01.superadmin', 'admincommand', 'admin', 1),
+(1, 'Esquivel', 'Rosanna', 'Atienza', 59, '1963-12-20', '', '123-123-1234', 'equivel.rosanna@auf.edu.ph', 'Female', 'Married', 0, 0, 'esquivelr-2062621', 'esquivel.medata', 'doctor', 0),
+(2, 'Esquivel', 'James', 'Alejandro', 59, '1963-07-29', '', '123-123-1234', 'esquivel.james@auf.edu.ph', 'Male', 'Married', 0, 0, 'esquivelj-2909367', 'esquivel.medata', 'doctor', 0),
+(3, 'Arcega', 'Lance Angelo', 'Palanca', 22, '2000-09-07', '', '918-123-0001', 'arcega.lanceangelo@auf.edu.ph', 'Male', 'Single', 0, 0, 'arcegala-0793954', 'arcega.medata', 'patient', 0),
+(4, 'Pare', 'Neo Jezer', 'Aguilar', 19, '2003-10-13', '', '123-123-0002', 'pare.neojezer@auf.edu.ph', 'Male', 'Single', 0, 0, 'parenj-1300893', 'pare.medata', 'patient', 0),
+(5, 'Muñoz', 'Nathan Sheary', 'G', 19, '2003-10-11', '', '123-123-0003', 'munoz.nathansheary@auf.edu.com', 'Male', 'Single', 0, 0, 'muñozns-1134885', 'muñoz.medata', 'patient', 0);
 
 --
 -- Indexes for dumped tables
@@ -74,7 +79,7 @@ ALTER TABLE `userinfo`
 -- AUTO_INCREMENT for table `userinfo`
 --
 ALTER TABLE `userinfo`
-  MODIFY `sno` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `sno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
