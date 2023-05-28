@@ -1,6 +1,8 @@
 package my.medata;
 
 import static java.awt.Color.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -13,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import static javax.swing.SwingConstants.*;
 import java.sql.*;
+import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 
@@ -48,7 +51,7 @@ public class Admin extends javax.swing.JFrame {
         }
     }
 
-    private static final String email_Pattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private static final String email_Pattern = "^[_A-Za-z0-9-\\+ñÑ]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     int xMouse, yMouse;
     String uid;
@@ -189,8 +192,45 @@ public class Admin extends javax.swing.JFrame {
                 model.addRow(rowData);
             }
 
-            rs.close();
-            pstmt.close();
+            deleteBtn1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Get the selected row index
+                    int selectedRow = jTable3.getSelectedRow();
+
+                    // Ensure a row is selected
+                    if (selectedRow != -1) {
+                        // Retrieve the data from the selected row
+                        Object[] rowData = new Object[columnCount];
+                        for (int i = 0; i < columnCount; i++) {
+                            rowData[i] = jTable3.getValueAt(selectedRow, i);
+                        }
+
+                        try {
+                            // Prepare the DELETE query
+                            String deleteQuery = "DELETE FROM userinfo WHERE username = ?";
+                            PreparedStatement pstmt = con.prepareStatement(deleteQuery);
+
+                            // Assuming the username is in the first column (adjust the index if needed)
+                            pstmt.setObject(1, rowData[0]);
+
+                            // Execute the delete query
+                            pstmt.executeUpdate();
+
+                            // Remove the selected row from the model
+                            model.removeRow(selectedRow);
+
+                            // Update the JTable to reflect the changes
+                            jTable3.setModel(model);
+
+                            rs.close();
+                            pstmt.close();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -978,7 +1018,10 @@ public class Admin extends javax.swing.JFrame {
         }
         buttonGroup1.clearSelection();
         cbCivilStatus.setSelectedIndex(0);
-        jDateChooser1.setDate(null);
+        Calendar calendar = Calendar.getInstance();
+        java.util.Date currentDate = calendar.getTime();
+        Date sqlDate = new Date(currentDate.getTime());
+        jDateChooser1.setDate(sqlDate);
 
         
     }//GEN-LAST:event_btnAddUserToSQLActionPerformed
