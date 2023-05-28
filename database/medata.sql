@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2023 at 08:13 AM
+-- Generation Time: May 28, 2023 at 08:21 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -64,7 +64,6 @@ INSERT INTO `userinfo` (`sno`, `lastName`, `firstName`, `middleName`, `age`, `da
 ALTER TABLE `userinfo`
   ADD PRIMARY KEY (`sno`),
   ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `contact` (`contact`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
