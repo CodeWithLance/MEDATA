@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2023 at 09:38 AM
+-- Generation Time: May 28, 2023 at 08:21 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -31,7 +31,7 @@ CREATE TABLE `userinfo` (
   `sno` int(11) NOT NULL,
   `lastName` varchar(50) NOT NULL,
   `firstName` varchar(50) NOT NULL,
-  `middleInitial` varchar(50) NOT NULL,
+  `middleName` varchar(50) NOT NULL,
   `age` int(10) NOT NULL,
   `dateOfBirth` date NOT NULL,
   `address` varchar(100) NOT NULL,
@@ -43,18 +43,16 @@ CREATE TABLE `userinfo` (
   `weight` int(50) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `confirmPassword` varchar(50) NOT NULL,
-  `role` varchar(50) NOT NULL
+  `role` varchar(50) NOT NULL,
+  `isActivated` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `userinfo`
 --
 
-INSERT INTO `userinfo` (`sno`, `lastName`, `firstName`, `middleInitial`, `age`, `dateOfBirth`, `address`, `contact`, `email`, `sex`, `civilStatus`, `height`, `weight`, `username`, `password`, `confirmPassword`, `role`) VALUES
-(1, 'Arcega', 'Lance Angelo', 'P', 22, '2000-09-07', 'Angeles University Foundation, Angeles City, Pampanga, 2009', '09187110987', 'arcega.lanceangelo@auf.edu.ph', 'Male', 'Single', 183, 220, 'admin01', 'meow0907', 'meow0907', 'admin'),
-(2, 'Munoz', 'Nathan Sheary', 'G', 20, '2023-05-01', 'Angeles City', '09181234567', 'munoz.nathansheary@auf.edu.ph', 'Male', 'Single', 180, 150, 'doctor01', 'dok123', 'dok123', 'doctor'),
-(3, 'Pare', 'Neo Jezer', 'A.', 20, '2023-05-09', 'Angeles City', '09180001234', 'pare.neojezer@auf.edu.ph', 'Male', 'Single', 175, 130, 'patient01', 'pass01', 'pass01', 'patient');
+INSERT INTO `userinfo` (`sno`, `lastName`, `firstName`, `middleName`, `age`, `dateOfBirth`, `address`, `contact`, `email`, `sex`, `civilStatus`, `height`, `weight`, `username`, `password`, `role`, `isActivated`) VALUES
+(0, 'none', 'SuperAdmin', 'none', 0, '2023-05-28', 'Java x MySQL', '+63000-000-0000', 'tuwatech@auf.edu.ph', 'none', 'none', 0, 0, '01.superadmin', 'admincommand', 'admin', 1);
 
 --
 -- Indexes for dumped tables
@@ -66,7 +64,6 @@ INSERT INTO `userinfo` (`sno`, `lastName`, `firstName`, `middleInitial`, `age`, 
 ALTER TABLE `userinfo`
   ADD PRIMARY KEY (`sno`),
   ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `contact` (`contact`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
@@ -77,7 +74,7 @@ ALTER TABLE `userinfo`
 -- AUTO_INCREMENT for table `userinfo`
 --
 ALTER TABLE `userinfo`
-  MODIFY `sno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `sno` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
