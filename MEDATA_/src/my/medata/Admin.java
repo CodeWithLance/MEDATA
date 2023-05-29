@@ -400,7 +400,7 @@ public class Admin extends javax.swing.JFrame {
         navbar.setOpaque(false);
         navbar.setLayout(new java.awt.GridLayout(5, 1));
 
-        addDoctorBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        addDoctorBtn.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         addDoctorBtn.setText("Add Doctor");
         addDoctorBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addDoctorBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -410,7 +410,7 @@ public class Admin extends javax.swing.JFrame {
         });
         navbar.add(addDoctorBtn);
 
-        addPatBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        addPatBtn.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         addPatBtn.setText("Add Patient");
         addPatBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -419,7 +419,7 @@ public class Admin extends javax.swing.JFrame {
         });
         navbar.add(addPatBtn);
 
-        ptListBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        ptListBtn.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         ptListBtn.setText("List of Patients");
         ptListBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -428,7 +428,7 @@ public class Admin extends javax.swing.JFrame {
         });
         navbar.add(ptListBtn);
 
-        mdListBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        mdListBtn.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         mdListBtn.setText("List of Doctors");
         mdListBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -437,7 +437,7 @@ public class Admin extends javax.swing.JFrame {
         });
         navbar.add(mdListBtn);
 
-        reportsBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        reportsBtn.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         reportsBtn.setText("Reports");
         reportsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -481,7 +481,7 @@ public class Admin extends javax.swing.JFrame {
         lblComma.setText(",");
         addUser.add(lblComma, new org.netbeans.lib.awtextra.AbsoluteConstraints(236, 92, 6, 22));
 
-        tfLastName.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        tfLastName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tfLastName.setForeground(new java.awt.Color(153, 153, 153));
         tfLastName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfLastName.setText("Last Name");
@@ -495,7 +495,7 @@ public class Admin extends javax.swing.JFrame {
         });
         addUser.add(tfLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(97, 86, 133, 30));
 
-        tfFirstName.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        tfFirstName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tfFirstName.setForeground(new java.awt.Color(153, 153, 153));
         tfFirstName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfFirstName.setText("First Name");
@@ -512,7 +512,7 @@ public class Admin extends javax.swing.JFrame {
         });
         addUser.add(tfFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(248, 86, 190, -1));
 
-        tfMiddleName.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        tfMiddleName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tfMiddleName.setForeground(new java.awt.Color(153, 153, 153));
         tfMiddleName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfMiddleName.setText("Middle Name");
@@ -530,7 +530,7 @@ public class Admin extends javax.swing.JFrame {
         lblEmail.setText("Email:");
         addUser.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 131, 52, -1));
 
-        tfEmail.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        tfEmail.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tfEmail.setForeground(new java.awt.Color(153, 153, 153));
         tfEmail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfEmail.setText("youdata@gmail.com");
@@ -548,7 +548,7 @@ public class Admin extends javax.swing.JFrame {
         lblContact.setText("Contact Number:");
         addUser.add(lblContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 171, -1, -1));
 
-        tfContact.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        tfContact.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tfContact.setForeground(new java.awt.Color(153, 153, 153));
         tfContact.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfContact.setText("###-###-####");
@@ -596,7 +596,7 @@ public class Admin extends javax.swing.JFrame {
         });
         addUser.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 253, 192, 30));
 
-        btnAddUserToSQL.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        btnAddUserToSQL.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnAddUserToSQL.setText("Add");
         btnAddUserToSQL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAddUserToSQL.addActionListener(new java.awt.event.ActionListener() {
@@ -612,7 +612,7 @@ public class Admin extends javax.swing.JFrame {
 
         tfAge.setEditable(false);
         tfAge.setBackground(new java.awt.Color(255, 255, 255));
-        tfAge.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        tfAge.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tfAge.setForeground(new java.awt.Color(153, 153, 153));
         tfAge.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfAge.setText("Age");
@@ -725,7 +725,7 @@ public class Admin extends javax.swing.JFrame {
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 631, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(reportsPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -738,7 +738,7 @@ public class Admin extends javax.swing.JFrame {
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 460, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(reportsPage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

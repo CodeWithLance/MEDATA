@@ -277,7 +277,7 @@
                 <Component class="javax.swing.JButton" name="addDoctorBtn">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Quicksand" size="12" style="0"/>
+                      <Font name="Arial" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Add Doctor"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -291,7 +291,7 @@
                 <Component class="javax.swing.JButton" name="addPatBtn">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Quicksand" size="12" style="0"/>
+                      <Font name="Arial" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Add Patient"/>
                   </Properties>
@@ -302,7 +302,7 @@
                 <Component class="javax.swing.JButton" name="ptListBtn">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Quicksand" size="12" style="0"/>
+                      <Font name="Arial" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="List of Patients"/>
                   </Properties>
@@ -313,7 +313,7 @@
                 <Component class="javax.swing.JButton" name="mdListBtn">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Quicksand" size="12" style="0"/>
+                      <Font name="Arial" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="List of Doctors"/>
                   </Properties>
@@ -324,7 +324,7 @@
                 <Component class="javax.swing.JButton" name="reportsBtn">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Quicksand" size="12" style="0"/>
+                      <Font name="Arial" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Reports"/>
                   </Properties>
@@ -403,7 +403,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="631" max="32767" attributes="0"/>
                           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                               <Component id="reportsPage" alignment="0" max="32767" attributes="0"/>
                           </Group>
@@ -421,7 +421,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="460" max="32767" attributes="0"/>
                           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                               <Component id="reportsPage" alignment="1" max="32767" attributes="0"/>
                           </Group>
@@ -495,7 +495,7 @@
                         <Component class="javax.swing.JTextField" name="tfLastName">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="14" style="0"/>
+                              <Font name="Arial" size="14" style="0"/>
                             </Property>
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="99" green="99" red="99" type="rgb"/>
@@ -516,7 +516,7 @@
                         <Component class="javax.swing.JTextField" name="tfFirstName">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="14" style="0"/>
+                              <Font name="Arial" size="14" style="0"/>
                             </Property>
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="99" green="99" red="99" type="rgb"/>
@@ -546,7 +546,7 @@
                         <Component class="javax.swing.JTextField" name="tfMiddleName">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="14" style="0"/>
+                              <Font name="Arial" size="14" style="0"/>
                             </Property>
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="99" green="99" red="99" type="rgb"/>
@@ -580,7 +580,7 @@
                         <Component class="javax.swing.JTextField" name="tfEmail">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="14" style="0"/>
+                              <Font name="Arial" size="14" style="0"/>
                             </Property>
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="99" green="99" red="99" type="rgb"/>
@@ -614,7 +614,7 @@
                         <Component class="javax.swing.JTextField" name="tfContact">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="14" style="0"/>
+                              <Font name="Arial" size="14" style="0"/>
                             </Property>
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="99" green="99" red="99" type="rgb"/>
@@ -709,7 +709,7 @@
                         <Component class="javax.swing.JButton" name="btnAddUserToSQL">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="18" style="0"/>
+                              <Font name="Arial" size="18" style="0"/>
                             </Property>
                             <Property name="text" type="java.lang.String" value="Add"/>
                             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -745,7 +745,7 @@
                               <Color blue="ff" green="ff" red="ff" type="rgb"/>
                             </Property>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="Quicksand" size="14" style="0"/>
+                              <Font name="Arial" size="14" style="0"/>
                             </Property>
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="99" green="99" red="99" type="rgb"/>
