@@ -49,6 +49,8 @@ public class Admin extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        showInfo();
     }
 
     private static final String email_Pattern = "^[_A-Za-z0-9-\\+ñÑ]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -167,7 +169,6 @@ public class Admin extends javax.swing.JFrame {
             pstmt.setString(1, role);
 
             ResultSet rs = pstmt.executeQuery();
-
             // Get the metadata of the ResultSet  
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
@@ -236,6 +237,33 @@ public class Admin extends javax.swing.JFrame {
         }
     }
 
+    public void showInfo() { //make this a class
+        try {
+            String query = "SELECT username, firstName, contact, lastName, middleName FROM userinfo WHERE username = ?";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, this.username);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String retrievedUsername = resultSet.getString("username");
+                String firstName = resultSet.getString("firstName");
+                String contact = resultSet.getString("contact");
+                String lastName = resultSet.getString("lastName");
+                String middleName = resultSet.getString("middleName");
+
+                iplblUN.setText(retrievedUsername);
+                iplblFN.setText(firstName);
+                iplblLN.setText(lastName);
+                iplblMN.setText(middleName);
+                iplblContact.setText(contact);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -251,9 +279,17 @@ public class Admin extends javax.swing.JFrame {
         minimized = new javax.swing.JButton();
         logoIcon = new javax.swing.JLabel();
         informationPanel = new javax.swing.JPanel();
-        adminPicture = new javax.swing.JLabel();
         organizationTitle = new javax.swing.JLabel();
-        adminInformation = new javax.swing.JLabel();
+        infoUsername = new javax.swing.JLabel();
+        infoContact = new javax.swing.JLabel();
+        iplblUN = new javax.swing.JLabel();
+        iplblLN = new javax.swing.JLabel();
+        infoLastName = new javax.swing.JLabel();
+        iplblFN = new javax.swing.JLabel();
+        infoFirstName = new javax.swing.JLabel();
+        iplblMN = new javax.swing.JLabel();
+        infoMiddleName = new javax.swing.JLabel();
+        iplblContact = new javax.swing.JLabel();
         sidebar = new javax.swing.JPanel();
         navbar = new javax.swing.JPanel();
         addDoctorBtn = new javax.swing.JButton();
@@ -355,45 +391,74 @@ public class Admin extends javax.swing.JFrame {
         logoIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/medata/images/Logo.png"))); // NOI18N
 
         informationPanel.setPreferredSize(new java.awt.Dimension(631, 139));
-
-        adminPicture.setBackground(new java.awt.Color(0, 204, 204));
-        adminPicture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        adminPicture.setText("picture");
-        adminPicture.setOpaque(true);
+        informationPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         organizationTitle.setBackground(new java.awt.Color(153, 255, 153));
-        organizationTitle.setText("jLabel2");
+        organizationTitle.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        organizationTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        organizationTitle.setText("Transformative Unified Workflow Assistive Technology");
         organizationTitle.setOpaque(true);
+        informationPanel.add(organizationTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 620, 60));
 
-        adminInformation.setBackground(new java.awt.Color(102, 255, 204));
-        adminInformation.setText("jLabel3");
-        adminInformation.setOpaque(true);
+        infoUsername.setBackground(new java.awt.Color(102, 255, 204));
+        infoUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoUsername.setText("Username");
+        infoUsername.setOpaque(true);
+        informationPanel.add(infoUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 100, 30));
 
-        javax.swing.GroupLayout informationPanelLayout = new javax.swing.GroupLayout(informationPanel);
-        informationPanel.setLayout(informationPanelLayout);
-        informationPanelLayout.setHorizontalGroup(
-            informationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, informationPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(informationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(organizationTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
-                    .addComponent(adminInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(adminPicture, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        informationPanelLayout.setVerticalGroup(
-            informationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(informationPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(informationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(adminPicture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(informationPanelLayout.createSequentialGroup()
-                        .addComponent(organizationTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(adminInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
+        infoContact.setBackground(new java.awt.Color(102, 255, 204));
+        infoContact.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoContact.setText("Contact");
+        infoContact.setOpaque(true);
+        informationPanel.add(infoContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 100, 120, 30));
+
+        iplblUN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblUN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblUN.setText("username");
+        iplblUN.setOpaque(true);
+        informationPanel.add(iplblUN, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 100, 30));
+
+        iplblLN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblLN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblLN.setText("lastName");
+        iplblLN.setOpaque(true);
+        informationPanel.add(iplblLN, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 100, 30));
+
+        infoLastName.setBackground(new java.awt.Color(102, 255, 204));
+        infoLastName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoLastName.setText("Last Name");
+        infoLastName.setOpaque(true);
+        informationPanel.add(infoLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 100, 30));
+
+        iplblFN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblFN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblFN.setText("firstName");
+        iplblFN.setOpaque(true);
+        informationPanel.add(iplblFN, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 100, 30));
+
+        infoFirstName.setBackground(new java.awt.Color(102, 255, 204));
+        infoFirstName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoFirstName.setText("First Name");
+        infoFirstName.setOpaque(true);
+        informationPanel.add(infoFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 100, 30));
+
+        iplblMN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblMN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblMN.setText("middleName");
+        iplblMN.setOpaque(true);
+        informationPanel.add(iplblMN, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 70, 100, 30));
+
+        infoMiddleName.setBackground(new java.awt.Color(102, 255, 204));
+        infoMiddleName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoMiddleName.setText("Middle Name");
+        infoMiddleName.setOpaque(true);
+        informationPanel.add(infoMiddleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 100, 100, 30));
+
+        iplblContact.setBackground(new java.awt.Color(102, 255, 204));
+        iplblContact.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblContact.setText("contact");
+        iplblContact.setOpaque(true);
+        informationPanel.add(iplblContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 120, 30));
 
         sidebar.setOpaque(false);
 
@@ -949,8 +1014,6 @@ public class Admin extends javax.swing.JFrame {
         java.util.Date currentDate = calendar.getTime();
         Date sqlDate = new Date(currentDate.getTime());
         jDateChooser1.setDate(sqlDate);
-
-        
     }//GEN-LAST:event_btnAddUserToSQLActionPerformed
 
     private void tfLastNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfLastNameFocusGained
@@ -1070,8 +1133,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton addDoctorBtn;
     private javax.swing.JButton addPatBtn;
     private javax.swing.JPanel addUser;
-    private javax.swing.JLabel adminInformation;
-    private javax.swing.JLabel adminPicture;
     private javax.swing.JLabel background;
     private javax.swing.JButton btnAddUserToSQL;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1079,7 +1140,17 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton deleteBtn1;
     private javax.swing.JButton exit;
     private javax.swing.JLabel frameDrag;
+    private javax.swing.JLabel infoContact;
+    private javax.swing.JLabel infoFirstName;
+    private javax.swing.JLabel infoLastName;
+    private javax.swing.JLabel infoMiddleName;
+    private javax.swing.JLabel infoUsername;
     private javax.swing.JPanel informationPanel;
+    private javax.swing.JLabel iplblContact;
+    private javax.swing.JLabel iplblFN;
+    private javax.swing.JLabel iplblLN;
+    private javax.swing.JLabel iplblMN;
+    private javax.swing.JLabel iplblUN;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLayeredPane jLayeredPane1;

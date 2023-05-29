@@ -21,7 +21,7 @@ import javax.swing.JTextField;
  */
 public class MEDATA_Application extends javax.swing.JFrame {
 
-    Connection con;
+    Connection con; 
 
     /**
      * Creates new form MEDATA_Application
@@ -41,10 +41,10 @@ public class MEDATA_Application extends javax.swing.JFrame {
     }
 
     int xMouse, yMouse;
-
+    
     void userSignIn() {
         try {
-            String sql = "Select * FROM userinfo WHERE username = ? and password = ?";
+            String sql = "SELECT * FROM userinfo WHERE username = ? and password = ?";
 
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, enterUsername.getText());
