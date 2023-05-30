@@ -54,7 +54,8 @@ public class Admin extends javax.swing.JFrame {
     }
 
     private static final String email_Pattern = "^[_A-Za-z0-9-\\+ñÑ]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
+     String loggedInUser;
+    
     int xMouse, yMouse;
     String uid;
     String username;
@@ -238,30 +239,32 @@ public class Admin extends javax.swing.JFrame {
     }
 
     public void showInfo() { //make this a class
-        try {
-            String query = "SELECT username, firstName, contact, lastName, middleName FROM userinfo WHERE username = ?";
-            PreparedStatement statement = con.prepareStatement(query);
-            statement.setString(1, this.username);
+                    loggedInUser = dataBox.pullUserData();
+            try {
+                String query = "SELECT username, firstName, contact, lastName, middleName FROM userinfo WHERE username = ?";
+                PreparedStatement statement = con.prepareStatement(query);
+                statement.setString(1, loggedInUser);
+                ResultSet resultSet = statement.executeQuery();
 
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                String retrievedUsername = resultSet.getString("username");
-                String firstName = resultSet.getString("firstName");
-                String contact = resultSet.getString("contact");
-                String lastName = resultSet.getString("lastName");
-                String middleName = resultSet.getString("middleName");
+                if (resultSet.next()) {
+                    String retrievedUsername = resultSet.getString("username");
+                    String firstName = resultSet.getString("firstName");
+                    String contact = resultSet.getString("contact");
+                    String lastName = resultSet.getString("lastName");
+                    String middleName = resultSet.getString("middleName");
 
-                iplblUN.setText(retrievedUsername);
-                iplblFN.setText(firstName);
-                iplblLN.setText(lastName);
-                iplblMN.setText(middleName);
-                iplblContact.setText(contact);
+                    iplblUN.setText(retrievedUsername);
+                    iplblFN.setText(firstName);
+                    iplblLN.setText(lastName);
+                    iplblMN.setText(middleName);
+                    iplblContact.setText(contact);
+                }
+
+                resultSet.close();
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

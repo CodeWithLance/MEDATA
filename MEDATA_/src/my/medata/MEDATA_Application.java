@@ -42,6 +42,10 @@ public class MEDATA_Application extends javax.swing.JFrame {
 
     int xMouse, yMouse;
     
+    dataBox getUser = new dataBox();
+    String loggedUser;
+    
+    
     void userSignIn() {
         try {
             String sql = "SELECT * FROM userinfo WHERE username = ? and password = ?";
@@ -58,8 +62,10 @@ public class MEDATA_Application extends javax.swing.JFrame {
                     promptPasswordChange(enterUsername.getText());
                     return;
                 } else {
+                    loggedUser = enterUsername.getText();
+                    getUser.pushUserData(loggedUser);
                     JOptionPane.showMessageDialog(null, "Welcome!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
+                     
                     String query = "SELECT role FROM userinfo WHERE username = ?";
                     PreparedStatement statement = con.prepareStatement(query);
                     statement.setString(1, enterUsername.getText());
