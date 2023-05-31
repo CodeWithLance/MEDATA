@@ -32,7 +32,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         pack();
         enterPassword.setEchoChar((char) 0);
-        SetIcon();
+        SetIcon.SetIcon(this);
         
         
         try {
@@ -47,10 +47,6 @@ public class MEDATA_Application extends javax.swing.JFrame {
     
     dataBox getUser = new dataBox();
     String loggedUser;
-    
-    public void SetIcon(){
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("runtime.png")));
-    }
     
     void userSignIn() {
         try {

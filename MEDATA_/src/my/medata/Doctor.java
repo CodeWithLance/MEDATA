@@ -41,7 +41,7 @@ public class Doctor extends javax.swing.JFrame {
         jLayeredPane1.setVisible(false);
         welcomePage.setVisible(true);
         pack();
-        SetIcon();
+        SetIcon.SetIcon(this);
 
 
         try {
@@ -64,10 +64,6 @@ public class Doctor extends javax.swing.JFrame {
     
     String loggedInUser;
   
-    
-     public void SetIcon(){
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("runtime.png")));
-    }
 
     public void setDisplay(JPanel Panel) {
         for (int i = 0; i < jLayeredPane1.getComponentCount(); i++) {

@@ -41,7 +41,8 @@ public class Admin extends javax.swing.JFrame {
         jLayeredPane1.setVisible(false);
         welcomePage.setVisible(true);
         pack();
-        SetIcon();
+        SetIcon.SetIcon(this);
+
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -55,10 +56,6 @@ public class Admin extends javax.swing.JFrame {
         showInfo();
     }
 
-    public void SetIcon(){
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("runtime.png")));
-    }
-    
     
     private static final String email_Pattern = "^[_A-Za-z0-9-\\+ñÑ]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
      String loggedInUser;
