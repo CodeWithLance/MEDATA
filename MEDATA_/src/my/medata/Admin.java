@@ -53,12 +53,17 @@ public class Admin extends javax.swing.JFrame {
             e.printStackTrace();
         }
         
+        Calendar calendar = Calendar.getInstance();
+        java.util.Date currentDate = calendar.getTime();
+        Date sqlDate = new Date(currentDate.getTime());
+        jDateChooser1.setDate(sqlDate);
+        
         showInfo();
     }
 
     
     private static final String email_Pattern = "^[_A-Za-z0-9-\\+ñÑ]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-     String loggedInUser;
+    String loggedInUser;
     
     int xMouse, yMouse;
     String uid;
@@ -243,7 +248,7 @@ public class Admin extends javax.swing.JFrame {
     }
 
     public void showInfo() { //make this a class
-                    loggedInUser = dataBox.pullUserData();
+            loggedInUser = dataBox.pullUserData();
             try {
                 String query = "SELECT username, firstName, contact, lastName, middleName FROM userinfo WHERE username = ?";
                 PreparedStatement statement = con.prepareStatement(query);
@@ -1048,22 +1053,40 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_reportsBtnActionPerformed
 
     private void btnAddUserToSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserToSQLActionPerformed
-        insertUserData();
-        JOptionPane.showMessageDialog(null, "Username: " + username + "\n Password: " + password, "Credentials", JOptionPane.INFORMATION_MESSAGE);
-                
         JTextField[] textFields = {tfFirstName, tfMiddleName, tfLastName, tfAge, tfContact, tfEmail};
         String[] phText = {"First Name", "Middle Name", "Last Name", "Age", "###-###-####", "youdata@gmail.com"};
-        for (int i = 0; i <textFields.length; i++) {
-            textFields[i].setText(phText[i]);
-            textFields[i].setForeground(gray);
-            textFields[i].setHorizontalAlignment(CENTER);
+
+        boolean anyEmpty = false;
+        for (int i = 0; i < textFields.length; i++) {
+            if (textFields[i].getText().isEmpty() || textFields[i].getText().equals(phText[i])) {
+                anyEmpty = true;
+                break;
+            }
         }
-        rbMaleSex.setSelected(true);
-        cbCivilStatus.setSelectedIndex(0);
-        Calendar calendar = Calendar.getInstance();
-        java.util.Date currentDate = calendar.getTime();
-        Date sqlDate = new Date(currentDate.getTime());
-        jDateChooser1.setDate(sqlDate);
+
+        if (anyEmpty) {
+            JOptionPane.showMessageDialog(null, "Text Fields should not be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            boolean emailValid = tfEmail.getText().matches(email_Pattern);
+            if (!emailValid) {
+                tfEmail.setForeground(red);
+                JOptionPane.showMessageDialog(null, "Invalid email format", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                insertUserData();
+                JOptionPane.showMessageDialog(null, "Username: " + username + "\n Password: " + password, "Credentials", JOptionPane.INFORMATION_MESSAGE);
+                for (int j = 0; j < textFields.length; j++) {
+                    textFields[j].setText(phText[j]);
+                    textFields[j].setForeground(gray);
+                    textFields[j].setHorizontalAlignment(CENTER);
+                }
+                rbMaleSex.setSelected(true);
+                cbCivilStatus.setSelectedIndex(0);
+                Calendar calendar = Calendar.getInstance();
+                java.util.Date currentDate = calendar.getTime();
+                Date sqlDate = new Date(currentDate.getTime());
+                jDateChooser1.setDate(sqlDate);
+            }
+        }
     }//GEN-LAST:event_btnAddUserToSQLActionPerformed
 
     private void tfLastNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfLastNameFocusGained
@@ -1095,16 +1118,16 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_tfEmailFocusGained
 
     private void tfEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusLost
-        if (!tfEmail.getText().matches(email_Pattern)) {
-            JOptionPane.showMessageDialog(null, "Invalid email format", "Error", JOptionPane.ERROR_MESSAGE);
-            tfEmail.setForeground(red);
-            btnAddUserToSQL.setEnabled(false);
-        } else if (tfEmail.getText().matches(email_Pattern) && !tfEmail.getText().equals("youdata@gmail.com")) {
-            tfEmail.setForeground(black);
-            btnAddUserToSQL.setEnabled(true);
-        } else {
-            focusOff(tfEmail, "youdata@gmail.com");
-        }
+//        if (!tfEmail.getText().matches(email_Pattern)) {
+//            JOptionPane.showMessageDialog(null, "Invalid email format", "Error", JOptionPane.ERROR_MESSAGE);
+//            tfEmail.setForeground(red);
+//            btnAddUserToSQL.setEnabled(false);
+//        } else if (tfEmail.getText().matches(email_Pattern) && !tfEmail.getText().equals("youdata@gmail.com")) {
+//            tfEmail.setForeground(black);
+//            btnAddUserToSQL.setEnabled(true);
+//        } else {
+//            focusOff(tfEmail, "youdata@gmail.com");
+//        }
     }//GEN-LAST:event_tfEmailFocusLost
 
     private void tfContactFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfContactFocusGained

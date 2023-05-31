@@ -3,7 +3,6 @@ package my.medata;
 import com.formdev.flatlaf.FlatLightLaf;
 import static java.awt.Color.*;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.font.TextAttribute;
 import java.util.Map;
@@ -224,7 +223,7 @@ public class MEDATA_Application extends javax.swing.JFrame {
             }
         });
 
-        minimized.setBackground(new java.awt.Color(179, 234, 255));
+        minimized.setBackground(new java.awt.Color(147, 206, 255));
         minimized.setText("—");
         minimized.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         minimized.setContentAreaFilled(false);

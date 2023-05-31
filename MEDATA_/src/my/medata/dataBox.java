@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package my.medata;
 
-/**
- *
- * @author Neo
+/*
+ * Authors:
+ * Arcega, Lance Angelo P.
+ * Muñoz, Nathan Sheary G.
+ * Pare, Neo Jezer A.
  */
 public class dataBox {
     private static String loggedInUser;
