@@ -282,6 +282,7 @@ public class Admin extends javax.swing.JFrame {
         minimized = new javax.swing.JButton();
         logoIcon = new javax.swing.JLabel();
         informationPanel = new javax.swing.JPanel();
+        middleBorder = new javax.swing.JLabel();
         organizationTitle = new javax.swing.JLabel();
         infoUsername = new javax.swing.JLabel();
         infoContact = new javax.swing.JLabel();
@@ -293,6 +294,12 @@ public class Admin extends javax.swing.JFrame {
         iplblMN = new javax.swing.JLabel();
         infoMiddleName = new javax.swing.JLabel();
         iplblContact = new javax.swing.JLabel();
+        leftPartBorder = new javax.swing.JLabel();
+        rightPartBorder = new javax.swing.JLabel();
+        topBorder = new javax.swing.JLabel();
+        botBorder = new javax.swing.JLabel();
+        rightBorder = new javax.swing.JLabel();
+        leftBorder = new javax.swing.JLabel();
         sidebar = new javax.swing.JPanel();
         navbar = new javax.swing.JPanel();
         addDoctorBtn = new javax.swing.JButton();
@@ -396,72 +403,106 @@ public class Admin extends javax.swing.JFrame {
         informationPanel.setPreferredSize(new java.awt.Dimension(631, 139));
         informationPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        organizationTitle.setBackground(new java.awt.Color(153, 255, 153));
+        middleBorder.setBackground(new java.awt.Color(0, 0, 0));
+        middleBorder.setText(".");
+        middleBorder.setOpaque(true);
+        informationPanel.add(middleBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 96, 570, 3));
+
         organizationTitle.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         organizationTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        organizationTitle.setText("Transformative Unified Workflow Assistive Technology");
+        organizationTitle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/medata/images/TuwaTech.png"))); // NOI18N
         organizationTitle.setOpaque(true);
         informationPanel.add(organizationTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 620, 60));
 
         infoUsername.setBackground(new java.awt.Color(102, 255, 204));
+        infoUsername.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         infoUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoUsername.setText("Username");
-        infoUsername.setOpaque(true);
-        informationPanel.add(infoUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 100, 30));
+        informationPanel.add(infoUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 100, 30));
 
         infoContact.setBackground(new java.awt.Color(102, 255, 204));
+        infoContact.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         infoContact.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoContact.setText("Contact");
-        infoContact.setOpaque(true);
         informationPanel.add(infoContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 100, 120, 30));
 
         iplblUN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblUN.setFont(new java.awt.Font("Segoe UI", 0, 9)); // NOI18N
         iplblUN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         iplblUN.setText("username");
-        iplblUN.setOpaque(true);
-        informationPanel.add(iplblUN, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 100, 30));
+        informationPanel.add(iplblUN, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 100, 30));
 
         iplblLN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblLN.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         iplblLN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         iplblLN.setText("lastName");
-        iplblLN.setOpaque(true);
-        informationPanel.add(iplblLN, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 100, 30));
+        informationPanel.add(iplblLN, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 100, 30));
 
         infoLastName.setBackground(new java.awt.Color(102, 255, 204));
+        infoLastName.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         infoLastName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLastName.setText("Last Name");
-        infoLastName.setOpaque(true);
-        informationPanel.add(infoLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 100, 30));
+        informationPanel.add(infoLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 100, 30));
 
         iplblFN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblFN.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         iplblFN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         iplblFN.setText("firstName");
-        iplblFN.setOpaque(true);
-        informationPanel.add(iplblFN, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 100, 30));
+        informationPanel.add(iplblFN, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 130, 30));
 
         infoFirstName.setBackground(new java.awt.Color(102, 255, 204));
+        infoFirstName.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         infoFirstName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoFirstName.setText("First Name");
-        infoFirstName.setOpaque(true);
-        informationPanel.add(infoFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 100, 30));
+        informationPanel.add(infoFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, 130, 30));
 
         iplblMN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblMN.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         iplblMN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         iplblMN.setText("middleName");
-        iplblMN.setOpaque(true);
-        informationPanel.add(iplblMN, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 70, 100, 30));
+        informationPanel.add(iplblMN, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 100, 30));
 
         infoMiddleName.setBackground(new java.awt.Color(102, 255, 204));
+        infoMiddleName.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         infoMiddleName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoMiddleName.setText("Middle Name");
-        infoMiddleName.setOpaque(true);
-        informationPanel.add(infoMiddleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 100, 100, 30));
+        informationPanel.add(infoMiddleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 100, 100, 30));
 
         iplblContact.setBackground(new java.awt.Color(102, 255, 204));
+        iplblContact.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         iplblContact.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         iplblContact.setText("contact");
-        iplblContact.setOpaque(true);
         informationPanel.add(iplblContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 120, 30));
+
+        leftPartBorder.setBackground(new java.awt.Color(0, 0, 0));
+        leftPartBorder.setText(".");
+        leftPartBorder.setOpaque(true);
+        informationPanel.add(leftPartBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(477, 60, -1, 70));
+
+        rightPartBorder.setBackground(new java.awt.Color(0, 0, 0));
+        rightPartBorder.setText(".");
+        rightPartBorder.setOpaque(true);
+        informationPanel.add(rightPartBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 62, -1, 70));
+
+        topBorder.setBackground(new java.awt.Color(0, 0, 0));
+        topBorder.setText(".");
+        topBorder.setOpaque(true);
+        informationPanel.add(topBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 59, 570, 10));
+
+        botBorder.setBackground(new java.awt.Color(0, 0, 0));
+        botBorder.setText(".");
+        botBorder.setOpaque(true);
+        informationPanel.add(botBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 129, 570, 3));
+
+        rightBorder.setBackground(new java.awt.Color(0, 0, 0));
+        rightBorder.setText(".");
+        rightBorder.setOpaque(true);
+        informationPanel.add(rightBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, 70));
+
+        leftBorder.setBackground(new java.awt.Color(0, 0, 0));
+        leftBorder.setText(".");
+        leftBorder.setOpaque(true);
+        informationPanel.add(leftBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 60, -1, 72));
 
         sidebar.setOpaque(false);
 
@@ -766,6 +807,8 @@ public class Admin extends javax.swing.JFrame {
 
         listPage.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 620, 410));
 
+        reportsPage.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel7.setText("reports PAge");
 
         javax.swing.GroupLayout reportsPageLayout = new javax.swing.GroupLayout(reportsPage);
@@ -775,14 +818,14 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(reportsPageLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
-                .addContainerGap(956, Short.MAX_VALUE))
+                .addContainerGap(557, Short.MAX_VALUE))
         );
         reportsPageLayout.setVerticalGroup(
             reportsPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(reportsPageLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
-                .addContainerGap(445, Short.MAX_VALUE))
+                .addContainerGap(438, Short.MAX_VALUE))
         );
 
         jLayeredPane1.setLayer(addUser, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -1137,6 +1180,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton addPatBtn;
     private javax.swing.JPanel addUser;
     private javax.swing.JLabel background;
+    private javax.swing.JLabel botBorder;
     private javax.swing.JButton btnAddUserToSQL;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbCivilStatus;
@@ -1172,10 +1216,13 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPH63;
     private javax.swing.JLabel lblSex;
+    private javax.swing.JLabel leftBorder;
+    private javax.swing.JLabel leftPartBorder;
     private javax.swing.JPanel listPage;
     private javax.swing.JLabel logoIcon;
     private javax.swing.JPanel mainAdminPanel;
     private javax.swing.JButton mdListBtn;
+    private javax.swing.JLabel middleBorder;
     private javax.swing.JButton minimized;
     private javax.swing.JPanel navbar;
     private javax.swing.JLabel organizationTitle;
@@ -1184,6 +1231,8 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbMaleSex;
     private javax.swing.JButton reportsBtn;
     private javax.swing.JPanel reportsPage;
+    private javax.swing.JLabel rightBorder;
+    private javax.swing.JLabel rightPartBorder;
     private javax.swing.JPanel sidebar;
     private javax.swing.JTextField tfAge;
     private javax.swing.JTextField tfContact;
@@ -1191,6 +1240,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JTextField tfFirstName;
     private javax.swing.JTextField tfLastName;
     private javax.swing.JTextField tfMiddleName;
+    private javax.swing.JLabel topBorder;
     private javax.swing.JPanel uiButtonPanel;
     private javax.swing.JButton updBtn;
     private javax.swing.JLabel welcomeAdmin;

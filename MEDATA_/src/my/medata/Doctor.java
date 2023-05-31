@@ -1,6 +1,8 @@
 package my.medata;
 
 import static java.awt.Color.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -13,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import static javax.swing.SwingConstants.*;
 import java.sql.*;
+import java.util.Calendar;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Authors:
@@ -23,6 +27,7 @@ import java.sql.*;
 public class Doctor extends javax.swing.JFrame {
 
     Connection con;
+    DefaultTableModel model = new DefaultTableModel();
     
 
     /**
@@ -80,11 +85,11 @@ public class Doctor extends javax.swing.JFrame {
                     String lastName = resultSet.getString("lastName");
                     String middleName = resultSet.getString("middleName");
 
-                    iplblUN1.setText(retrievedUsername);
-                    iplblFN1.setText(firstName);
-                    iplblLN1.setText(lastName);
-                    iplblMN1.setText(middleName);
-                    iplblContact1.setText(contact);
+                    iplblUN.setText(retrievedUsername);
+                    iplblFN.setText(firstName);
+                    iplblLN.setText(lastName);
+                    iplblMN.setText(middleName);
+                    iplblContact.setText(contact);
                 }
 
                 resultSet.close();
@@ -93,6 +98,84 @@ public class Doctor extends javax.swing.JFrame {
                 e.printStackTrace();
             }
 }
+    
+    
+    public void showList() {
+        jTable3.setModel(model);
+        String role = "patient";
+        try {
+            String query = "SELECT username, lastName, firstName, sex, civilStatus, contact FROM userinfo WHERE role = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setString(1, role);
+
+            ResultSet rs = pstmt.executeQuery();
+            // Get the metadata of the ResultSet  
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            // Create an array to hold column names
+            String[] columnNames = new String[columnCount];
+            for (int i = 1; i <= columnCount; i++) {
+                columnNames[i - 1] = metaData.getColumnName(i);
+            }
+            model.setColumnIdentifiers(columnNames);
+
+            //prevent duplicating the table data 
+            if (model.getRowCount() > 0) {
+                model.setRowCount(0);
+            }
+
+            while (rs.next()) {
+                Object[] rowData = new Object[columnCount];
+                for (int i = 1; i <= columnCount; i++) {
+                    rowData[i - 1] = rs.getObject(i);
+                }
+                model.addRow(rowData);
+            }
+
+            deleteBtn1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Get the selected row index
+                    int selectedRow = jTable3.getSelectedRow();
+
+                    // Ensure a row is selected
+                    if (selectedRow != -1) {
+                        // Retrieve the data from the selected row
+                        Object[] rowData = new Object[columnCount];
+                        for (int i = 0; i < columnCount; i++) {
+                            rowData[i] = jTable3.getValueAt(selectedRow, i);
+                        }
+
+                        try {
+                            // Prepare the DELETE query
+                            String deleteQuery = "DELETE FROM userinfo WHERE username = ?";
+                            PreparedStatement pstmt = con.prepareStatement(deleteQuery);
+
+                            // Assuming the username is in the first column (adjust the index if needed)
+                            pstmt.setObject(1, rowData[0]);
+
+                            // Execute the delete query
+                            pstmt.executeUpdate();
+
+                            // Remove the selected row from the model
+                            model.removeRow(selectedRow);
+
+                            // Update the JTable to reflect the changes
+                            jTable3.setModel(model);
+
+                            rs.close();
+                            pstmt.close();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void focusOn(JTextField textfield, String intext) {
         if (textfield.getText().equals(intext)) {
@@ -112,47 +195,47 @@ public class Doctor extends javax.swing.JFrame {
     }
 
     private void updateAgeLabel() {
-        LocalDate selectedDate = jDateChooser3.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate selectedDate = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate currentDate = LocalDate.now();
         Period period = Period.between(selectedDate, currentDate);
         int age = period.getYears();
-        ptAge.setForeground(black);
-        ptAge.setText(String.valueOf(age));
+        tfAge.setForeground(black);
+        tfAge.setText(String.valueOf(age));
     }
 
  void insertUserData() {
-        String lastName = ptLastName.getText();
-        String firstName = ptFirstName.getText();
-        String middleName = ptMiddleName.getText();
-        String email = ptEmail.getText();
-        String contact = ptContact.getText();
+        String lastName = tfLastName.getText();
+        String firstName = tfFirstName.getText();
+        String middleName = tfMiddleName.getText();
+        String email = tfEmail.getText();
+        String contact = "+63 " + tfContact.getText();
         String sex;
-        if (ptRbMale.isSelected()) {
-            sex = ptRbMale.getText();
+        if (rbMaleSex.isSelected()) {
+            sex = rbMaleSex.getText();
         } else {
-            sex = ptRbMale.getText();
+            sex = rbFemaleSex.getText();
         }
         SimpleDateFormat birthDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateOfBirth = birthDateFormatter.format(jDateChooser3.getDate());
+        String dateOfBirth = birthDateFormatter.format(jDateChooser1.getDate());
         String civilStatus;
-        if (ptCivilStatus.getSelectedIndex() == 0) {
+        if (cbCivilStatus.getSelectedIndex() == 0) {
             civilStatus = "Single";
-        } else if (ptCivilStatus.getSelectedIndex() == 1) {
+        } else if (cbCivilStatus.getSelectedIndex() == 1) {
             civilStatus = "Married";
-        } else if (ptCivilStatus.getSelectedIndex() == 2) {
+        } else if (cbCivilStatus.getSelectedIndex() == 2) {
             civilStatus = "Divorced";
         } else {
             civilStatus = "Widowed";
         }
-        int age = Integer.parseInt(ptAge.getText());
+        int age = Integer.parseInt(tfAge.getText());
         String address = "";
         int height = 0;
         int weight = 0;
-        String role = "patient";
+        String role = setRole;
         int username_count = 0;
         do {
             try {
-                username = new UIDGenerator().generateUID(lastName, firstName, jDateChooser3.getDate(), uid);
+                username = new UIDGenerator().generateUID(lastName, firstName, jDateChooser1.getDate(), uid);
                 String sql = "Select COUNT(username) as username_count from userinfo where username = ?";
                 PreparedStatement pst = con.prepareStatement(sql);
                 pst.setString(1, username);
@@ -187,22 +270,30 @@ public class Doctor extends javax.swing.JFrame {
         minimized = new javax.swing.JButton();
         logo = new javax.swing.JLabel();
         infoPane = new javax.swing.JPanel();
-        organizationTitle1 = new javax.swing.JLabel();
-        infoUsername1 = new javax.swing.JLabel();
-        iplblUN1 = new javax.swing.JLabel();
-        infoContact1 = new javax.swing.JLabel();
-        iplblLN1 = new javax.swing.JLabel();
-        infoLastName1 = new javax.swing.JLabel();
-        iplblFN1 = new javax.swing.JLabel();
-        infoFirstName1 = new javax.swing.JLabel();
-        iplblMN1 = new javax.swing.JLabel();
-        infoMiddleName1 = new javax.swing.JLabel();
-        iplblContact1 = new javax.swing.JLabel();
+        informationPanel = new javax.swing.JPanel();
+        middleBorder = new javax.swing.JLabel();
+        organizationTitle = new javax.swing.JLabel();
+        infoUsername = new javax.swing.JLabel();
+        infoContact = new javax.swing.JLabel();
+        iplblUN = new javax.swing.JLabel();
+        iplblLN = new javax.swing.JLabel();
+        infoLastName = new javax.swing.JLabel();
+        iplblFN = new javax.swing.JLabel();
+        infoFirstName = new javax.swing.JLabel();
+        iplblMN = new javax.swing.JLabel();
+        infoMiddleName = new javax.swing.JLabel();
+        iplblContact = new javax.swing.JLabel();
+        leftPartBorder = new javax.swing.JLabel();
+        rightPartBorder = new javax.swing.JLabel();
+        topBorder = new javax.swing.JLabel();
+        botBorder = new javax.swing.JLabel();
+        rightBorder = new javax.swing.JLabel();
+        leftBorder = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         navbar = new javax.swing.JPanel();
         addDoctorBtn = new javax.swing.JButton();
         addPatBtn = new javax.swing.JButton();
-        reportsBtn = new javax.swing.JButton();
+        listPtBtn = new javax.swing.JButton();
         removeBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         windowPanel = new javax.swing.JPanel();
@@ -212,8 +303,14 @@ public class Doctor extends javax.swing.JFrame {
         tba = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         listofpatients = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        listPage = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        updBtn = new javax.swing.JButton();
+        deleteBtn1 = new javax.swing.JButton();
         requestPage = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         schedule = new javax.swing.JPanel();
@@ -221,27 +318,28 @@ public class Doctor extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         addPatient = new javax.swing.JPanel();
-        lblName1 = new javax.swing.JLabel();
-        addDoctorTitle1 = new javax.swing.JLabel();
-        comma2 = new javax.swing.JLabel();
-        ptLastName = new javax.swing.JTextField();
-        ptFirstName = new javax.swing.JTextField();
-        ptMiddleName = new javax.swing.JTextField();
-        lblEmail1 = new javax.swing.JLabel();
-        ptEmail = new javax.swing.JTextField();
-        lblContacts1 = new javax.swing.JLabel();
-        ptContact = new javax.swing.JTextField();
-        lblSex1 = new javax.swing.JLabel();
-        ptRbMale = new javax.swing.JRadioButton();
-        ptRbFemale = new javax.swing.JRadioButton();
-        lblBDay1 = new javax.swing.JLabel();
-        jDateChooser3 = new com.toedter.calendar.JDateChooser();
-        jButton9 = new javax.swing.JButton();
-        lblBDay2 = new javax.swing.JLabel();
-        ptAge = new javax.swing.JTextField();
-        lblBDay3 = new javax.swing.JLabel();
-        ptCivilStatus = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
+        addUser = new javax.swing.JPanel();
+        lblName = new javax.swing.JLabel();
+        lblAddUser = new javax.swing.JLabel();
+        lblComma = new javax.swing.JLabel();
+        tfLastName = new javax.swing.JTextField();
+        tfFirstName = new javax.swing.JTextField();
+        tfMiddleName = new javax.swing.JTextField();
+        lblEmail = new javax.swing.JLabel();
+        tfEmail = new javax.swing.JTextField();
+        lblContact = new javax.swing.JLabel();
+        tfContact = new javax.swing.JTextField();
+        lblSex = new javax.swing.JLabel();
+        rbMaleSex = new javax.swing.JRadioButton();
+        rbFemaleSex = new javax.swing.JRadioButton();
+        lblBirthDate = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        btnAddUserToSQL = new javax.swing.JButton();
+        lblAge = new javax.swing.JLabel();
+        tfAge = new javax.swing.JTextField();
+        lblCivilStatus = new javax.swing.JLabel();
+        cbCivilStatus = new javax.swing.JComboBox<>();
+        lblPH63 = new javax.swing.JLabel();
         frameDrag = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
 
@@ -300,119 +398,113 @@ public class Doctor extends javax.swing.JFrame {
 
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/medata/images/Logo.png"))); // NOI18N
 
-        organizationTitle1.setBackground(new java.awt.Color(153, 255, 153));
-        organizationTitle1.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
-        organizationTitle1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        organizationTitle1.setText("Transformative Unified Workflow Assistive Technology");
-        organizationTitle1.setOpaque(true);
+        infoPane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        infoUsername1.setBackground(new java.awt.Color(102, 255, 204));
-        infoUsername1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        infoUsername1.setText("Username");
-        infoUsername1.setOpaque(true);
+        informationPanel.setPreferredSize(new java.awt.Dimension(631, 139));
+        informationPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        iplblUN1.setBackground(new java.awt.Color(102, 255, 204));
-        iplblUN1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iplblUN1.setText("username");
-        iplblUN1.setOpaque(true);
+        middleBorder.setBackground(new java.awt.Color(0, 0, 0));
+        middleBorder.setText(".");
+        middleBorder.setOpaque(true);
+        informationPanel.add(middleBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 96, 570, 3));
 
-        infoContact1.setBackground(new java.awt.Color(102, 255, 204));
-        infoContact1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        infoContact1.setText("Contact");
-        infoContact1.setOpaque(true);
+        organizationTitle.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        organizationTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        organizationTitle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/my/medata/images/TuwaTech.png"))); // NOI18N
+        organizationTitle.setOpaque(true);
+        informationPanel.add(organizationTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 620, 60));
 
-        iplblLN1.setBackground(new java.awt.Color(102, 255, 204));
-        iplblLN1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iplblLN1.setText("lastName");
-        iplblLN1.setOpaque(true);
+        infoUsername.setBackground(new java.awt.Color(102, 255, 204));
+        infoUsername.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        infoUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoUsername.setText("Username");
+        informationPanel.add(infoUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 100, 30));
 
-        infoLastName1.setBackground(new java.awt.Color(102, 255, 204));
-        infoLastName1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        infoLastName1.setText("Last Name");
-        infoLastName1.setOpaque(true);
+        infoContact.setBackground(new java.awt.Color(102, 255, 204));
+        infoContact.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        infoContact.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoContact.setText("Contact");
+        informationPanel.add(infoContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 100, 120, 30));
 
-        iplblFN1.setBackground(new java.awt.Color(102, 255, 204));
-        iplblFN1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iplblFN1.setText("firstName");
-        iplblFN1.setOpaque(true);
+        iplblUN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblUN.setFont(new java.awt.Font("Segoe UI", 0, 9)); // NOI18N
+        iplblUN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblUN.setText("username");
+        informationPanel.add(iplblUN, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 100, 30));
 
-        infoFirstName1.setBackground(new java.awt.Color(102, 255, 204));
-        infoFirstName1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        infoFirstName1.setText("First Name");
-        infoFirstName1.setOpaque(true);
+        iplblLN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblLN.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        iplblLN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblLN.setText("lastName");
+        informationPanel.add(iplblLN, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 100, 30));
 
-        iplblMN1.setBackground(new java.awt.Color(102, 255, 204));
-        iplblMN1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iplblMN1.setText("middleName");
-        iplblMN1.setOpaque(true);
+        infoLastName.setBackground(new java.awt.Color(102, 255, 204));
+        infoLastName.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        infoLastName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoLastName.setText("Last Name");
+        informationPanel.add(infoLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 100, 30));
 
-        infoMiddleName1.setBackground(new java.awt.Color(102, 255, 204));
-        infoMiddleName1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        infoMiddleName1.setText("Middle Name");
-        infoMiddleName1.setOpaque(true);
+        iplblFN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblFN.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        iplblFN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblFN.setText("firstName");
+        informationPanel.add(iplblFN, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 130, 30));
 
-        iplblContact1.setBackground(new java.awt.Color(102, 255, 204));
-        iplblContact1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iplblContact1.setText("contact");
-        iplblContact1.setOpaque(true);
+        infoFirstName.setBackground(new java.awt.Color(102, 255, 204));
+        infoFirstName.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        infoFirstName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoFirstName.setText("First Name");
+        informationPanel.add(infoFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, 130, 30));
 
-        javax.swing.GroupLayout infoPaneLayout = new javax.swing.GroupLayout(infoPane);
-        infoPane.setLayout(infoPaneLayout);
-        infoPaneLayout.setHorizontalGroup(
-            infoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 643, Short.MAX_VALUE)
-            .addGroup(infoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(infoPaneLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(infoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(organizationTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(infoPaneLayout.createSequentialGroup()
-                            .addGap(34, 34, 34)
-                            .addGroup(infoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(infoPaneLayout.createSequentialGroup()
-                                    .addComponent(iplblUN1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(20, 20, 20)
-                                    .addComponent(iplblLN1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, 0)
-                                    .addComponent(iplblFN1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, 0)
-                                    .addComponent(iplblMN1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(20, 20, 20)
-                                    .addComponent(iplblContact1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(infoPaneLayout.createSequentialGroup()
-                                    .addComponent(infoUsername1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(20, 20, 20)
-                                    .addComponent(infoLastName1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, 0)
-                                    .addComponent(infoFirstName1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, 0)
-                                    .addComponent(infoMiddleName1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(20, 20, 20)
-                                    .addComponent(infoContact1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        infoPaneLayout.setVerticalGroup(
-            infoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 151, Short.MAX_VALUE)
-            .addGroup(infoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(infoPaneLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(organizationTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(4, 4, 4)
-                    .addGroup(infoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(iplblUN1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(iplblLN1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(iplblFN1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(iplblMN1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(iplblContact1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(infoPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(infoUsername1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(infoLastName1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(infoFirstName1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(infoMiddleName1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(infoContact1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        iplblMN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblMN.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        iplblMN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblMN.setText("middleName");
+        informationPanel.add(iplblMN, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 100, 30));
+
+        infoMiddleName.setBackground(new java.awt.Color(102, 255, 204));
+        infoMiddleName.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        infoMiddleName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoMiddleName.setText("Middle Name");
+        informationPanel.add(infoMiddleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 100, 100, 30));
+
+        iplblContact.setBackground(new java.awt.Color(102, 255, 204));
+        iplblContact.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        iplblContact.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblContact.setText("contact");
+        informationPanel.add(iplblContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, 120, 30));
+
+        leftPartBorder.setBackground(new java.awt.Color(0, 0, 0));
+        leftPartBorder.setText(".");
+        leftPartBorder.setOpaque(true);
+        informationPanel.add(leftPartBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(477, 60, -1, 70));
+
+        rightPartBorder.setBackground(new java.awt.Color(0, 0, 0));
+        rightPartBorder.setText(".");
+        rightPartBorder.setOpaque(true);
+        informationPanel.add(rightPartBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 62, -1, 70));
+
+        topBorder.setBackground(new java.awt.Color(0, 0, 0));
+        topBorder.setText(".");
+        topBorder.setOpaque(true);
+        informationPanel.add(topBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 59, 570, 10));
+
+        botBorder.setBackground(new java.awt.Color(0, 0, 0));
+        botBorder.setText(".");
+        botBorder.setOpaque(true);
+        informationPanel.add(botBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 129, 570, 3));
+
+        rightBorder.setBackground(new java.awt.Color(0, 0, 0));
+        rightBorder.setText(".");
+        rightBorder.setOpaque(true);
+        informationPanel.add(rightBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, 70));
+
+        leftBorder.setBackground(new java.awt.Color(0, 0, 0));
+        leftBorder.setText(".");
+        leftBorder.setOpaque(true);
+        informationPanel.add(leftBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 60, -1, 72));
+
+        infoPane.add(informationPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel3.setOpaque(false);
 
@@ -438,14 +530,14 @@ public class Doctor extends javax.swing.JFrame {
         });
         navbar.add(addPatBtn);
 
-        reportsBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        reportsBtn.setText("List of Patients");
-        reportsBtn.addActionListener(new java.awt.event.ActionListener() {
+        listPtBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        listPtBtn.setText("List of Patients");
+        listPtBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reportsBtnActionPerformed(evt);
+                listPtBtnActionPerformed(evt);
             }
         });
-        navbar.add(reportsBtn);
+        navbar.add(listPtBtn);
 
         removeBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
         removeBtn.setText("TBA");
@@ -509,37 +601,93 @@ public class Doctor extends javax.swing.JFrame {
                 .addContainerGap(439, Short.MAX_VALUE))
         );
 
-        jTable1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        listPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Name", "Age", "Date of Birth", "Address", "Contact", "Email", "Sex"
+                "Title 1"
             }
         ));
-        jTable1.setGridColor(new java.awt.Color(255, 255, 255));
-        jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(2).setHeaderValue("Date of Birth");
-            jTable1.getColumnModel().getColumn(3).setHeaderValue("Address");
-            jTable1.getColumnModel().getColumn(4).setHeaderValue("Contact");
-            jTable1.getColumnModel().getColumn(5).setHeaderValue("Email");
-            jTable1.getColumnModel().getColumn(6).setHeaderValue("Sex");
-        }
+        jTable3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane9.setViewportView(jTable3);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+        );
+
+        jScrollPane8.setViewportView(jPanel5);
+
+        updBtn.setText("Update");
+
+        deleteBtn1.setText("Delete");
+        deleteBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtn1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 14, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(107, 107, 107)
+                .addComponent(updBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(16, 16, 16)
+                    .addComponent(deleteBtn1)
+                    .addContainerGap(532, Short.MAX_VALUE)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(updBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addContainerGap(376, Short.MAX_VALUE)
+                    .addComponent(deleteBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
+        listPage.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 620, 410));
 
         javax.swing.GroupLayout listofpatientsLayout = new javax.swing.GroupLayout(listofpatients);
         listofpatients.setLayout(listofpatientsLayout);
         listofpatientsLayout.setHorizontalGroup(
             listofpatientsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
+            .addGap(0, 643, Short.MAX_VALUE)
+            .addGroup(listofpatientsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(listofpatientsLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(listPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         listofpatientsLayout.setVerticalGroup(
             listofpatientsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(listofpatientsLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGap(0, 470, Short.MAX_VALUE)
+            .addGroup(listofpatientsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(listofpatientsLayout.createSequentialGroup()
+                    .addGap(5, 5, 5)
+                    .addComponent(listPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(5, 5, 5)))
         );
 
         requestPage.setPreferredSize(new java.awt.Dimension(677, 461));
@@ -602,7 +750,7 @@ public class Doctor extends javax.swing.JFrame {
         );
         scheduleLayout.setVerticalGroup(
             scheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 482, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
             .addGroup(scheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(scheduleLayout.createSequentialGroup()
                     .addContainerGap()
@@ -613,245 +761,193 @@ public class Doctor extends javax.swing.JFrame {
         addPatient.setMaximumSize(new java.awt.Dimension(615, 455));
         addPatient.setMinimumSize(new java.awt.Dimension(615, 455));
 
-        lblName1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblName1.setText("Name:");
+        addUser.setMaximumSize(new java.awt.Dimension(600, 400));
+        addUser.setMinimumSize(new java.awt.Dimension(600, 400));
+        addUser.setPreferredSize(new java.awt.Dimension(600, 400));
+        addUser.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        addDoctorTitle1.setFont(new java.awt.Font("Quicksand Medium", 0, 24)); // NOI18N
-        addDoctorTitle1.setText("Add Patient");
+        lblName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblName.setText("Name:");
+        addUser.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 89, -1, -1));
 
-        comma2.setText(",");
+        lblAddUser.setFont(new java.awt.Font("Quicksand Medium", 0, 24)); // NOI18N
+        lblAddUser.setText("Add Patient");
+        addUser.add(lblAddUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 18, -1, -1));
 
-        ptLastName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        ptLastName.setForeground(new java.awt.Color(153, 153, 153));
-        ptLastName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        ptLastName.setText("Last Name");
-        ptLastName.addFocusListener(new java.awt.event.FocusAdapter() {
+        lblComma.setText(",");
+        addUser.add(lblComma, new org.netbeans.lib.awtextra.AbsoluteConstraints(236, 92, 6, 22));
+
+        tfLastName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfLastName.setForeground(new java.awt.Color(153, 153, 153));
+        tfLastName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfLastName.setText("Last Name");
+        tfLastName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                ptLastNameFocusGained(evt);
+                tfLastNameFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                ptLastNameFocusLost(evt);
+                tfLastNameFocusLost(evt);
             }
         });
+        addUser.add(tfLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(97, 86, 133, 30));
 
-        ptFirstName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        ptFirstName.setForeground(new java.awt.Color(153, 153, 153));
-        ptFirstName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        ptFirstName.setText("First Name");
-        ptFirstName.addFocusListener(new java.awt.event.FocusAdapter() {
+        tfFirstName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfFirstName.setForeground(new java.awt.Color(153, 153, 153));
+        tfFirstName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfFirstName.setText("First Name");
+        tfFirstName.setMaximumSize(new java.awt.Dimension(190, 30));
+        tfFirstName.setMinimumSize(new java.awt.Dimension(190, 30));
+        tfFirstName.setPreferredSize(new java.awt.Dimension(190, 30));
+        tfFirstName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                ptFirstNameFocusGained(evt);
+                tfFirstNameFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                ptFirstNameFocusLost(evt);
+                tfFirstNameFocusLost(evt);
             }
         });
+        addUser.add(tfFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(248, 86, 190, -1));
 
-        ptMiddleName.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        ptMiddleName.setForeground(new java.awt.Color(153, 153, 153));
-        ptMiddleName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        ptMiddleName.setText("Middle Name");
-        ptMiddleName.addFocusListener(new java.awt.event.FocusAdapter() {
+        tfMiddleName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfMiddleName.setForeground(new java.awt.Color(153, 153, 153));
+        tfMiddleName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfMiddleName.setText("Middle Name");
+        tfMiddleName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                ptMiddleNameFocusGained(evt);
+                tfMiddleNameFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                ptMiddleNameFocusLost(evt);
+                tfMiddleNameFocusLost(evt);
             }
         });
+        addUser.add(tfMiddleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(447, 86, 140, 30));
 
-        lblEmail1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblEmail1.setText("Email:");
+        lblEmail.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblEmail.setText("Email:");
+        addUser.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 131, 52, -1));
 
-        ptEmail.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        ptEmail.setForeground(new java.awt.Color(153, 153, 153));
-        ptEmail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        ptEmail.setText("youdata@gmail.com");
-        ptEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+        tfEmail.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfEmail.setForeground(new java.awt.Color(153, 153, 153));
+        tfEmail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfEmail.setText("youdata@gmail.com");
+        tfEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                ptEmailFocusGained(evt);
+                tfEmailFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                ptEmailFocusLost(evt);
+                tfEmailFocusLost(evt);
             }
         });
+        addUser.add(tfEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(97, 128, 490, 30));
 
-        lblContacts1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblContacts1.setText("Contact Number:");
+        lblContact.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblContact.setText("Contact Number:");
+        addUser.add(lblContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 171, -1, -1));
 
-        ptContact.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
-        ptContact.setForeground(new java.awt.Color(153, 153, 153));
-        ptContact.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        ptContact.setText("###-###-####");
-        ptContact.addFocusListener(new java.awt.event.FocusAdapter() {
+        tfContact.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfContact.setForeground(new java.awt.Color(153, 153, 153));
+        tfContact.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfContact.setText("###-###-####");
+        tfContact.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                ptContactFocusGained(evt);
+                tfContactFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                ptContactFocusLost(evt);
+                tfContactFocusLost(evt);
             }
         });
-        ptContact.addKeyListener(new java.awt.event.KeyAdapter() {
+        tfContact.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                ptContactKeyPressed(evt);
+                tfContactKeyPressed(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                ptContactKeyTyped(evt);
+                tfContactKeyTyped(evt);
             }
         });
+        addUser.add(tfContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(224, 170, -1, 30));
 
-        lblSex1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblSex1.setText("Sex:");
+        lblSex.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblSex.setText("Sex:");
+        addUser.add(lblSex, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 214, -1, -1));
 
-        buttonGroup1.add(ptRbMale);
-        ptRbMale.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        ptRbMale.setText("Male");
+        rbMaleSex.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        rbMaleSex.setSelected(true);
+        rbMaleSex.setText("Male");
+        addUser.add(rbMaleSex, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 212, 65, -1));
 
-        buttonGroup1.add(ptRbFemale);
-        ptRbFemale.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        ptRbFemale.setText("Female");
+        rbFemaleSex.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        rbFemaleSex.setText("Female");
+        addUser.add(rbFemaleSex, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 212, 118, -1));
 
-        lblBDay1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblBDay1.setText("Date of Birth:");
+        lblBirthDate.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblBirthDate.setText("Date of Birth:");
+        addUser.add(lblBirthDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 253, -1, -1));
 
-        jDateChooser3.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        jDateChooser1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jDateChooser3PropertyChange(evt);
+                jDateChooser1PropertyChange(evt);
             }
         });
+        addUser.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 253, 192, 30));
 
-        jButton9.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        jButton9.setText("Add");
-        jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        btnAddUserToSQL.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btnAddUserToSQL.setText("Add");
+        btnAddUserToSQL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAddUserToSQL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                btnAddUserToSQLActionPerformed(evt);
             }
         });
+        addUser.add(btnAddUserToSQL, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 370, 130, 39));
 
-        lblBDay2.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblBDay2.setText("Age:");
+        lblAge.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblAge.setText("Age:");
+        addUser.add(lblAge, new org.netbeans.lib.awtextra.AbsoluteConstraints(366, 256, -1, -1));
 
-        ptAge.setEditable(false);
-        ptAge.setBackground(new java.awt.Color(255, 255, 255));
-        ptAge.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        ptAge.setForeground(new java.awt.Color(153, 153, 153));
-        ptAge.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        ptAge.setText("Age");
-        ptAge.setFocusable(false);
+        tfAge.setEditable(false);
+        tfAge.setBackground(new java.awt.Color(255, 255, 255));
+        tfAge.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        tfAge.setForeground(new java.awt.Color(153, 153, 153));
+        tfAge.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfAge.setText("Age");
+        tfAge.setFocusable(false);
+        addUser.add(tfAge, new org.netbeans.lib.awtextra.AbsoluteConstraints(408, 253, 133, 30));
 
-        lblBDay3.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        lblBDay3.setText("Civil Status:");
-        lblBDay3.setPreferredSize(new java.awt.Dimension(95, 30));
+        lblCivilStatus.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        lblCivilStatus.setText("Civil Status:");
+        lblCivilStatus.setPreferredSize(new java.awt.Dimension(95, 30));
+        addUser.add(lblCivilStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 295, -1, -1));
 
-        ptCivilStatus.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        ptCivilStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Single", "Married", "Divorced", "Widowed" }));
-        ptCivilStatus.setMaximumSize(new java.awt.Dimension(100, 30));
-        ptCivilStatus.setMinimumSize(new java.awt.Dimension(100, 30));
-        ptCivilStatus.setPreferredSize(new java.awt.Dimension(100, 30));
+        cbCivilStatus.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        cbCivilStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Single", "Married", "Divorced", "Widowed" }));
+        cbCivilStatus.setMaximumSize(new java.awt.Dimension(100, 30));
+        cbCivilStatus.setMinimumSize(new java.awt.Dimension(100, 30));
+        cbCivilStatus.setPreferredSize(new java.awt.Dimension(100, 30));
+        addUser.add(cbCivilStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 296, 175, -1));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel5.setText("+63");
+        lblPH63.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblPH63.setText("+63");
+        addUser.add(lblPH63, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 170, -1, -1));
 
         javax.swing.GroupLayout addPatientLayout = new javax.swing.GroupLayout(addPatient);
         addPatient.setLayout(addPatientLayout);
         addPatientLayout.setHorizontalGroup(
             addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addPatientLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addPatientLayout.createSequentialGroup()
-                        .addComponent(lblContacts1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ptContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(addPatientLayout.createSequentialGroup()
-                        .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(addPatientLayout.createSequentialGroup()
-                                .addComponent(lblBDay3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ptCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(addPatientLayout.createSequentialGroup()
-                                .addComponent(lblBDay1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblBDay2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ptAge, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(addPatientLayout.createSequentialGroup()
-                                .addComponent(lblSex1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ptRbMale, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ptRbFemale, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 85, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addPatientLayout.createSequentialGroup()
-                        .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(addPatientLayout.createSequentialGroup()
-                                .addGap(58, 58, 58)
-                                .addComponent(ptEmail))
-                            .addGroup(addPatientLayout.createSequentialGroup()
-                                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblEmail1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblName1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ptLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comma2, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ptFirstName)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ptMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(28, 28, 28))))
-            .addGroup(addPatientLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(addDoctorTitle1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 625, Short.MAX_VALUE)
+            .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(addPatientLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(addUser, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         addPatientLayout.setVerticalGroup(
             addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addPatientLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(addDoctorTitle1)
-                .addGap(36, 36, 36)
-                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName1)
-                    .addComponent(ptLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comma2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ptFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ptMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblEmail1)
-                    .addComponent(ptEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblContacts1)
-                    .addComponent(ptContact, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSex1)
-                    .addComponent(ptRbMale)
-                    .addComponent(ptRbFemale))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblBDay1)
-                    .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblBDay2)
-                        .addComponent(ptAge, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(12, 12, 12)
-                .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblBDay3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ptCivilStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8))
+            .addGap(0, 455, Short.MAX_VALUE)
+            .addGroup(addPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(addPatientLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(addUser, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         jLayeredPane1.setLayer(tba, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -864,7 +960,7 @@ public class Doctor extends javax.swing.JFrame {
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 643, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(schedule, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -878,13 +974,13 @@ public class Doctor extends javax.swing.JFrame {
                 .addComponent(tba, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                    .addGap(1, 1, 1)
+                    .addContainerGap()
                     .addComponent(addPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(12, Short.MAX_VALUE)))
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 470, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addComponent(schedule, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -892,7 +988,7 @@ public class Doctor extends javax.swing.JFrame {
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addGap(3, 3, 3)
-                    .addComponent(requestPage, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                    .addComponent(requestPage, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                     .addGap(3, 3, 3)))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(listofpatients, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -900,9 +996,9 @@ public class Doctor extends javax.swing.JFrame {
                 .addComponent(tba, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                    .addGap(13, 13, 13)
-                    .addComponent(addPatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(14, Short.MAX_VALUE)))
+                    .addContainerGap()
+                    .addComponent(addPatient, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(10, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout windowPanelLayout = new javax.swing.GroupLayout(windowPanel);
@@ -918,7 +1014,7 @@ public class Doctor extends javax.swing.JFrame {
         );
         windowPanelLayout.setVerticalGroup(
             windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 470, Short.MAX_VALUE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
             .addGroup(windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(windowPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -949,7 +1045,7 @@ public class Doctor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 577, Short.MAX_VALUE)
                         .addComponent(minimized, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(exit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1067,9 +1163,10 @@ public class Doctor extends javax.swing.JFrame {
         setDisplay(schedule);
     }//GEN-LAST:event_addPatBtnActionPerformed
 
-    private void reportsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportsBtnActionPerformed
+    private void listPtBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listPtBtnActionPerformed
         setDisplay(listofpatients);
-    }//GEN-LAST:event_reportsBtnActionPerformed
+        showList();
+    }//GEN-LAST:event_listPtBtnActionPerformed
 
     private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
         setDisplay(tba);
@@ -1086,97 +1183,105 @@ public class Doctor extends javax.swing.JFrame {
         yMouse = evt.getY();
     }//GEN-LAST:event_frameDragMousePressed
 
-    private void ptLastNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptLastNameFocusGained
-        focusOn(ptLastName, "Last Name");
-    }//GEN-LAST:event_ptLastNameFocusGained
+    private void tfLastNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfLastNameFocusGained
+        focusOn(tfLastName, "Last Name");
+    }//GEN-LAST:event_tfLastNameFocusGained
 
-    private void ptLastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptLastNameFocusLost
-        focusOff(ptLastName, "Last Name");
-    }//GEN-LAST:event_ptLastNameFocusLost
+    private void tfLastNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfLastNameFocusLost
+        focusOff(tfLastName, "Last Name");
+    }//GEN-LAST:event_tfLastNameFocusLost
 
-    private void ptFirstNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptFirstNameFocusGained
-        focusOn(ptFirstName, "First Name");
-    }//GEN-LAST:event_ptFirstNameFocusGained
+    private void tfFirstNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfFirstNameFocusGained
+        focusOn(tfFirstName, "First Name");
+    }//GEN-LAST:event_tfFirstNameFocusGained
 
-    private void ptFirstNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptFirstNameFocusLost
-        focusOff(ptFirstName, "First Name");
-    }//GEN-LAST:event_ptFirstNameFocusLost
+    private void tfFirstNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfFirstNameFocusLost
+        focusOff(tfFirstName, "First Name");
+    }//GEN-LAST:event_tfFirstNameFocusLost
 
-    private void ptMiddleNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptMiddleNameFocusGained
-        focusOn(ptMiddleName, "Middle Name");
-    }//GEN-LAST:event_ptMiddleNameFocusGained
+    private void tfMiddleNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfMiddleNameFocusGained
+        focusOn(tfMiddleName, "Middle Name");
+    }//GEN-LAST:event_tfMiddleNameFocusGained
 
-    private void ptMiddleNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptMiddleNameFocusLost
-        focusOff(ptMiddleName, "Middle Name");
-    }//GEN-LAST:event_ptMiddleNameFocusLost
+    private void tfMiddleNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfMiddleNameFocusLost
+        focusOff(tfMiddleName, "Middle Name");
+    }//GEN-LAST:event_tfMiddleNameFocusLost
 
-    private void ptEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptEmailFocusGained
-        focusOn(ptEmail, "youdata@gmail.com");
-    }//GEN-LAST:event_ptEmailFocusGained
+    private void tfEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusGained
+        focusOn(tfEmail, "youdata@gmail.com");
+    }//GEN-LAST:event_tfEmailFocusGained
 
-    private void ptEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptEmailFocusLost
-        focusOff(ptEmail, "youdata@gmail.com");
-        if (!ptEmail.getText().matches(email_Pattern)) {
+    private void tfEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusLost
+        if (!tfEmail.getText().matches(email_Pattern)) {
             JOptionPane.showMessageDialog(null, "Invalid email format", "Error", JOptionPane.ERROR_MESSAGE);
-            ptEmail.setForeground(red);
-            jButton9.setEnabled(false);
-        } else if (ptEmail.getText().matches(email_Pattern) && !ptEmail.getText().equals("youdata@gmail.com")) {
-            ptEmail.setForeground(black);
-            jButton9.setEnabled(true);
+            tfEmail.setForeground(red);
+            btnAddUserToSQL.setEnabled(false);
+        } else if (tfEmail.getText().matches(email_Pattern) && !tfEmail.getText().equals("youdata@gmail.com")) {
+            tfEmail.setForeground(black);
+            btnAddUserToSQL.setEnabled(true);
         } else {
-            focusOff(ptEmail, "youdata@gmail.com");
+            focusOff(tfEmail, "youdata@gmail.com");
         }
-    }//GEN-LAST:event_ptEmailFocusLost
+    }//GEN-LAST:event_tfEmailFocusLost
 
-    private void ptContactFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptContactFocusGained
-        focusOn(ptContact, "###-###-####");
-        String contactNumber = ptContact.getText();
+    private void tfContactFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfContactFocusGained
+        focusOn(tfContact, "###-###-####");
+        String contactNumber = tfContact.getText();
         if (contactNumber.length() == 10) {
-            ptContact.setText(contactNumber.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"));
+            tfContact.setText(contactNumber.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"));
         }
-    }//GEN-LAST:event_ptContactFocusGained
+    }//GEN-LAST:event_tfContactFocusGained
 
-    private void ptContactFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ptContactFocusLost
-        focusOff(ptContact, "###-###-####");
-    }//GEN-LAST:event_ptContactFocusLost
+    private void tfContactFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfContactFocusLost
+        focusOff(tfContact, "###-###-####");
+    }//GEN-LAST:event_tfContactFocusLost
 
-    private void ptContactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ptContactKeyPressed
-        String contactNumber = ptContact.getText();
-        ptContact.setText(contactNumber.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"));
-    }//GEN-LAST:event_ptContactKeyPressed
+    private void tfContactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfContactKeyPressed
+        String contactNumber = tfContact.getText();
+        tfContact.setText(contactNumber.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"));
+    }//GEN-LAST:event_tfContactKeyPressed
 
-    private void ptContactKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ptContactKeyTyped
+    private void tfContactKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfContactKeyTyped
         char c = evt.getKeyChar();
-        String b = ptContact.getText();
+        String b = tfContact.getText();
 
         if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != '-') {
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Input only numbers", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Numbers input only", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (b.length() >= 12) {
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Reached contact number limit", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Maxed Character Input", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_ptContactKeyTyped
+    }//GEN-LAST:event_tfContactKeyTyped
 
-    private void jDateChooser3PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser3PropertyChange
+    private void jDateChooser1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser1PropertyChange
         if ("date".equals(evt.getPropertyName())) {
             updateAgeLabel();
         }
-    }//GEN-LAST:event_jDateChooser3PropertyChange
+    }//GEN-LAST:event_jDateChooser1PropertyChange
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void btnAddUserToSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserToSQLActionPerformed
         insertUserData();
         JOptionPane.showMessageDialog(null, "Username: " + username + "\n Password: " + password, "Credentials", JOptionPane.INFORMATION_MESSAGE);
-                
-        JTextField[] textFields = {ptFirstName, ptMiddleName, ptLastName, ptAge, ptContact, ptEmail};
+
+        JTextField[] textFields = {tfFirstName, tfMiddleName, tfLastName, tfAge, tfContact, tfEmail};
+        String[] phText = {"First Name", "Middle Name", "Last Name", "Age", "###-###-####", "youdata@gmail.com"};
         for (int i = 0; i <textFields.length; i++) {
-            textFields[i].setText(null);
+            textFields[i].setText(phText[i]);
+            textFields[i].setForeground(gray);
+            textFields[i].setHorizontalAlignment(CENTER);
         }
-        
-        ptCivilStatus.setSelectedIndex(0);
-        buttonGroup1.clearSelection();
-        jDateChooser3.setDate(null);
-    }//GEN-LAST:event_jButton9ActionPerformed
+        rbMaleSex.setSelected(true);
+        cbCivilStatus.setSelectedIndex(0);
+        Calendar calendar = Calendar.getInstance();
+        java.util.Date currentDate = calendar.getTime();
+        Date sqlDate = new Date(currentDate.getTime());
+        jDateChooser1.setDate(sqlDate);
+    }//GEN-LAST:event_btnAddUserToSQLActionPerformed
+
+    private void deleteBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteBtn1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1215,66 +1320,81 @@ public class Doctor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addDoctorBtn;
-    private javax.swing.JLabel addDoctorTitle1;
     private javax.swing.JButton addPatBtn;
     private javax.swing.JPanel addPatient;
+    private javax.swing.JPanel addUser;
     private javax.swing.JLabel background;
+    private javax.swing.JLabel botBorder;
+    private javax.swing.JButton btnAddUserToSQL;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JLabel comma2;
+    private javax.swing.JComboBox<String> cbCivilStatus;
+    private javax.swing.JButton deleteBtn1;
     private javax.swing.JButton exit;
     private javax.swing.JLabel frameDrag;
-    private javax.swing.JLabel infoContact1;
-    private javax.swing.JLabel infoFirstName1;
-    private javax.swing.JLabel infoLastName1;
-    private javax.swing.JLabel infoMiddleName1;
+    private javax.swing.JLabel infoContact;
+    private javax.swing.JLabel infoFirstName;
+    private javax.swing.JLabel infoLastName;
+    private javax.swing.JLabel infoMiddleName;
     private javax.swing.JPanel infoPane;
-    private javax.swing.JLabel infoUsername1;
-    private javax.swing.JLabel iplblContact1;
-    private javax.swing.JLabel iplblFN1;
-    private javax.swing.JLabel iplblLN1;
-    private javax.swing.JLabel iplblMN1;
-    private javax.swing.JLabel iplblUN1;
-    private javax.swing.JButton jButton9;
-    private com.toedter.calendar.JDateChooser jDateChooser3;
+    private javax.swing.JLabel infoUsername;
+    private javax.swing.JPanel informationPanel;
+    private javax.swing.JLabel iplblContact;
+    private javax.swing.JLabel iplblFN;
+    private javax.swing.JLabel iplblLN;
+    private javax.swing.JLabel iplblMN;
+    private javax.swing.JLabel iplblUN;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JFrame jFrame1;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTable jTable2;
-    private javax.swing.JLabel lblBDay1;
-    private javax.swing.JLabel lblBDay2;
-    private javax.swing.JLabel lblBDay3;
-    private javax.swing.JLabel lblContacts1;
-    private javax.swing.JLabel lblEmail1;
-    private javax.swing.JLabel lblName1;
-    private javax.swing.JLabel lblSex1;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JLabel lblAddUser;
+    private javax.swing.JLabel lblAge;
+    private javax.swing.JLabel lblBirthDate;
+    private javax.swing.JLabel lblCivilStatus;
+    private javax.swing.JLabel lblComma;
+    private javax.swing.JLabel lblContact;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblPH63;
+    private javax.swing.JLabel lblSex;
+    private javax.swing.JLabel leftBorder;
+    private javax.swing.JLabel leftPartBorder;
+    private javax.swing.JPanel listPage;
+    private javax.swing.JButton listPtBtn;
     private javax.swing.JPanel listofpatients;
     private javax.swing.JPanel listofpatients1;
     private javax.swing.JLabel logo;
+    private javax.swing.JLabel middleBorder;
     private javax.swing.JButton minimized;
     private javax.swing.JPanel navbar;
-    private javax.swing.JLabel organizationTitle1;
-    private javax.swing.JTextField ptAge;
-    private javax.swing.JComboBox<String> ptCivilStatus;
-    private javax.swing.JTextField ptContact;
-    private javax.swing.JTextField ptEmail;
-    private javax.swing.JTextField ptFirstName;
-    private javax.swing.JTextField ptLastName;
-    private javax.swing.JTextField ptMiddleName;
-    private javax.swing.JRadioButton ptRbFemale;
-    private javax.swing.JRadioButton ptRbMale;
+    private javax.swing.JLabel organizationTitle;
+    private javax.swing.JRadioButton rbFemaleSex;
+    private javax.swing.JRadioButton rbMaleSex;
     private javax.swing.JButton removeBtn;
-    private javax.swing.JButton reportsBtn;
     private javax.swing.JPanel requestPage;
+    private javax.swing.JLabel rightBorder;
+    private javax.swing.JLabel rightPartBorder;
     private javax.swing.JPanel schedule;
     private javax.swing.JPanel tba;
+    private javax.swing.JTextField tfAge;
+    private javax.swing.JTextField tfContact;
+    private javax.swing.JTextField tfEmail;
+    private javax.swing.JTextField tfFirstName;
+    private javax.swing.JTextField tfLastName;
+    private javax.swing.JTextField tfMiddleName;
+    private javax.swing.JLabel topBorder;
+    private javax.swing.JButton updBtn;
     private javax.swing.JLabel welcomeAdmin;
     private javax.swing.JPanel welcomePage;
     private javax.swing.JPanel windowPanel;
