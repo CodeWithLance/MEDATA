@@ -1,6 +1,7 @@
 package my.medata;
 
 import static java.awt.Color.*;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -28,8 +29,9 @@ public class Doctor extends javax.swing.JFrame {
 
     Connection con;
     DefaultTableModel model = new DefaultTableModel();
-    
 
+    
+  
     /**
      * Creates new form Doctor
      */
@@ -39,6 +41,8 @@ public class Doctor extends javax.swing.JFrame {
         jLayeredPane1.setVisible(false);
         welcomePage.setVisible(true);
         pack();
+        SetIcon();
+
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -60,6 +64,10 @@ public class Doctor extends javax.swing.JFrame {
     
     String loggedInUser;
   
+    
+     public void SetIcon(){
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("runtime.png")));
+    }
 
     public void setDisplay(JPanel Panel) {
         for (int i = 0; i < jLayeredPane1.getComponentCount(); i++) {

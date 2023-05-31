@@ -3,6 +3,7 @@ package my.medata;
 import com.formdev.flatlaf.FlatLightLaf;
 import static java.awt.Color.*;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.font.TextAttribute;
 import java.util.Map;
@@ -21,7 +22,7 @@ import javax.swing.JTextField;
  */
 public class MEDATA_Application extends javax.swing.JFrame {
 
-    Connection con; 
+    Connection con;
 
     /**
      * Creates new form MEDATA_Application
@@ -31,7 +32,9 @@ public class MEDATA_Application extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         pack();
         enterPassword.setEchoChar((char) 0);
-
+        SetIcon();
+        
+        
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
@@ -45,6 +48,9 @@ public class MEDATA_Application extends javax.swing.JFrame {
     dataBox getUser = new dataBox();
     String loggedUser;
     
+    public void SetIcon(){
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("runtime.png")));
+    }
     
     void userSignIn() {
         try {
