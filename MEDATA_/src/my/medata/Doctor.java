@@ -720,7 +720,7 @@ public class Doctor extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Date", "Time"
+                "Patient", "Date", "Time"
             }
         ));
         jTable2.setGridColor(new java.awt.Color(255, 255, 255));

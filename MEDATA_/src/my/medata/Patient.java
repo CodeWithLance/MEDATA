@@ -1,10 +1,22 @@
 package my.medata;
 
-import java.sql.*;
+import static java.awt.Color.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import static javax.swing.SwingConstants.*;
+import java.sql.*;
+import java.util.Calendar;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Authors:
@@ -24,18 +36,18 @@ public class Patient extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         jLayeredPane1.setVisible(false);
         welcomePage.setVisible(true);
-        pack();
-        
+        pack();  
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+         showInfo();
     }
 
-    int xMouse, yMouse;
+   int xMouse, yMouse;
+   String loggedInUser;
 
     public void setDisplay(JPanel Panel) {
         for (int i = 0; i < jLayeredPane1.getComponentCount(); i++) {
@@ -44,6 +56,37 @@ public class Patient extends javax.swing.JFrame {
         }
         jLayeredPane1.setVisible(true);
         Panel.setVisible(true);
+    }
+
+    public void showInfo() {
+        loggedInUser = dataBox.pullUserData();
+        try {
+            String query = "SELECT username, firstName, contact, lastName, email, middleName FROM userinfo WHERE username = ?";
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, loggedInUser);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String retrievedUsername = resultSet.getString("username");
+                String firstName = resultSet.getString("firstName");
+                String contact = resultSet.getString("contact");
+                String lastName = resultSet.getString("lastName");
+                String middleName = resultSet.getString("middleName");
+                String email = resultSet.getString("email");
+
+                iplblUN.setText(retrievedUsername);
+                iplblFN.setText(firstName);
+                iplblLN.setText(lastName);
+                iplblMN.setText(middleName);
+                iplblContact.setText(contact);
+                iplblEmail.setText(email);
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -80,7 +123,22 @@ public class Patient extends javax.swing.JFrame {
         medicationPage = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         patientProfile = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        infoUsername = new javax.swing.JLabel();
+        infoContact = new javax.swing.JLabel();
+        iplblUN = new javax.swing.JLabel();
+        iplblLN = new javax.swing.JLabel();
+        infoLastName = new javax.swing.JLabel();
+        iplblFN = new javax.swing.JLabel();
+        infoFirstName = new javax.swing.JLabel();
+        iplblMN = new javax.swing.JLabel();
+        infoMiddleName = new javax.swing.JLabel();
+        iplblContact = new javax.swing.JLabel();
+        contactBorder = new javax.swing.JLabel();
+        lblAddUser = new javax.swing.JLabel();
+        infoEmail = new javax.swing.JLabel();
+        iplblEmail = new javax.swing.JLabel();
+        patientiBorder = new javax.swing.JLabel();
+        border = new javax.swing.JLabel();
         medicalHistory = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         results = new javax.swing.JPanel();
@@ -88,7 +146,9 @@ public class Patient extends javax.swing.JFrame {
         pendingTests = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         doctorPage = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         pharmacyPage = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         frameDrag = new javax.swing.JLabel();
@@ -96,7 +156,6 @@ public class Patient extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(800, 650));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(187, 209, 241));
@@ -306,24 +365,106 @@ public class Patient extends javax.swing.JFrame {
                 .addContainerGap(440, Short.MAX_VALUE))
         );
 
-        jLabel5.setText("PAtient profile");
+        patientProfile.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout patientProfileLayout = new javax.swing.GroupLayout(patientProfile);
-        patientProfile.setLayout(patientProfileLayout);
-        patientProfileLayout.setHorizontalGroup(
-            patientProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(patientProfileLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addContainerGap(550, Short.MAX_VALUE))
-        );
-        patientProfileLayout.setVerticalGroup(
-            patientProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(patientProfileLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addContainerGap(440, Short.MAX_VALUE))
-        );
+        infoUsername.setBackground(new java.awt.Color(102, 255, 204));
+        infoUsername.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        infoUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoUsername.setText("Username");
+        patientProfile.add(infoUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 90, 30));
+
+        infoContact.setBackground(new java.awt.Color(102, 255, 204));
+        infoContact.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        infoContact.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoContact.setText("Contact");
+        patientProfile.add(infoContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 120, 30));
+
+        iplblUN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblUN.setFont(new java.awt.Font("Segoe UI", 0, 9)); // NOI18N
+        iplblUN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblUN.setText("username");
+        patientProfile.add(iplblUN, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, 100, 30));
+
+        iplblLN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblLN.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        iplblLN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblLN.setText("lastName");
+        patientProfile.add(iplblLN, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 60, 100, 30));
+
+        infoLastName.setBackground(new java.awt.Color(102, 255, 204));
+        infoLastName.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        infoLastName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoLastName.setText("Last Name");
+        patientProfile.add(infoLastName, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 90, 100, 30));
+
+        iplblFN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblFN.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        iplblFN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblFN.setText("firstName");
+        patientProfile.add(iplblFN, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 130, 30));
+
+        infoFirstName.setBackground(new java.awt.Color(102, 255, 204));
+        infoFirstName.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        infoFirstName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoFirstName.setText("First Name");
+        patientProfile.add(infoFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 130, 30));
+
+        iplblMN.setBackground(new java.awt.Color(102, 255, 204));
+        iplblMN.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        iplblMN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblMN.setText("middleName");
+        patientProfile.add(iplblMN, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, 100, 30));
+
+        infoMiddleName.setBackground(new java.awt.Color(102, 255, 204));
+        infoMiddleName.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        infoMiddleName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoMiddleName.setText("Middle Name");
+        patientProfile.add(infoMiddleName, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 90, 100, 30));
+
+        iplblContact.setBackground(new java.awt.Color(102, 255, 204));
+        iplblContact.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        iplblContact.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblContact.setText("contact");
+        patientProfile.add(iplblContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 180, 120, 30));
+
+        contactBorder.setBackground(new java.awt.Color(153, 153, 153));
+        contactBorder.setFont(new java.awt.Font("Segoe UI Black", 1, 12)); // NOI18N
+        contactBorder.setForeground(new java.awt.Color(255, 255, 255));
+        contactBorder.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        contactBorder.setText("Contacts");
+        contactBorder.setOpaque(true);
+        patientProfile.add(contactBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 600, 20));
+
+        lblAddUser.setFont(new java.awt.Font("Quicksand Medium", 0, 24)); // NOI18N
+        lblAddUser.setText("Patient Profile");
+        patientProfile.add(lblAddUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        infoEmail.setBackground(new java.awt.Color(102, 255, 204));
+        infoEmail.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        infoEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoEmail.setText("Email");
+        patientProfile.add(infoEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 120, 30));
+
+        iplblEmail.setBackground(new java.awt.Color(102, 255, 204));
+        iplblEmail.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        iplblEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iplblEmail.setText("email");
+        patientProfile.add(iplblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 210, 160, 30));
+
+        patientiBorder.setBackground(new java.awt.Color(153, 153, 153));
+        patientiBorder.setFont(new java.awt.Font("Segoe UI Black", 1, 12)); // NOI18N
+        patientiBorder.setForeground(new java.awt.Color(255, 255, 255));
+        patientiBorder.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        patientiBorder.setText("Patient Information");
+        patientiBorder.setOpaque(true);
+        patientProfile.add(patientiBorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 600, 20));
+
+        border.setBackground(new java.awt.Color(153, 153, 153));
+        border.setFont(new java.awt.Font("Segoe UI Black", 1, 12)); // NOI18N
+        border.setForeground(new java.awt.Color(255, 255, 255));
+        border.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        border.setOpaque(true);
+        patientProfile.add(border, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 600, 20));
 
         jLabel7.setText("medical history pag");
 
@@ -382,24 +523,24 @@ public class Patient extends javax.swing.JFrame {
                 .addContainerGap(440, Short.MAX_VALUE))
         );
 
-        jLabel10.setText("doctor page");
+        doctorPage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout doctorPageLayout = new javax.swing.GroupLayout(doctorPage);
-        doctorPage.setLayout(doctorPageLayout);
-        doctorPageLayout.setHorizontalGroup(
-            doctorPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(doctorPageLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel10)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        doctorPageLayout.setVerticalGroup(
-            doctorPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(doctorPageLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel10)
-                .addContainerGap(439, Short.MAX_VALUE))
-        );
+        jTable2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Doctor", "Date", "Time", "Contact", "Email"
+            }
+        ));
+        jTable2.setGridColor(new java.awt.Color(255, 255, 255));
+        jScrollPane3.setViewportView(jTable2);
+
+        doctorPage.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 549, 430));
+
+        jButton1.setText("Set Appointment");
+        doctorPage.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 440, -1, -1));
 
         jLabel11.setText("pharma page");
 
@@ -661,18 +802,31 @@ public class Patient extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel background;
+    private javax.swing.JLabel border;
+    private javax.swing.JLabel contactBorder;
     private javax.swing.JPanel doctorPage;
     private javax.swing.JButton doctorsBtn;
     private javax.swing.JButton exit;
     private javax.swing.JLabel frameDrag;
+    private javax.swing.JLabel infoContact;
+    private javax.swing.JLabel infoEmail;
+    private javax.swing.JLabel infoFirstName;
+    private javax.swing.JLabel infoLastName;
+    private javax.swing.JLabel infoMiddleName;
     private javax.swing.JPanel infoPane;
+    private javax.swing.JLabel infoUsername;
+    private javax.swing.JLabel iplblContact;
+    private javax.swing.JLabel iplblEmail;
+    private javax.swing.JLabel iplblFN;
+    private javax.swing.JLabel iplblLN;
+    private javax.swing.JLabel iplblMN;
+    private javax.swing.JLabel iplblUN;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -681,6 +835,9 @@ public class Patient extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JLabel lblAddUser;
     private javax.swing.JLabel logo;
     private javax.swing.JButton medHistBtn;
     private javax.swing.JPanel medicalHistory;
@@ -689,6 +846,7 @@ public class Patient extends javax.swing.JFrame {
     private javax.swing.JButton minimized;
     private javax.swing.JPanel navbar;
     private javax.swing.JPanel patientProfile;
+    private javax.swing.JLabel patientiBorder;
     private javax.swing.JPanel pendingTests;
     private javax.swing.JButton pharmaBtn;
     private javax.swing.JPanel pharmacyPage;
