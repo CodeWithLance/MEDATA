@@ -205,8 +205,7 @@ public class Admin extends javax.swing.JFrame {
                     rowData[i - 1] = rs.getObject(i);
                 }
                 model.addRow(rowData);
-            }
-            
+            }           
                             
             jTable3.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
