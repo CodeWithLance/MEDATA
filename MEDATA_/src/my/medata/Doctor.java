@@ -62,7 +62,7 @@ public class Doctor extends javax.swing.JFrame {
     String setRole;
     
     String loggedInUser;
-  
+    int currentDoctorSno = 0;
 
     public void setDisplay(JPanel Panel) {
         for (int i = 0; i < jLayeredPane1.getComponentCount(); i++) {
@@ -100,16 +100,124 @@ public class Doctor extends javax.swing.JFrame {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-}
+    }
     
     
+    public void focusOn(JTextField textfield, String intext) {
+        if (textfield.getText().equals(intext)) {
+            textfield.setText("");
+            textfield.setForeground(black);
+            textfield.setHorizontalAlignment(LEFT);
+        }
+        textfield.selectAll();
+    }
+
+    public void focusOff(JTextField textfield, String intext) {
+        if (textfield.getText().isEmpty()) {
+            textfield.setText(intext);
+            textfield.setForeground(gray);
+            textfield.setHorizontalAlignment(CENTER);
+        }
+    }
+
+    private void updateAgeLabel() {
+        LocalDate selectedDate = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate currentDate = LocalDate.now();
+        Period period = Period.between(selectedDate, currentDate);
+        int age = period.getYears();
+        tfAge.setForeground(black);
+        tfAge.setText(String.valueOf(age));
+    }
+    
+    private int getCurrentDoctorSnoFromDatabase() throws SQLException {
+        loggedInUser = dataBox.pullUserData();
+        String username = loggedInUser; // Replace with the current doctor's username
+
+        String sql = "SELECT sno FROM userinfo WHERE username = ?";
+        try ( PreparedStatement pst = con.prepareStatement(sql)) {
+            pst.setString(1, username);
+            try ( ResultSet resultSet = pst.executeQuery()) {
+                if (resultSet.next()) {
+                    currentDoctorSno = resultSet.getInt("sno");
+                }
+            }
+        }
+
+        return currentDoctorSno;
+    }
+
+    void insertUserData() {
+        String lastName = tfLastName.getText();
+        String firstName = tfFirstName.getText();
+        String middleName = tfMiddleName.getText();
+        String email = tfEmail.getText();
+        String contact = "+63 " + tfContact.getText();
+        String sex;
+        if (rbMaleSex.isSelected()) {
+            sex = rbMaleSex.getText();
+        } else {
+            sex = rbFemaleSex.getText();
+        }
+        SimpleDateFormat birthDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateOfBirth = birthDateFormatter.format(jDateChooser1.getDate());
+        String civilStatus;
+        if (cbCivilStatus.getSelectedIndex() == 0) {
+            civilStatus = "Single";
+        } else if (cbCivilStatus.getSelectedIndex() == 1) {
+            civilStatus = "Married";
+        } else if (cbCivilStatus.getSelectedIndex() == 2) {
+            civilStatus = "Divorced";
+        } else {
+            civilStatus = "Widowed";
+        }
+        int age = Integer.parseInt(tfAge.getText());
+        String address = "";
+        int height = 0;
+        int weight = 0;
+        String role = "patient";
+        int username_count = 0;
+        do {
+            try {
+                username = new UIDGenerator().generateUID(lastName, firstName, jDateChooser1.getDate(), uid);
+                String sql = "Select COUNT(username) as username_count from userinfo where username = ?";
+                PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, username);
+
+                ResultSet resultSet = pst.executeQuery();
+                if (resultSet.next()) {
+                    username_count = resultSet.getInt("username_count");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } while (username_count > 0);
+        password = new passwordGenerator().generatePassword(lastName);
+        boolean isActivated = false;
+        try {
+            int currentDoctorSno = getCurrentDoctorSnoFromDatabase();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int doctorID = currentDoctorSno;
+
+        createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role, isActivated, doctorID);
+    }
+
     public void showList() {
         jTable3.setModel(model);
         String role = "patient";
         try {
-            String query = "SELECT username, lastName, firstName, sex, civilStatus, contact FROM userinfo WHERE role = ?";
+            int currentDoctorSno = getCurrentDoctorSnoFromDatabase();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            String query = "SELECT username, lastName, firstName, sex, civilStatus, contact FROM userinfo WHERE role = ? and doctorID = ?";
             PreparedStatement pstmt = con.prepareStatement(query);
             pstmt.setString(1, role);
+            pstmt.setInt(2, currentDoctorSno);
 
             ResultSet rs = pstmt.executeQuery();
             // Get the metadata of the ResultSet  
@@ -178,83 +286,6 @@ public class Doctor extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void focusOn(JTextField textfield, String intext) {
-        if (textfield.getText().equals(intext)) {
-            textfield.setText("");
-            textfield.setForeground(black);
-            textfield.setHorizontalAlignment(LEFT);
-        }
-        textfield.selectAll();
-    }
-
-    public void focusOff(JTextField textfield, String intext) {
-        if (textfield.getText().isEmpty()) {
-            textfield.setText(intext);
-            textfield.setForeground(gray);
-            textfield.setHorizontalAlignment(CENTER);
-        }
-    }
-
-    private void updateAgeLabel() {
-        LocalDate selectedDate = jDateChooser1.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate currentDate = LocalDate.now();
-        Period period = Period.between(selectedDate, currentDate);
-        int age = period.getYears();
-        tfAge.setForeground(black);
-        tfAge.setText(String.valueOf(age));
-    }
-
- void insertUserData() {
-        String lastName = tfLastName.getText();
-        String firstName = tfFirstName.getText();
-        String middleName = tfMiddleName.getText();
-        String email = tfEmail.getText();
-        String contact = "+63 " + tfContact.getText();
-        String sex;
-        if (rbMaleSex.isSelected()) {
-            sex = rbMaleSex.getText();
-        } else {
-            sex = rbFemaleSex.getText();
-        }
-        SimpleDateFormat birthDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateOfBirth = birthDateFormatter.format(jDateChooser1.getDate());
-        String civilStatus;
-        if (cbCivilStatus.getSelectedIndex() == 0) {
-            civilStatus = "Single";
-        } else if (cbCivilStatus.getSelectedIndex() == 1) {
-            civilStatus = "Married";
-        } else if (cbCivilStatus.getSelectedIndex() == 2) {
-            civilStatus = "Divorced";
-        } else {
-            civilStatus = "Widowed";
-        }
-        int age = Integer.parseInt(tfAge.getText());
-        String address = "";
-        int height = 0;
-        int weight = 0;
-        String role = setRole;
-        int username_count = 0;
-        do {
-            try {
-                username = new UIDGenerator().generateUID(lastName, firstName, jDateChooser1.getDate(), uid);
-                String sql = "Select COUNT(username) as username_count from userinfo where username = ?";
-                PreparedStatement pst = con.prepareStatement(sql);
-                pst.setString(1, username);
-
-                ResultSet resultSet = pst.executeQuery();
-                if (resultSet.next()) {
-                    username_count = resultSet.getInt("username_count");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } while (username_count > 0);
-        password = new passwordGenerator().generatePassword(lastName);
-        boolean isActivated = false;
-
-        createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role, isActivated);
     }
 
     /**

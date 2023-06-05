@@ -166,8 +166,9 @@ public class Admin extends javax.swing.JFrame {
         } while (username_count > 0);
         password = new passwordGenerator().generatePassword(lastName);
         boolean isActivated = false;
+        int doctorID = 0;
 
-        createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role, isActivated);
+        createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role, isActivated, doctorID);
     }
 
     public void showList() {
