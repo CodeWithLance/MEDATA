@@ -61,7 +61,7 @@
                               <Component id="informationPanel" min="-2" max="-2" attributes="0"/>
                               <Component id="uiButtonPanel" min="-2" pref="631" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="1" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -499,7 +499,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                 <Property name="columns" type="int" value="1"/>
-                <Property name="rows" type="int" value="5"/>
+                <Property name="rows" type="int" value="4"/>
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JButton" name="addDoctorBtn">
@@ -514,17 +514,6 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addDoctorBtnActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JButton" name="addPatBtn">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial" size="12" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Add Patient"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addPatBtnActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="ptListBtn">
@@ -574,12 +563,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="windowPanel" alignment="0" pref="631" max="32767" attributes="0"/>
+                  <Component id="windowPanel" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="windowPanel" alignment="0" pref="460" max="32767" attributes="0"/>
+                  <Component id="windowPanel" alignment="0" pref="461" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -594,7 +583,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLayeredPane1" alignment="0" pref="631" max="32767" attributes="0"/>
+                      <Component id="jLayeredPane1" alignment="0" max="32767" attributes="0"/>
                       <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -631,7 +620,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="631" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="689" max="32767" attributes="0"/>
                           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                               <Component id="reportsPage" alignment="0" max="32767" attributes="0"/>
                           </Group>
@@ -1074,6 +1063,12 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
                                       <Component id="updBtn" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
+                                      <Component id="lbldoctorID" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                                      <Component id="lblDoctorFName" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                                      <Component id="lblDoctorLName" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
@@ -1090,7 +1085,12 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jScrollPane8" min="-2" pref="368" max="-2" attributes="0"/>
                                       <EmptySpace pref="8" max="32767" attributes="0"/>
-                                      <Component id="updBtn" min="-2" pref="28" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="updBtn" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                                          <Component id="lbldoctorID" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblDoctorFName" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblDoctorLName" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
@@ -1165,6 +1165,21 @@
                             <Component class="javax.swing.JButton" name="deleteBtn1">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Delete"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JLabel" name="lbldoctorID">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="ID"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JLabel" name="lblDoctorFName">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="First Name"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JLabel" name="lblDoctorLName">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Last Name"/>
                               </Properties>
                             </Component>
                           </SubComponents>

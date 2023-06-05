@@ -18,6 +18,8 @@ import static javax.swing.SwingConstants.*;
 import java.sql.*;
 import java.util.Calendar;
 import javax.swing.JButton;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -174,8 +176,9 @@ public class Admin extends javax.swing.JFrame {
     public void showList() {
         jTable3.setModel(model);
         String role = setRole;
+        int doctor;
         try {
-            String query = "SELECT username, lastName, firstName, sex, civilStatus, contact FROM userinfo WHERE role = ?";
+            String query = "SELECT username, lastName, firstName, sex, civilStatus, contact, doctorID FROM userinfo WHERE role = ?";
             PreparedStatement pstmt = con.prepareStatement(query);
             pstmt.setString(1, role);
 
@@ -203,6 +206,60 @@ public class Admin extends javax.swing.JFrame {
                 }
                 model.addRow(rowData);
             }
+            
+                            
+            jTable3.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    if (!e.getValueIsAdjusting() && jTable3.getSelectedRow() != -1) {
+                        String r = model.getValueAt(jTable3.getSelectedRow(), 0).toString();
+                        String doctorID = null; 
+
+                        try {
+                            String doctorIdQuery = "SELECT doctorID FROM userinfo WHERE username = ?";
+                            PreparedStatement statement = con.prepareStatement(doctorIdQuery);
+                            statement.setString(1, r);
+                            ResultSet resultSet = statement.executeQuery();
+
+                            if (resultSet.next()) {
+                                doctorID = resultSet.getString("doctorID");
+
+                                lbldoctorID.setText(doctorID);
+                            }
+
+                            resultSet.close();
+                            statement.close();
+
+                            String doctorNameQuery = "SELECT lastName, firstName FROM userinfo WHERE sno = ?";
+                            PreparedStatement statement1 = con.prepareStatement(doctorNameQuery);
+                            statement1.setString(1, doctorID);
+                            ResultSet resultSet1 = statement1.executeQuery();
+
+                            if (resultSet1.next()) {
+                                String doctorFN = resultSet1.getString("firstName");
+                                String doctorLN = resultSet1.getString("lastName");
+                                
+                                
+                                if(doctorID.equals("0")){
+                                    lblDoctorFName.setText("none");
+                                    lblDoctorLName.setText("none");
+                                } else {
+                                    lblDoctorFName.setText(doctorFN);
+                                    lblDoctorLName.setText(doctorLN);
+                                }
+
+                            }
+
+                            resultSet1.close();
+                            statement1.close();
+                        } catch (Exception o) {
+                            o.printStackTrace();
+                        }
+                    }
+                }
+            });
+
+                
 
             deleteBtn1.addActionListener(new ActionListener() {
                 @Override
@@ -313,7 +370,6 @@ public class Admin extends javax.swing.JFrame {
         sidebar = new javax.swing.JPanel();
         navbar = new javax.swing.JPanel();
         addDoctorBtn = new javax.swing.JButton();
-        addPatBtn = new javax.swing.JButton();
         ptListBtn = new javax.swing.JButton();
         mdListBtn = new javax.swing.JButton();
         reportsBtn = new javax.swing.JButton();
@@ -350,6 +406,9 @@ public class Admin extends javax.swing.JFrame {
         jTable3 = new javax.swing.JTable();
         updBtn = new javax.swing.JButton();
         deleteBtn1 = new javax.swing.JButton();
+        lbldoctorID = new javax.swing.JLabel();
+        lblDoctorFName = new javax.swing.JLabel();
+        lblDoctorLName = new javax.swing.JLabel();
         reportsPage = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         welcomePage = new javax.swing.JPanel();
@@ -517,7 +576,7 @@ public class Admin extends javax.swing.JFrame {
         sidebar.setOpaque(false);
 
         navbar.setOpaque(false);
-        navbar.setLayout(new java.awt.GridLayout(5, 1));
+        navbar.setLayout(new java.awt.GridLayout(4, 1));
 
         addDoctorBtn.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         addDoctorBtn.setText("Add Doctor");
@@ -528,15 +587,6 @@ public class Admin extends javax.swing.JFrame {
             }
         });
         navbar.add(addDoctorBtn);
-
-        addPatBtn.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        addPatBtn.setText("Add Patient");
-        addPatBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addPatBtnActionPerformed(evt);
-            }
-        });
-        navbar.add(addPatBtn);
 
         ptListBtn.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         ptListBtn.setText("List of Patients");
@@ -784,6 +834,12 @@ public class Admin extends javax.swing.JFrame {
 
         deleteBtn1.setText("Delete");
 
+        lbldoctorID.setText("ID");
+
+        lblDoctorFName.setText("First Name");
+
+        lblDoctorLName.setText("Last Name");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -794,6 +850,12 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(107, 107, 107)
                 .addComponent(updBtn)
+                .addGap(117, 117, 117)
+                .addComponent(lbldoctorID)
+                .addGap(47, 47, 47)
+                .addComponent(lblDoctorFName)
+                .addGap(35, 35, 35)
+                .addComponent(lblDoctorLName)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
@@ -806,7 +868,11 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(updBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbldoctorID)
+                    .addComponent(lblDoctorFName)
+                    .addComponent(lblDoctorLName))
                 .addContainerGap())
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -846,7 +912,7 @@ public class Admin extends javax.swing.JFrame {
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 631, Short.MAX_VALUE)
+            .addGap(0, 689, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(reportsPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -895,7 +961,7 @@ public class Admin extends javax.swing.JFrame {
         windowPanel.setLayout(windowPanelLayout);
         windowPanelLayout.setHorizontalGroup(
             windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(windowPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -918,11 +984,11 @@ public class Admin extends javax.swing.JFrame {
         uiButtonPanel.setLayout(uiButtonPanelLayout);
         uiButtonPanelLayout.setHorizontalGroup(
             uiButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(windowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+            .addComponent(windowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         uiButtonPanelLayout.setVerticalGroup(
             uiButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(windowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+            .addComponent(windowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout mainAdminPanelLayout = new javax.swing.GroupLayout(mainAdminPanel);
@@ -940,7 +1006,7 @@ public class Admin extends javax.swing.JFrame {
                         .addGroup(mainAdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(informationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(uiButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 1, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(mainAdminPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(minimized, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1031,17 +1097,6 @@ public class Admin extends javax.swing.JFrame {
         setDisplay(addUser);
         determineRole(addDoctorBtn, "doctor");
     }//GEN-LAST:event_addDoctorBtnActionPerformed
-
-    private void addPatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPatBtnActionPerformed
-        setDisplay(addUser);
-        determineRole(addPatBtn, "patient");
-    }//GEN-LAST:event_addPatBtnActionPerformed
-
-    private void ptListBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptListBtnActionPerformed
-        setDisplay(listPage);
-        determineRole(ptListBtn, "patient");
-        showList();
-    }//GEN-LAST:event_ptListBtnActionPerformed
 
     private void mdListBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mdListBtnActionPerformed
         setDisplay(listPage);
@@ -1167,6 +1222,12 @@ public class Admin extends javax.swing.JFrame {
         tfContact.setText(contactNumber.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"));
     }//GEN-LAST:event_tfContactKeyPressed
 
+    private void ptListBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptListBtnActionPerformed
+        setDisplay(listPage);
+        determineRole(ptListBtn, "patient");
+        showList();
+    }//GEN-LAST:event_ptListBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1205,7 +1266,6 @@ public class Admin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addDoctorBtn;
-    private javax.swing.JButton addPatBtn;
     private javax.swing.JPanel addUser;
     private javax.swing.JLabel background;
     private javax.swing.JLabel botBorder;
@@ -1240,10 +1300,13 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel lblCivilStatus;
     private javax.swing.JLabel lblComma;
     private javax.swing.JLabel lblContact;
+    private javax.swing.JLabel lblDoctorFName;
+    private javax.swing.JLabel lblDoctorLName;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPH63;
     private javax.swing.JLabel lblSex;
+    private javax.swing.JLabel lbldoctorID;
     private javax.swing.JLabel leftBorder;
     private javax.swing.JLabel leftPartBorder;
     private javax.swing.JPanel listPage;
