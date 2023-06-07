@@ -1230,7 +1230,7 @@ public class Doctor extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 675, Short.MAX_VALUE)
+            .addGap(0, 661, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -1239,13 +1239,13 @@ public class Doctor extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(frameDrag, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+                    .addComponent(frameDrag, javax.swing.GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 330, Short.MAX_VALUE)
                     .addComponent(background)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 331, Short.MAX_VALUE)))
         );
 
         pack();
