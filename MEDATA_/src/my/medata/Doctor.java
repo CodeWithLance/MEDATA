@@ -293,32 +293,25 @@ public class Doctor extends javax.swing.JFrame {
     }
     
     private Object[] getComboBoxData() {
-        // Create a list to hold the combo box data
         List comboData = new ArrayList<>();
         
 
         try {
-
-            // Establish a connection to the MySQL database
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
 
-            // Create a statement to execute the query
             String query = "SELECT firstName, lastName FROM userinfo WHERE role = ? and doctorID = ?";
             PreparedStatement pstmt = con.prepareStatement(query);
             pstmt.setString(1, "patient");
             pstmt.setInt(2, currentDoctorSno);
 
-            // Execute the query to retrieve data from the table
             ResultSet rs = pstmt.executeQuery();
 
-            // Iterate over the result set and add data to the combo box list
             while (rs.next()) {
                 String firstName = rs.getString("firstName");
                 String lastName = rs.getString("lastName");
                 comboData.add(firstName +" "+lastName);
             }
 
-            // Close the result set, statement, and connection
             rs.close();
             pstmt.close();
             con.close();
@@ -326,7 +319,6 @@ public class Doctor extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
-        // Convert the list to an array and return it
         return comboData.toArray();
     }
 
