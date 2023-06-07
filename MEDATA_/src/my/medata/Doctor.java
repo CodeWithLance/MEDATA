@@ -328,7 +328,7 @@ public class Doctor extends javax.swing.JFrame {
         addDoctorBtn = new javax.swing.JButton();
         addPatBtn = new javax.swing.JButton();
         listPtBtn = new javax.swing.JButton();
-        removeBtn = new javax.swing.JButton();
+        logOutBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         windowPanel = new javax.swing.JPanel();
         welcomePage = new javax.swing.JPanel();
@@ -573,14 +573,14 @@ public class Doctor extends javax.swing.JFrame {
         });
         navbar.add(listPtBtn);
 
-        removeBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        removeBtn.setText("TBA");
-        removeBtn.addActionListener(new java.awt.event.ActionListener() {
+        logOutBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        logOutBtn.setText("Log Out");
+        logOutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeBtnActionPerformed(evt);
+                logOutBtnActionPerformed(evt);
             }
         });
-        navbar.add(removeBtn);
+        navbar.add(logOutBtn);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -1202,9 +1202,9 @@ public class Doctor extends javax.swing.JFrame {
         showList();
     }//GEN-LAST:event_listPtBtnActionPerformed
 
-    private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
-        setDisplay(tba);
-    }//GEN-LAST:event_removeBtnActionPerformed
+    private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
+        Methods.logout(this);
+    }//GEN-LAST:event_logOutBtnActionPerformed
 
     private void frameDragMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_frameDragMouseDragged
         int x = evt.getXOnScreen();
@@ -1408,6 +1408,7 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JButton listPtBtn;
     private javax.swing.JPanel listofpatients;
     private javax.swing.JPanel listofpatients1;
+    private javax.swing.JButton logOutBtn;
     private javax.swing.JLabel logo;
     private javax.swing.JLabel middleBorder;
     private javax.swing.JButton minimized;
@@ -1415,7 +1416,6 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JLabel organizationTitle;
     private javax.swing.JRadioButton rbFemaleSex;
     private javax.swing.JRadioButton rbMaleSex;
-    private javax.swing.JButton removeBtn;
     private javax.swing.JPanel requestPage;
     private javax.swing.JLabel rightBorder;
     private javax.swing.JLabel rightPartBorder;

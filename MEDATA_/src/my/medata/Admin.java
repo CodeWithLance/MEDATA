@@ -371,7 +371,7 @@ public class Admin extends javax.swing.JFrame {
         addDoctorBtn = new javax.swing.JButton();
         ptListBtn = new javax.swing.JButton();
         mdListBtn = new javax.swing.JButton();
-        reportsBtn = new javax.swing.JButton();
+        logOutBtn = new javax.swing.JButton();
         uiButtonPanel = new javax.swing.JPanel();
         windowPanel = new javax.swing.JPanel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
@@ -605,14 +605,14 @@ public class Admin extends javax.swing.JFrame {
         });
         navbar.add(mdListBtn);
 
-        reportsBtn.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        reportsBtn.setText("Reports");
-        reportsBtn.addActionListener(new java.awt.event.ActionListener() {
+        logOutBtn.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        logOutBtn.setText("Log Out");
+        logOutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reportsBtnActionPerformed(evt);
+                logOutBtnActionPerformed(evt);
             }
         });
-        navbar.add(reportsBtn);
+        navbar.add(logOutBtn);
 
         javax.swing.GroupLayout sidebarLayout = new javax.swing.GroupLayout(sidebar);
         sidebar.setLayout(sidebarLayout);
@@ -911,7 +911,7 @@ public class Admin extends javax.swing.JFrame {
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 689, Short.MAX_VALUE)
+            .addGap(0, 631, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(reportsPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -919,8 +919,8 @@ public class Admin extends javax.swing.JFrame {
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addGap(1, 1, 1)
-                    .addComponent(addUser, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(addUser, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -933,7 +933,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(addUser, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(24, Short.MAX_VALUE)))
         );
 
         welcomeAdmin.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
@@ -960,7 +960,7 @@ public class Admin extends javax.swing.JFrame {
         windowPanel.setLayout(windowPanelLayout);
         windowPanelLayout.setHorizontalGroup(
             windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
             .addGroup(windowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(windowPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -983,11 +983,11 @@ public class Admin extends javax.swing.JFrame {
         uiButtonPanel.setLayout(uiButtonPanelLayout);
         uiButtonPanelLayout.setHorizontalGroup(
             uiButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(windowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(windowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
         );
         uiButtonPanelLayout.setVerticalGroup(
             uiButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(windowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+            .addComponent(windowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout mainAdminPanelLayout = new javax.swing.GroupLayout(mainAdminPanel);
@@ -1103,9 +1103,9 @@ public class Admin extends javax.swing.JFrame {
         showList();
     }//GEN-LAST:event_mdListBtnActionPerformed
 
-    private void reportsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportsBtnActionPerformed
-        setDisplay(reportsPage);
-    }//GEN-LAST:event_reportsBtnActionPerformed
+    private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
+      Methods.logout(this);
+    }//GEN-LAST:event_logOutBtnActionPerformed
 
     private void btnAddUserToSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserToSQLActionPerformed
         JTextField[] textFields = {tfFirstName, tfMiddleName, tfLastName, tfAge, tfContact, tfEmail};
@@ -1309,6 +1309,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel leftBorder;
     private javax.swing.JLabel leftPartBorder;
     private javax.swing.JPanel listPage;
+    private javax.swing.JButton logOutBtn;
     private javax.swing.JLabel logoIcon;
     private javax.swing.JPanel mainAdminPanel;
     private javax.swing.JButton mdListBtn;
@@ -1319,7 +1320,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton ptListBtn;
     private javax.swing.JRadioButton rbFemaleSex;
     private javax.swing.JRadioButton rbMaleSex;
-    private javax.swing.JButton reportsBtn;
     private javax.swing.JPanel reportsPage;
     private javax.swing.JLabel rightBorder;
     private javax.swing.JLabel rightPartBorder;
