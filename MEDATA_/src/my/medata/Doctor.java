@@ -367,6 +367,7 @@ public class Doctor extends javax.swing.JFrame {
 
         jFrame1 = new javax.swing.JFrame();
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jCalendar1 = new com.toedter.calendar.JCalendar();
         jPanel1 = new javax.swing.JPanel();
         exit = new javax.swing.JButton();
         minimized = new javax.swing.JButton();
@@ -414,6 +415,14 @@ public class Doctor extends javax.swing.JFrame {
         addSchedule = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         patientCB = new javax.swing.JComboBox<>();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        txtHour = new javax.swing.JTextField();
+        txtMin = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        timeBox = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        addSched = new javax.swing.JButton();
         schedulePage = new javax.swing.JPanel();
         listofpatients1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -779,9 +788,23 @@ public class Doctor extends javax.swing.JFrame {
         jPanel6.setPreferredSize(new java.awt.Dimension(640, 460));
 
         patientCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        patientCB.addActionListener(new java.awt.event.ActionListener() {
+
+        txtHour.setText("00");
+
+        txtMin.setText("00");
+
+        jLabel1.setText(":");
+
+        timeBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "am", "pm" }));
+
+        jLabel2.setText("Date:");
+
+        jLabel3.setText("Time");
+
+        addSched.setText("Add");
+        addSched.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                patientCBActionPerformed(evt);
+                addSchedActionPerformed(evt);
             }
         });
 
@@ -790,16 +813,49 @@ public class Doctor extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(patientCB, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(patientCB, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(txtHour, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtMin, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(timeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addSched))))
                 .addContainerGap(203, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(patientCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(414, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(patientCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtHour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(27, 27, 27)
+                .addComponent(addSched)
+                .addContainerGap(256, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout addScheduleLayout = new javax.swing.GroupLayout(addSchedule);
@@ -1397,13 +1453,13 @@ public class Doctor extends javax.swing.JFrame {
         setDisplay(addSchedule);
     }//GEN-LAST:event_addSchedBtnActionPerformed
 
-    private void patientCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_patientCBActionPerformed
-
     private void deleteBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtn1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteBtn1ActionPerformed
+
+    private void addSchedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSchedActionPerformed
+        
+    }//GEN-LAST:event_addSchedActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1444,6 +1500,7 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JButton addDoctorBtn;
     private javax.swing.JButton addPatBtn;
     private javax.swing.JPanel addPatient;
+    private javax.swing.JButton addSched;
     private javax.swing.JButton addSchedBtn;
     private javax.swing.JPanel addSchedule;
     private javax.swing.JPanel addUser;
@@ -1468,8 +1525,13 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JLabel iplblLN;
     private javax.swing.JLabel iplblMN;
     private javax.swing.JLabel iplblUN;
+    private com.toedter.calendar.JCalendar jCalendar1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JFrame jFrame1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1516,7 +1578,10 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JTextField tfFirstName;
     private javax.swing.JTextField tfLastName;
     private javax.swing.JTextField tfMiddleName;
+    private javax.swing.JComboBox<String> timeBox;
     private javax.swing.JLabel topBorder;
+    private javax.swing.JTextField txtHour;
+    private javax.swing.JTextField txtMin;
     private javax.swing.JButton updBtn;
     private javax.swing.JLabel welcomeAdmin;
     private javax.swing.JPanel welcomePage;
