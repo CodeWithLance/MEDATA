@@ -1459,6 +1459,7 @@ public class Doctor extends javax.swing.JFrame {
 
     private void addPatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPatBtnActionPerformed
         setDisplay(schedulePage);
+        patientCB.setModel(new DefaultComboBoxModel(getComboBoxData()));
         showSched();
     }//GEN-LAST:event_addPatBtnActionPerformed
 
