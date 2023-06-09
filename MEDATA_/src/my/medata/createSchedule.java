@@ -14,18 +14,19 @@ import java.sql.PreparedStatement;
  */
 public class createSchedule {
     
-        public static void processInput(String firstName, String lastName, String date, String time, int patientID) {
+        public static void processInput(String firstName, String lastName, String date, String time, int doctorsID, String patientUsername) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
-            String sql = "INSERT INTO schedule (firstName, lastName, date, time, patientID ) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO schedule (firstName, lastName, date, time, doctorsID, patientUsername ) VALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, lastName);
-            statement.setString(2, firstName);
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
             statement.setString(3, date);
             statement.setString(4, time);
-            statement.setInt(5, patientID);
+            statement.setInt(5, doctorsID);
+            statement.setString(6, patientUsername);
   
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {

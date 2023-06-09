@@ -33,7 +33,7 @@ public class Doctor extends javax.swing.JFrame {
 
     Connection con;
     DefaultTableModel model = new DefaultTableModel();
-
+    String  cbfirstName, cblastName, ptUsername;
     
   
     /**
@@ -328,12 +328,90 @@ public class Doctor extends javax.swing.JFrame {
         }
     }
     
+    public void showSched() {
+        jTable2.setModel(model);
+        String role = "patient";
+        int currentDoctorSno = getCurrentDoctorSnoFromDatabase2();
+        try {
+            String query = "SELECT firstName, lastName, date, time FROM schedule WHERE doctorsID = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, currentDoctorSno);
+
+            ResultSet rs = pstmt.executeQuery();
+            // Get the metadata of the ResultSet  
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            // Create an array to hold column names
+            String[] columnNames = new String[columnCount];
+            for (int i = 1; i <= columnCount; i++) {
+                columnNames[i - 1] = metaData.getColumnName(i);
+            }
+            model.setColumnIdentifiers(columnNames);
+
+            //prevent duplicating the table data 
+            if (model.getRowCount() > 0) {
+                model.setRowCount(0);
+            }
+
+            while (rs.next()) {
+                Object[] rowData = new Object[columnCount];
+                for (int i = 1; i <= columnCount; i++) {
+                    rowData[i - 1] = rs.getObject(i);
+                }
+                model.addRow(rowData);
+            }
+
+            deleteBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Get the selected row index
+                    int selectedRow = jTable2.getSelectedRow();
+
+                    // Ensure a row is selected
+                    if (selectedRow != -1) {
+                        // Retrieve the data from the selected row
+                        Object[] rowData = new Object[columnCount];
+                        for (int i = 0; i < columnCount; i++) {
+                            rowData[i] = jTable2.getValueAt(selectedRow, i);
+                        }
+
+                        try {
+                            // Prepare the DELETE query
+                            String deleteQuery = "DELETE FROM schedule WHERE username = ?";
+                            PreparedStatement pstmt = con.prepareStatement(deleteQuery);
+
+                            // Assuming the username is in the first column (adjust the index if needed)
+                            pstmt.setObject(1, rowData[0]);
+
+                            // Execute the delete query
+                            pstmt.executeUpdate();
+
+                            // Remove the selected row from the model
+                            model.removeRow(selectedRow);
+
+                            // Update the JTable to reflect the changes
+                            jTable2.setModel(model);
+
+                            rs.close();
+                            pstmt.close();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     private Object[] getComboBoxData() {
         List<Object> comboData = new ArrayList<>();
         int currentDoctorSno = getCurrentDoctorSnoFromDatabase2();
 
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "")) {
-            String query = "SELECT firstName, lastName FROM userinfo WHERE role = ? and doctorID = ?";
+            String query = "SELECT username, firstName, lastName FROM userinfo WHERE role = ? and doctorID = ?";
             PreparedStatement pstmt = con.prepareStatement(query);
             pstmt.setString(1, "patient");
             pstmt.setInt(2, currentDoctorSno);
@@ -341,9 +419,10 @@ public class Doctor extends javax.swing.JFrame {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                String firstName = rs.getString("firstName");
-                String lastName = rs.getString("lastName");
-                comboData.add(firstName + " " + lastName);
+                cbfirstName = rs.getString("firstName");
+                cblastName = rs.getString("lastName");
+                ptUsername = rs.getString("username");
+                comboData.add(cbfirstName + " " + cblastName);
             }
 
             rs.close();
@@ -855,7 +934,7 @@ public class Doctor extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addGap(27, 27, 27)
                 .addComponent(addSched)
-                .addContainerGap(256, Short.MAX_VALUE))
+                .addContainerGap(274, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout addScheduleLayout = new javax.swing.GroupLayout(addSchedule);
@@ -1331,6 +1410,7 @@ public class Doctor extends javax.swing.JFrame {
 
     private void addPatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPatBtnActionPerformed
         setDisplay(schedulePage);
+        showSched();
     }//GEN-LAST:event_addPatBtnActionPerformed
 
     private void listPtBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listPtBtnActionPerformed
@@ -1454,10 +1534,34 @@ public class Doctor extends javax.swing.JFrame {
     }//GEN-LAST:event_addSchedBtnActionPerformed
 
     private void deleteBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtn1ActionPerformed
-        // TODO add your handling code here:
+
+        
+        
+        
     }//GEN-LAST:event_deleteBtn1ActionPerformed
 
     private void addSchedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSchedActionPerformed
+        int selectedIndex = timeBox.getSelectedIndex();
+        String meridiem;
+        int currentDoctorSno = getCurrentDoctorSnoFromDatabase2();
+        if(selectedIndex == 0){
+            meridiem = "am";
+        } else {
+            meridiem = "pm";
+        }
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        String date = dateFormatter.format(jDateChooser2.getDate());
+        String time = txtHour.getText()+":"+txtMin.getText()+meridiem;
+        
+        createSchedule.processInput(cbfirstName, cblastName, date, time, currentDoctorSno, ptUsername);
+        
+        txtHour.setText(null);
+        txtMin.setText(null);
+        Calendar calendar = Calendar.getInstance();
+        java.util.Date currentDate = calendar.getTime();
+        Date sqlDate = new Date(currentDate.getTime());
+        jDateChooser2.setDate(sqlDate);
+        
         
     }//GEN-LAST:event_addSchedActionPerformed
 
