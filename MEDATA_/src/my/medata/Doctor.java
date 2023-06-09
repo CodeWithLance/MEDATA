@@ -433,6 +433,27 @@ public class Doctor extends javax.swing.JFrame {
 
         return comboData.toArray();
     }
+    
+    public void inputConstraint(KeyEvent evt, JTextField textField, int max) {
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        } else {
+            String text = textField.getText() + c;
+            try {
+                int value = Integer.parseInt(text);
+                if (value < 1 || value > max) {
+                    evt.consume();
+                    JOptionPane.showMessageDialog(textField, "Please enter a number between 1 and " + max + ".");
+                    textField.setText("");
+                }
+            } catch (NumberFormatException ex) {
+                evt.consume();
+                JOptionPane.showMessageDialog(textField, "Please enter a number.");
+            }
+        }
+    }
+
 
 
     /**
@@ -869,8 +890,18 @@ public class Doctor extends javax.swing.JFrame {
         patientCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         txtHour.setText("00");
+        txtHour.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtHourKeyTyped(evt);
+            }
+        });
 
         txtMin.setText("00");
+        txtMin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMinKeyTyped(evt);
+            }
+        });
 
         jLabel1.setText(":");
 
@@ -1564,6 +1595,14 @@ public class Doctor extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_addSchedActionPerformed
+
+    private void txtHourKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHourKeyTyped
+        inputConstraint(evt, txtHour, 12);
+    }//GEN-LAST:event_txtHourKeyTyped
+
+    private void txtMinKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinKeyTyped
+        inputConstraint(evt, txtMin, 59);
+    }//GEN-LAST:event_txtMinKeyTyped
 
     /**
      * @param args the command line arguments
