@@ -18,6 +18,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,7 +48,6 @@ public class Doctor extends javax.swing.JFrame {
         SetIcon.SetIcon(this);
         patientCB.setModel(new DefaultComboBoxModel(getComboBoxData()));
 
-
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
@@ -67,6 +68,7 @@ public class Doctor extends javax.swing.JFrame {
     
     String loggedInUser;
     int currentDoctorSno = 0;
+    int doctorID;
 
     public void setDisplay(JPanel Panel) {
         for (int i = 0; i < jLayeredPane1.getComponentCount(); i++) {
@@ -150,6 +152,40 @@ public class Doctor extends javax.swing.JFrame {
         return currentDoctorSno;
     }
     
+    private int getCurrentDoctorSnoFromDatabase2() {
+        int currentDoctorSno = 0;
+
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "")) {
+            String username = dataBox.pullUserData(); // Replace with the current doctor's username
+
+            String sql = "SELECT sno FROM userinfo WHERE username = ?";
+            try (PreparedStatement pst = con.prepareStatement(sql)) {
+                pst.setString(1, username);
+                try (ResultSet resultSet = pst.executeQuery()) {
+                    if (resultSet.next()) {
+                        currentDoctorSno = resultSet.getInt("sno");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return currentDoctorSno;
+    }
+    
+    
+    
+   public void changeDoctorID(){
+       try {
+             currentDoctorSno = getCurrentDoctorSnoFromDatabase();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+   }
+    
+    
     void insertUserData() {
         String lastName = tfLastName.getText();
         String firstName = tfFirstName.getText();
@@ -203,7 +239,7 @@ public class Doctor extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int doctorID = currentDoctorSno;
+         doctorID = currentDoctorSno;
 
         createUser.processInput(lastName, firstName, middleName, age, dateOfBirth, address, contact, email, sex, civilStatus, height, weight, username, password, role, isActivated, doctorID);
     }
@@ -293,12 +329,10 @@ public class Doctor extends javax.swing.JFrame {
     }
     
     private Object[] getComboBoxData() {
-        List comboData = new ArrayList<>();
-        
+        List<Object> comboData = new ArrayList<>();
+        int currentDoctorSno = getCurrentDoctorSnoFromDatabase2();
 
-        try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
-
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "")) {
             String query = "SELECT firstName, lastName FROM userinfo WHERE role = ? and doctorID = ?";
             PreparedStatement pstmt = con.prepareStatement(query);
             pstmt.setString(1, "patient");
@@ -309,12 +343,11 @@ public class Doctor extends javax.swing.JFrame {
             while (rs.next()) {
                 String firstName = rs.getString("firstName");
                 String lastName = rs.getString("lastName");
-                comboData.add(firstName +" "+lastName);
+                comboData.add(firstName + " " + lastName);
             }
 
             rs.close();
             pstmt.close();
-            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -378,8 +411,6 @@ public class Doctor extends javax.swing.JFrame {
         jTable3 = new javax.swing.JTable();
         updBtn = new javax.swing.JButton();
         deleteBtn1 = new javax.swing.JButton();
-        requestPage = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
         addSchedule = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         patientCB = new javax.swing.JComboBox<>();
@@ -743,30 +774,8 @@ public class Doctor extends javax.swing.JFrame {
                     .addGap(5, 5, 5)))
         );
 
-        requestPage.setPreferredSize(new java.awt.Dimension(677, 461));
-
-        jLabel6.setText("request page");
-
-        javax.swing.GroupLayout requestPageLayout = new javax.swing.GroupLayout(requestPage);
-        requestPage.setLayout(requestPageLayout);
-        requestPageLayout.setHorizontalGroup(
-            requestPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(requestPageLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addContainerGap(603, Short.MAX_VALUE))
-        );
-        requestPageLayout.setVerticalGroup(
-            requestPageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(requestPageLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addContainerGap(454, Short.MAX_VALUE))
-        );
-
         addSchedule.setPreferredSize(new java.awt.Dimension(642, 442));
 
-        jPanel6.setBackground(new java.awt.Color(255, 153, 153));
         jPanel6.setPreferredSize(new java.awt.Dimension(640, 460));
 
         patientCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -1063,7 +1072,6 @@ public class Doctor extends javax.swing.JFrame {
         );
 
         jLayeredPane1.setLayer(listofpatients, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(requestPage, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(addSchedule, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(schedulePage, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(addPatient, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -1075,11 +1083,6 @@ public class Doctor extends javax.swing.JFrame {
             .addGap(0, 643, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(schedulePage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(requestPage, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
-                    .addContainerGap()))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(listofpatients, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1099,11 +1102,6 @@ public class Doctor extends javax.swing.JFrame {
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
                     .addComponent(schedulePage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                    .addGap(3, 3, 3)
-                    .addComponent(requestPage, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
-                    .addGap(3, 3, 3)))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(listofpatients, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1328,7 +1326,7 @@ public class Doctor extends javax.swing.JFrame {
         char c = evt.getKeyChar();
         String b = tfContact.getText();
 
-        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != '-') {
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
             evt.consume();
             JOptionPane.showMessageDialog(null, "Numbers input only", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (b.length() >= 12) {
@@ -1472,7 +1470,6 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JLabel iplblUN;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JFrame jFrame1;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1510,7 +1507,6 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> patientCB;
     private javax.swing.JRadioButton rbFemaleSex;
     private javax.swing.JRadioButton rbMaleSex;
-    private javax.swing.JPanel requestPage;
     private javax.swing.JLabel rightBorder;
     private javax.swing.JLabel rightPartBorder;
     private javax.swing.JPanel schedulePage;

@@ -1210,7 +1210,7 @@ public class Admin extends javax.swing.JFrame {
         char c = evt.getKeyChar();
         String b = tfContact.getText();
 
-        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != '-') {
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
             evt.consume();
             JOptionPane.showMessageDialog(null, "Numbers input only", "Error", JOptionPane.ERROR_MESSAGE);
         } else if (b.length() >= 12) {
