@@ -333,7 +333,7 @@ public class Doctor extends javax.swing.JFrame {
         String role = "patient";
         int currentDoctorSno = getCurrentDoctorSnoFromDatabase2();
         try {
-            String query = "SELECT firstName, lastName, date, time FROM schedule WHERE doctorsID = ?";
+            String query = "SELECT schedID, firstName, lastName, date, time  FROM schedule WHERE doctorsID = ?";
             PreparedStatement pstmt = con.prepareStatement(query);
             pstmt.setInt(1, currentDoctorSno);
 
@@ -378,7 +378,7 @@ public class Doctor extends javax.swing.JFrame {
 
                         try {
                             // Prepare the DELETE query
-                            String deleteQuery = "DELETE FROM schedule WHERE username = ?";
+                            String deleteQuery = "DELETE FROM schedule WHERE schedID = ?";
                             PreparedStatement pstmt = con.prepareStatement(deleteQuery);
 
                             // Assuming the username is in the first column (adjust the index if needed)
