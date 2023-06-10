@@ -36,6 +36,7 @@ public class Patient extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         jLayeredPane1.setVisible(false);
         welcomePage.setVisible(true);
+        SetIcon.SetIcon(this);
         pack();  
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -126,10 +127,10 @@ public class Patient extends javax.swing.JFrame {
         profileBtn = new javax.swing.JButton();
         medHistBtn = new javax.swing.JButton();
         resultsBtn = new javax.swing.JButton();
-        testsBtn = new javax.swing.JButton();
         doctorsBtn = new javax.swing.JButton();
         medsBtn = new javax.swing.JButton();
         pharmaBtn = new javax.swing.JButton();
+        logOutBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         windowPanel = new javax.swing.JPanel();
         welcomePage = new javax.swing.JPanel();
@@ -379,15 +380,6 @@ public class Patient extends javax.swing.JFrame {
         });
         navbar.add(resultsBtn);
 
-        testsBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        testsBtn.setText("Pending Test/s");
-        testsBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                testsBtnActionPerformed(evt);
-            }
-        });
-        navbar.add(testsBtn);
-
         doctorsBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
         doctorsBtn.setText("Doctor/s");
         doctorsBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -414,6 +406,14 @@ public class Patient extends javax.swing.JFrame {
             }
         });
         navbar.add(pharmaBtn);
+
+        logOutBtn.setText("Log Out");
+        logOutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutBtnActionPerformed(evt);
+            }
+        });
+        navbar.add(logOutBtn);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -850,10 +850,6 @@ public class Patient extends javax.swing.JFrame {
         setDisplay(results);
     }//GEN-LAST:event_resultsBtnActionPerformed
 
-    private void testsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testsBtnActionPerformed
-        setDisplay(pendingTests);
-    }//GEN-LAST:event_testsBtnActionPerformed
-
     private void doctorsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doctorsBtnActionPerformed
         setDisplay(doctorPage);
     }//GEN-LAST:event_doctorsBtnActionPerformed
@@ -865,6 +861,10 @@ public class Patient extends javax.swing.JFrame {
     private void pharmaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pharmaBtnActionPerformed
         setDisplay(pharmacyPage);
     }//GEN-LAST:event_pharmaBtnActionPerformed
+
+    private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
+        Methods.logout(this);
+    }//GEN-LAST:event_logOutBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -950,6 +950,7 @@ public class Patient extends javax.swing.JFrame {
     private javax.swing.JLabel lblAddUser;
     private javax.swing.JLabel leftBorder;
     private javax.swing.JLabel leftPartBorder;
+    private javax.swing.JButton logOutBtn;
     private javax.swing.JLabel logo;
     private javax.swing.JButton medHistBtn;
     private javax.swing.JPanel medicalHistory;
@@ -969,7 +970,6 @@ public class Patient extends javax.swing.JFrame {
     private javax.swing.JButton resultsBtn;
     private javax.swing.JLabel rightBorder;
     private javax.swing.JLabel rightPartBorder;
-    private javax.swing.JButton testsBtn;
     private javax.swing.JLabel topBorder;
     private javax.swing.JPanel welcomePage;
     private javax.swing.JPanel windowPanel;
