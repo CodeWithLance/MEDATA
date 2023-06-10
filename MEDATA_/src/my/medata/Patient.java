@@ -74,12 +74,11 @@ public class Patient extends javax.swing.JFrame {
                 String middleName = resultSet.getString("middleName");
                 String email = resultSet.getString("email");
 
-                iplblUN.setText(retrievedUsername);
-                iplblFN.setText(firstName);
-                iplblLN.setText(lastName);
-                iplblMN.setText(middleName);
-                iplblContact.setText(contact);
-                iplblEmail.setText(email);
+                iplblUN1.setText(retrievedUsername);
+                iplblFN1.setText(firstName);
+                iplblLN1.setText(lastName);
+                iplblMN1.setText(middleName);
+                iplblContact1.setText(contact);
             }
 
             resultSet.close();

@@ -495,7 +495,7 @@ public class Doctor extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         navbar = new javax.swing.JPanel();
         addDoctorBtn = new javax.swing.JButton();
-        addPatBtn = new javax.swing.JButton();
+        schedBtn = new javax.swing.JButton();
         listPtBtn = new javax.swing.JButton();
         logOutBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -734,14 +734,14 @@ public class Doctor extends javax.swing.JFrame {
         });
         navbar.add(addDoctorBtn);
 
-        addPatBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        addPatBtn.setText("Schedule");
-        addPatBtn.addActionListener(new java.awt.event.ActionListener() {
+        schedBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        schedBtn.setText("Schedule");
+        schedBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addPatBtnActionPerformed(evt);
+                schedBtnActionPerformed(evt);
             }
         });
-        navbar.add(addPatBtn);
+        navbar.add(schedBtn);
 
         listPtBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
         listPtBtn.setText("List of Patients");
@@ -1457,11 +1457,12 @@ public class Doctor extends javax.swing.JFrame {
         setDisplay(addPatient);
     }//GEN-LAST:event_addDoctorBtnActionPerformed
 
-    private void addPatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPatBtnActionPerformed
+    private void schedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schedBtnActionPerformed
+
         setDisplay(schedulePage);
-        patientCB.setModel(new DefaultComboBoxModel(getComboBoxData()));
         showSched();
-    }//GEN-LAST:event_addPatBtnActionPerformed
+        patientCB.setModel(new DefaultComboBoxModel(getComboBoxData()));
+    }//GEN-LAST:event_schedBtnActionPerformed
 
     private void listPtBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listPtBtnActionPerformed
         setDisplay(listofpatients);
@@ -1660,7 +1661,6 @@ public class Doctor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addDoctorBtn;
-    private javax.swing.JButton addPatBtn;
     private javax.swing.JPanel addPatient;
     private javax.swing.JButton addSched;
     private javax.swing.JButton addSchedBtn;
@@ -1734,6 +1734,7 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbMaleSex;
     private javax.swing.JLabel rightBorder;
     private javax.swing.JLabel rightPartBorder;
+    private javax.swing.JButton schedBtn;
     private javax.swing.JPanel schedulePage;
     private javax.swing.JTextField tfAge;
     private javax.swing.JTextField tfContact;
