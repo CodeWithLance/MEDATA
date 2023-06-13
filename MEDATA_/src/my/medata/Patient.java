@@ -15,7 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import static javax.swing.SwingConstants.*;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -27,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 public class Patient extends javax.swing.JFrame {
 
     Connection con;
+    DefaultTableModel model = new DefaultTableModel();
 
     /**
      * Creates new form Patient
@@ -88,6 +91,114 @@ public class Patient extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
+//    private Object[] getComboBoxData() {
+//        List<Object> comboData = new ArrayList<>();
+//        int currentDoctorSno = getCurrentDoctorSnoFromDatabase2();
+//
+//        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "")) {
+//            String query = "SELECT username, firstName, lastName, doctorID FROM schedule WHERE username = ? and doctorID = ?";
+//            PreparedStatement pstmt = con.prepareStatement(query);
+//            pstmt.setString(1, "patient");
+//            pstmt.setInt(2, currentDoctorSno);
+//
+//            ResultSet rs = pstmt.executeQuery();
+//
+//            while (rs.next()) {
+//                cbfirstName = rs.getString("firstName");
+//                cblastName = rs.getString("lastName");
+//                ptUsername = rs.getString("username");
+//                comboData.add(cbfirstName + " " + cblastName);
+//            }
+//
+//            rs.close();
+//            pstmt.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return comboData.toArray();
+//    }
+    
+   public void showSched() {
+        jTable2.setModel(model);
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/medata", "root", "");
+            String query = "SELECT schedID, date, time  FROM schedule WHERE patientUsername = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setString(1, loggedInUser);
+
+            ResultSet rs = pstmt.executeQuery();
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            // Create an array to hold column names
+            String[] columnNames = new String[columnCount];
+            for (int i = 1; i <= columnCount; i++) {
+                columnNames[i - 1] = metaData.getColumnName(i);
+            }
+            model.setColumnIdentifiers(columnNames);
+
+            //prevent duplicating the table data 
+            if (model.getRowCount() > 0) {
+                model.setRowCount(0);
+            }
+
+            while (rs.next()) {
+                Object[] rowData = new Object[columnCount];
+                for (int i = 1; i <= columnCount; i++) {
+                    rowData[i - 1] = rs.getObject(i);
+                }
+                model.addRow(rowData);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+   
+   public void showDocName(){
+       int doctorID = 0;
+        try {
+           String query = "SELECT doctorID FROM userinfo WHERE username = ?";
+           PreparedStatement statement = con.prepareStatement(query);
+           statement.setString(1, loggedInUser);
+           ResultSet resultSet = statement.executeQuery();
+
+           if (resultSet.next()) {
+               doctorID = resultSet.getInt("doctorID");
+           }
+
+           resultSet.close();
+           statement.close();
+       } catch (SQLException e) {
+           e.printStackTrace();
+       }
+       
+       
+       
+       try {
+           String query = "SELECT firstName, lastName, contact FROM userinfo WHERE sno = ?";
+           PreparedStatement statement = con.prepareStatement(query);
+           statement.setInt(1, doctorID);
+           ResultSet resultSet = statement.executeQuery();
+
+           if (resultSet.next()) {
+               String firstName = resultSet.getString("firstName");
+               String contact = resultSet.getString("contact");
+               String lastName = resultSet.getString("lastName");
+
+               doctorFName.setText(firstName);
+               doctorLName.setText(lastName);
+               lblContact.setText(contact);
+           }
+
+           resultSet.close();
+           statement.close();
+       } catch (SQLException e) {
+           e.printStackTrace();
+       }
+   }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -164,7 +275,11 @@ public class Patient extends javax.swing.JFrame {
         doctorPage = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        doctorFName = new javax.swing.JLabel();
+        lblContact = new javax.swing.JLabel();
+        doctorLName = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         pharmacyPage = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         frameDrag = new javax.swing.JLabel();
@@ -638,10 +753,22 @@ public class Patient extends javax.swing.JFrame {
         jTable2.setGridColor(new java.awt.Color(255, 255, 255));
         jScrollPane3.setViewportView(jTable2);
 
-        doctorPage.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 549, 430));
+        doctorPage.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 549, 270));
 
-        jButton1.setText("Set Appointment");
-        doctorPage.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 440, -1, -1));
+        doctorFName.setText("Doctor");
+        doctorPage.add(doctorFName, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
+
+        lblContact.setText("Contact: ");
+        doctorPage.add(lblContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, -1, -1));
+
+        doctorLName.setText("Doctor");
+        doctorPage.add(doctorLName, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, -1, -1));
+
+        jLabel3.setText("Doctors:");
+        doctorPage.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+
+        jLabel5.setText("Contact: ");
+        doctorPage.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
 
         jLabel11.setText("pharma page");
 
@@ -852,6 +979,8 @@ public class Patient extends javax.swing.JFrame {
 
     private void doctorsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doctorsBtnActionPerformed
         setDisplay(doctorPage);
+        showSched();
+        showDocName();
     }//GEN-LAST:event_doctorsBtnActionPerformed
 
     private void medsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medsBtnActionPerformed
@@ -906,6 +1035,8 @@ public class Patient extends javax.swing.JFrame {
     private javax.swing.JLabel border;
     private javax.swing.JLabel botBorder;
     private javax.swing.JLabel contactBorder;
+    private javax.swing.JLabel doctorFName;
+    private javax.swing.JLabel doctorLName;
     private javax.swing.JPanel doctorPage;
     private javax.swing.JButton doctorsBtn;
     private javax.swing.JButton exit;
@@ -934,9 +1065,10 @@ public class Patient extends javax.swing.JFrame {
     private javax.swing.JLabel iplblMN1;
     private javax.swing.JLabel iplblUN;
     private javax.swing.JLabel iplblUN1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -948,6 +1080,7 @@ public class Patient extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;
     private javax.swing.JLabel lblAddUser;
+    private javax.swing.JLabel lblContact;
     private javax.swing.JLabel leftBorder;
     private javax.swing.JLabel leftPartBorder;
     private javax.swing.JButton logOutBtn;
