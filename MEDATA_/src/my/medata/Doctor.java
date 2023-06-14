@@ -33,7 +33,10 @@ public class Doctor extends javax.swing.JFrame {
 
     Connection con;
     DefaultTableModel model = new DefaultTableModel();
-    String  cbfirstName, cblastName, ptUsername;
+    String  cbfirstName, cblastName, ptUsername, patientName;
+    List<String> usernames = new ArrayList<>();
+    List<String> firstnames = new ArrayList<>();
+    List<String> lastnames = new ArrayList<>();
     
   
     /**
@@ -421,7 +424,12 @@ public class Doctor extends javax.swing.JFrame {
                 cbfirstName = rs.getString("firstName");
                 cblastName = rs.getString("lastName");
                 ptUsername = rs.getString("username");
+
+                usernames.add(ptUsername);
+                firstnames.add(cbfirstName);
+                lastnames.add(cblastName);
                 comboData.add(cbfirstName + " " + cblastName);
+                
             }
 
             rs.close();
@@ -1570,7 +1578,14 @@ public class Doctor extends javax.swing.JFrame {
     }//GEN-LAST:event_addSchedBtnActionPerformed
 
     private void addSchedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSchedActionPerformed
+        String patientUsername, patientFN, patientLN;
+
+        int selectedPatient = patientCB.getSelectedIndex();
         int selectedIndex = timeBox.getSelectedIndex();
+
+        patientUsername = usernames.get(selectedPatient);
+        patientFN = firstnames.get(selectedPatient);
+        patientLN = lastnames.get(selectedPatient);
         String meridiem;
         int currentDoctorSno = getCurrentDoctorSnoFromDatabase2();
         if(selectedIndex == 0){
@@ -1582,7 +1597,8 @@ public class Doctor extends javax.swing.JFrame {
         String date = dateFormatter.format(jDateChooser2.getDate());
         String time = txtHour.getText()+":"+txtMin.getText()+meridiem;
         
-        createSchedule.processInput(cbfirstName, cblastName, date, time, currentDoctorSno, ptUsername);
+        createSchedule.processInput(patientFN, patientLN, date, time, currentDoctorSno, patientUsername);
+        System.out.println(patientUsername);
         
         txtHour.setText(null);
         txtMin.setText(null);
