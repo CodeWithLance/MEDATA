@@ -83,6 +83,13 @@ public class Patient extends javax.swing.JFrame {
                 iplblLN1.setText(lastName);
                 iplblMN1.setText(middleName);
                 iplblContact1.setText(contact);
+                
+                iplblUN.setText(retrievedUsername);
+                iplblFN.setText(firstName);
+                iplblLN.setText(lastName);
+                iplblMN.setText(middleName);
+                iplblContact.setText(contact);
+                iplblEmail.setText(email);
             }
 
             resultSet.close();
@@ -91,6 +98,37 @@ public class Patient extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
+//        public void showProfile() {
+//        loggedInUser = dataBox.pullUserData();
+//        try {
+//            String query = "SELECT username, firstName, contact, lastName, email, middleName FROM userinfo WHERE username = ?";
+//            PreparedStatement statement = con.prepareStatement(query);
+//            statement.setString(1, loggedInUser);
+//            ResultSet resultSet = statement.executeQuery();
+//
+//            if (resultSet.next()) {
+//                String retrievedUsername = resultSet.getString("username");
+//                String firstName = resultSet.getString("firstName");
+//                String contact = resultSet.getString("contact");
+//                String lastName = resultSet.getString("lastName");
+//                String middleName = resultSet.getString("middleName");
+//                String email = resultSet.getString("email");
+//
+//                iplblUN.setText(retrievedUsername);
+//                iplblFN.setText(firstName);
+//                iplblLN.setText(lastName);
+//                iplblMN.setText(middleName);
+//                iplblContact.setText(contact);
+//                iplblEmail.setText(email);
+//            }
+//
+//            resultSet.close();
+//            statement.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
     
 //    private Object[] getComboBoxData() {
 //        List<Object> comboData = new ArrayList<>();
@@ -236,11 +274,7 @@ public class Patient extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         navbar = new javax.swing.JPanel();
         profileBtn = new javax.swing.JButton();
-        medHistBtn = new javax.swing.JButton();
-        resultsBtn = new javax.swing.JButton();
         doctorsBtn = new javax.swing.JButton();
-        medsBtn = new javax.swing.JButton();
-        pharmaBtn = new javax.swing.JButton();
         logOutBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         windowPanel = new javax.swing.JPanel();
@@ -465,7 +499,7 @@ public class Patient extends javax.swing.JFrame {
         jPanel3.setOpaque(false);
 
         navbar.setOpaque(false);
-        navbar.setLayout(new java.awt.GridLayout(7, 1));
+        navbar.setLayout(new java.awt.GridLayout(3, 1));
 
         profileBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
         profileBtn.setText("Patient Profile");
@@ -477,50 +511,14 @@ public class Patient extends javax.swing.JFrame {
         });
         navbar.add(profileBtn);
 
-        medHistBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        medHistBtn.setText("Medical History");
-        medHistBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                medHistBtnActionPerformed(evt);
-            }
-        });
-        navbar.add(medHistBtn);
-
-        resultsBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        resultsBtn.setText("Results");
-        resultsBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resultsBtnActionPerformed(evt);
-            }
-        });
-        navbar.add(resultsBtn);
-
         doctorsBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        doctorsBtn.setText("Doctor/s");
+        doctorsBtn.setText("Doctor and Schedule");
         doctorsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 doctorsBtnActionPerformed(evt);
             }
         });
         navbar.add(doctorsBtn);
-
-        medsBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        medsBtn.setText("Medication");
-        medsBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                medsBtnActionPerformed(evt);
-            }
-        });
-        navbar.add(medsBtn);
-
-        pharmaBtn.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
-        pharmaBtn.setText("Pharmacy");
-        pharmaBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pharmaBtnActionPerformed(evt);
-            }
-        });
-        navbar.add(pharmaBtn);
 
         logOutBtn.setText("Log Out");
         logOutBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -593,7 +591,7 @@ public class Patient extends javax.swing.JFrame {
         infoContact.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         infoContact.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoContact.setText("Contact");
-        patientProfile.add(infoContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 120, 30));
+        patientProfile.add(infoContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 210, 120, 30));
 
         iplblUN.setBackground(new java.awt.Color(102, 255, 204));
         iplblUN.setFont(new java.awt.Font("Segoe UI", 0, 9)); // NOI18N
@@ -665,7 +663,7 @@ public class Patient extends javax.swing.JFrame {
         iplblEmail.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         iplblEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         iplblEmail.setText("email");
-        patientProfile.add(iplblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 210, 160, 30));
+        patientProfile.add(iplblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 160, 30));
 
         patientiBorder.setBackground(new java.awt.Color(153, 153, 153));
         patientiBorder.setFont(new java.awt.Font("Segoe UI Black", 1, 12)); // NOI18N
@@ -817,7 +815,7 @@ public class Patient extends javax.swing.JFrame {
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(doctorPage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(doctorPage, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(pendingTests, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -967,29 +965,14 @@ public class Patient extends javax.swing.JFrame {
 
     private void profileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileBtnActionPerformed
         setDisplay(patientProfile);
+        showInfo();
     }//GEN-LAST:event_profileBtnActionPerformed
-
-    private void medHistBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medHistBtnActionPerformed
-        setDisplay(medicalHistory);
-    }//GEN-LAST:event_medHistBtnActionPerformed
-
-    private void resultsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultsBtnActionPerformed
-        setDisplay(results);
-    }//GEN-LAST:event_resultsBtnActionPerformed
 
     private void doctorsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doctorsBtnActionPerformed
         setDisplay(doctorPage);
         showSched();
         showDocName();
     }//GEN-LAST:event_doctorsBtnActionPerformed
-
-    private void medsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medsBtnActionPerformed
-        setDisplay(medicationPage);
-    }//GEN-LAST:event_medsBtnActionPerformed
-
-    private void pharmaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pharmaBtnActionPerformed
-        setDisplay(pharmacyPage);
-    }//GEN-LAST:event_pharmaBtnActionPerformed
 
     private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
         Methods.logout(this);
@@ -1085,10 +1068,8 @@ public class Patient extends javax.swing.JFrame {
     private javax.swing.JLabel leftPartBorder;
     private javax.swing.JButton logOutBtn;
     private javax.swing.JLabel logo;
-    private javax.swing.JButton medHistBtn;
     private javax.swing.JPanel medicalHistory;
     private javax.swing.JPanel medicationPage;
-    private javax.swing.JButton medsBtn;
     private javax.swing.JLabel middleBorder;
     private javax.swing.JButton minimized;
     private javax.swing.JPanel navbar;
@@ -1096,11 +1077,9 @@ public class Patient extends javax.swing.JFrame {
     private javax.swing.JPanel patientProfile;
     private javax.swing.JLabel patientiBorder;
     private javax.swing.JPanel pendingTests;
-    private javax.swing.JButton pharmaBtn;
     private javax.swing.JPanel pharmacyPage;
     private javax.swing.JButton profileBtn;
     private javax.swing.JPanel results;
-    private javax.swing.JButton resultsBtn;
     private javax.swing.JLabel rightBorder;
     private javax.swing.JLabel rightPartBorder;
     private javax.swing.JLabel topBorder;

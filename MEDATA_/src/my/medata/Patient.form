@@ -515,7 +515,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                 <Property name="columns" type="int" value="1"/>
-                <Property name="rows" type="int" value="7"/>
+                <Property name="rows" type="int" value="3"/>
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JButton" name="profileBtn">
@@ -532,59 +532,15 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="profileBtnActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="medHistBtn">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Quicksand" size="12" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Medical History"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="medHistBtnActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JButton" name="resultsBtn">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Quicksand" size="12" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Results"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resultsBtnActionPerformed"/>
-                  </Events>
-                </Component>
                 <Component class="javax.swing.JButton" name="doctorsBtn">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Quicksand" size="12" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Doctor/s"/>
+                    <Property name="text" type="java.lang.String" value="Doctor and Schedule"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="doctorsBtnActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JButton" name="medsBtn">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Quicksand" size="12" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Medication"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="medsBtnActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JButton" name="pharmaBtn">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Quicksand" size="12" style="0"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Pharmacy"/>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pharmaBtnActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="logOutBtn">
@@ -706,7 +662,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="doctorPage" alignment="0" max="32767" attributes="0"/>
+                          <Component id="doctorPage" alignment="0" pref="461" max="32767" attributes="0"/>
                           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                               <Component id="pendingTests" alignment="0" max="32767" attributes="0"/>
                           </Group>
@@ -798,7 +754,7 @@
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                              <AbsoluteConstraints x="110" y="180" width="120" height="30"/>
+                              <AbsoluteConstraints x="250" y="210" width="120" height="30"/>
                             </Constraint>
                           </Constraints>
                         </Component>
@@ -1002,7 +958,7 @@
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                              <AbsoluteConstraints x="250" y="210" width="160" height="30"/>
+                              <AbsoluteConstraints x="90" y="180" width="160" height="30"/>
                             </Constraint>
                           </Constraints>
                         </Component>
