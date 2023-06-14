@@ -433,7 +433,7 @@ public class Doctor extends javax.swing.JFrame {
         return comboData.toArray();
     }
     
-    public void inputConstraint(KeyEvent evt, JTextField textField, int max) {
+    public void inputConstraint(KeyEvent evt, JTextField textField, int max, int min, String minimum) {
         char c = evt.getKeyChar();
         if (!Character.isDigit(c)) {
             evt.consume();
@@ -441,9 +441,9 @@ public class Doctor extends javax.swing.JFrame {
             String text = textField.getText() + c;
             try {
                 int value = Integer.parseInt(text);
-                if (value < 1 || value > max) {
+                if (value < min || value > max) {
                     evt.consume();
-                    JOptionPane.showMessageDialog(textField, "Please enter a number between 1 and " + max + ".");
+                    JOptionPane.showMessageDialog(textField, "Please enter a number between "+minimum+ "and " + max + ".");
                     textField.setText("");
                 }
             } catch (NumberFormatException ex) {
@@ -1595,11 +1595,11 @@ public class Doctor extends javax.swing.JFrame {
     }//GEN-LAST:event_addSchedActionPerformed
 
     private void txtHourKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHourKeyTyped
-        inputConstraint(evt, txtHour, 12);
+        inputConstraint(evt, txtHour, 12, 1, "1");
     }//GEN-LAST:event_txtHourKeyTyped
 
     private void txtMinKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinKeyTyped
-        inputConstraint(evt, txtMin, 59);
+        inputConstraint(evt, txtMin, 59, 0, "0");
     }//GEN-LAST:event_txtMinKeyTyped
 
     /**
