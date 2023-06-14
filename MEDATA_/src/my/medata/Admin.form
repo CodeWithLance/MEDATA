@@ -1061,9 +1061,7 @@
                                       <EmptySpace min="0" pref="14" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
-                                      <Component id="updBtn" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="296" max="-2" attributes="0"/>
                                       <Component id="lbldoctorID" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                       <Component id="lblDoctorFName" min="-2" max="-2" attributes="0"/>
@@ -1084,9 +1082,8 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jScrollPane8" min="-2" pref="368" max="-2" attributes="0"/>
-                                      <EmptySpace pref="8" max="32767" attributes="0"/>
+                                      <EmptySpace pref="20" max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="updBtn" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                                           <Component id="lbldoctorID" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="lblDoctorFName" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="lblDoctorLName" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1157,11 +1154,6 @@
                                 </Container>
                               </SubComponents>
                             </Container>
-                            <Component class="javax.swing.JButton" name="updBtn">
-                              <Properties>
-                                <Property name="text" type="java.lang.String" value="Update"/>
-                              </Properties>
-                            </Component>
                             <Component class="javax.swing.JButton" name="deleteBtn1">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Delete"/>

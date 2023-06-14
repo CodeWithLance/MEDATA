@@ -406,7 +406,6 @@ public class Admin extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
-        updBtn = new javax.swing.JButton();
         deleteBtn1 = new javax.swing.JButton();
         lbldoctorID = new javax.swing.JLabel();
         lblDoctorFName = new javax.swing.JLabel();
@@ -832,8 +831,6 @@ public class Admin extends javax.swing.JFrame {
 
         jScrollPane8.setViewportView(jPanel5);
 
-        updBtn.setText("Update");
-
         deleteBtn1.setText("Delete");
 
         lbldoctorID.setText("ID");
@@ -850,9 +847,7 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 14, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(107, 107, 107)
-                .addComponent(updBtn)
-                .addGap(117, 117, 117)
+                .addGap(296, 296, 296)
                 .addComponent(lbldoctorID)
                 .addGap(47, 47, 47)
                 .addComponent(lblDoctorFName)
@@ -869,9 +864,8 @@ public class Admin extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(updBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbldoctorID)
                     .addComponent(lblDoctorFName)
                     .addComponent(lblDoctorLName))
@@ -1335,7 +1329,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JTextField tfMiddleName;
     private javax.swing.JLabel topBorder;
     private javax.swing.JPanel uiButtonPanel;
-    private javax.swing.JButton updBtn;
     private javax.swing.JLabel welcomeAdmin;
     private javax.swing.JPanel welcomePage;
     private javax.swing.JPanel windowPanel;

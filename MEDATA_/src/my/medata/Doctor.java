@@ -260,11 +260,10 @@ public class Doctor extends javax.swing.JFrame {
             pstmt.setInt(2, currentDoctorSno);
 
             ResultSet rs = pstmt.executeQuery();
-            // Get the metadata of the ResultSet  
+            
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
 
-            // Create an array to hold column names
             String[] columnNames = new String[columnCount];
             for (int i = 1; i <= columnCount; i++) {
                 columnNames[i - 1] = metaData.getColumnName(i);
@@ -510,7 +509,6 @@ public class Doctor extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
-        updBtn = new javax.swing.JButton();
         deleteBtn1 = new javax.swing.JButton();
         addSchedule = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -821,14 +819,7 @@ public class Doctor extends javax.swing.JFrame {
 
         jScrollPane8.setViewportView(jPanel5);
 
-        updBtn.setText("Update");
-
         deleteBtn1.setText("Delete");
-        deleteBtn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteBtn1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -837,10 +828,6 @@ public class Doctor extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 14, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(107, 107, 107)
-                .addComponent(updBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(16, 16, 16)
@@ -851,9 +838,7 @@ public class Doctor extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addComponent(updBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(42, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addContainerGap(376, Short.MAX_VALUE)
@@ -1584,13 +1569,6 @@ public class Doctor extends javax.swing.JFrame {
         setDisplay(addSchedule);
     }//GEN-LAST:event_addSchedBtnActionPerformed
 
-    private void deleteBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtn1ActionPerformed
-
-        
-        
-        
-    }//GEN-LAST:event_deleteBtn1ActionPerformed
-
     private void addSchedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSchedActionPerformed
         int selectedIndex = timeBox.getSelectedIndex();
         String meridiem;
@@ -1746,7 +1724,6 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JLabel topBorder;
     private javax.swing.JTextField txtHour;
     private javax.swing.JTextField txtMin;
-    private javax.swing.JButton updBtn;
     private javax.swing.JLabel welcomeAdmin;
     private javax.swing.JPanel welcomePage;
     private javax.swing.JPanel windowPanel;
